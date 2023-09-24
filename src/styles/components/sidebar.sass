@@ -1,0 +1,61 @@
+.menu-lateral
+    position: fixed
+    width: 10%
+    height: 100%
+    left: 0
+    top: 0
+    box-shadow: 4px 7px 19px -11px rgba(135,135,135,1)
+
+.head
+    display: inline
+
+.page-wrapper
+    display: flex
+    flex-direction: column
+    right: 0
+    top: 0
+    height: 40px
+    border: 1px solid red
+
+    .hamburger
+        cursor: pointer
+        position: absolute
+        z-index: 2
+        display: flex
+        flex-direction: column
+
+    .bar
+        width: 30px
+        height: 3px
+        margin: 3px 0
+        background-color: #281818
+
+
+.sidebar
+    display: flex
+    flex-direction: column
+    top: 0
+    width: 0
+    height: 100%
+    background-color: #333
+    transition: width 0.3s ease-in-out
+    overflow-x: hidden
+
+    &.open
+        width: 13%
+ul
+  list-style-type: none
+  padding: 0
+  margin: 0
+  text-align: center
+  padding-top: 80px
+
+li
+  padding: 20px
+
+a
+  text-decoration: none
+  color: #fff
+
+
+@media (max-width: 933px)
