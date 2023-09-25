@@ -34,11 +34,26 @@ const ApoiadoresList = () => {
     return(
         <div className="listagem-apoiadores">
             <h1>Apoiadores</h1>
-            {apoiadores.length === 0 ? <p>Carregando...</p> : (
-                apoiadores.map((apoiador) => (
-                    <p key={apoiador.idApoiador} >{apoiador.Nome}</p>
-                ))
-            )}
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>Apelido</th>
+                    <th>E-mail</th>
+                    <th>Cidade</th>
+                </tr>
+           
+                {apoiadores.length === 0 ? <p>Carregando...</p> : (
+                    apoiadores.map((apoiador) => (
+                        <tr key={apoiador.idApoiador}>
+                            <td>{apoiador.Nome}</td>
+                            <td>{apoiador.Apelido}</td>
+                            <td>{apoiador.Email}</td> 
+                            <td>{apoiador.Endereco.EnderecoApoiador}</td> 
+                        </tr>
+                       
+                    ))
+                )}
+            </table>
         </div>
     );
 

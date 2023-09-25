@@ -12,7 +12,7 @@ function App() {
       <Header />
 
       <div className="content">
-        <h1>Conteúdo Principal</h1>
+       
         <Outlet />
       </div>
 
