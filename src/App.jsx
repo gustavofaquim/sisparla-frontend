@@ -1,8 +1,8 @@
-import Sidebar from "./components/Sidebar.jsx";
 import Header from "./components/Header.jsx";
+import { Outlet } from 'react-router-dom';
 
 
-import './styles/App.css'
+import './styles/app.sass'
 
 function App() {
   
@@ -13,6 +13,7 @@ function App() {
 
       <div className="content">
         <h1>Conteúdo Principal</h1>
+        <Outlet />
       </div>
 
     </div>
