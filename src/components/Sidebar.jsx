@@ -14,6 +14,8 @@ import {
   FaChartBar
 } from 'react-icons/fa';
 
+
+
 import SidebarItem from './SidebarItem';
 
 
@@ -33,7 +35,13 @@ const Sidebar = ({ active }) => {
     {
       label: 'Apoiadores',
       icon: FaChartBar,
-      subitems: [],
+      subitems: [
+      {
+        label: 'Novo Apoiador'
+      },
+      {
+        label: 'Lista Apoiadores'
+      }],
     },
     {
       label: 'Users',
@@ -60,7 +68,8 @@ const Sidebar = ({ active }) => {
       <div className="container-sidebar-item">
         {menuItems.map((menuItem, index) => (
           <SidebarItem key={index} Icon={menuItem.icon} Text={menuItem.label} Subitems={menuItem.subitems}>
-          </SidebarItem>
+          </SidebarItem> 
+          
         ))}
       </div>
       

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import '../styles/components/sidebar-item.sass';
 
+import {
+  BsArrowRightShort
+}from 'react-icons/bs';
+
+
 const SidebarItem = ({ Icon, Text, Link, Subitems }) => {
   const [subitemsVisible, setSubitemsVisible] = useState(false);
 
@@ -20,7 +25,7 @@ const SidebarItem = ({ Icon, Text, Link, Subitems }) => {
     return (
       <div className="sidebar-item" onClick={toggleSubitems}>
         <Icon className="icons" />
-        <span>{Text}</span>
+        <span>{Text}</span>  <BsArrowRightShort className='icon-arrow' />
         <ul className={`subitem-list ${subitemsVisible ? 'visible' : ''}`}>
           {Subitems.map((subitem, index) => (
             <li key={index}>
