@@ -1,38 +1,53 @@
 .sidebar-item
     display: block
-    align-items: center
+    width: 100%
     background-color: #ffffff
     font-size: 1em
-    padding: 20px
     cursor: pointer
     border-radius: 2px
     margin-bottom: 0.3rem
-    align-content: center
+
+    .btn-item
+        display: flex
+        justify-content: center
+        flex-direction: column
+        padding-bottom: 20px
+        padding-top: 20px
+    
    
     .icons 
         margin: 0 20px
-        margin-left: 5px !important
-        width: 1.3rem
+        margin-left: 20px !important
+        width: 1.3rem        
 
     .icon-arrow
-        border: 1px solid red
-        position: relative
-        display: flex
+        margin-top: 0
+        margin-left: 150px
+        width: 8px
+        color: #8a8a8ac4
+        transition: transform 0.4s ease
+
+    .rotate
+        transform: rotate(90deg)
+
+        
 
     &:hover 
         background-color: #f3f3f3
 
     span
-        margin-left: 40px
+        margin-left: 55px 
 
 
     ul.subitem-list
         list-style: none
-        display: none
+        display: block
         cursor: pointer
-        transition: opacity 0.3s ease
         text-transform: none
+        max-height: 0
+        overflow: hidden
+        transition: max-height 0.5s ease-in-out
 
     ul.subitem-list.visible
-        display: block
-        opacity: 1
+        max-height: 50px
+        

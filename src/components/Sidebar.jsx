@@ -37,7 +37,8 @@ const Sidebar = ({ active }) => {
       icon: FaChartBar,
       subitems: [
       {
-        label: 'Novo Apoiador'
+        label: 'Novo Apoiador',
+        link: '/'
       },
       {
         label: 'Lista Apoiadores'

@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import '../styles/components/sidebar-item.sass';
 
 import {
-  BsArrowRightShort
-}from 'react-icons/bs';
+  FaAngleRight,
+  FaAngleDown
+}from 'react-icons/fa';
 
 
 const SidebarItem = ({ Icon, Text, Link, Subitems }) => {
   const [subitemsVisible, setSubitemsVisible] = useState(false);
+  const [arrowRotation, setArrowRotation] = useState(false);
 
   const toggleSubitems = (e) => {
     e.stopPropagation(); // Impede que o evento de clique se propague para os elementos pai
     setSubitemsVisible(!subitemsVisible);
+    setArrowRotation(!arrowRotation);
   };
 
   if (Link) {
@@ -21,11 +24,13 @@ const SidebarItem = ({ Icon, Text, Link, Subitems }) => {
         <span>{Text}</span>
       </a>
     );
-  } else if (Subitems && Subitems.length > 0) {
+  }if (Subitems && Subitems.length > 0) {
     return (
       <div className="sidebar-item" onClick={toggleSubitems}>
-        <Icon className="icons" />
-        <span>{Text}</span>  <BsArrowRightShort className='icon-arrow' />
+        <div className='btn-item'>
+          <Icon className="icons" />
+          <span>{Text}</span>  <FaAngleRight className={`icon-arrow ${arrowRotation ? 'rotate' : ''}`} />
+        </div>
         <ul className={`subitem-list ${subitemsVisible ? 'visible' : ''}`}>
           {Subitems.map((subitem, index) => (
             <li key={index}>
@@ -38,8 +43,10 @@ const SidebarItem = ({ Icon, Text, Link, Subitems }) => {
   } else {
     return (
       <div className="sidebar-item">
-        <Icon className="icons" />
-        <span>{Text}</span>
+        <div className='btn-item'>
+          <Icon className="icons" />
+          <span>{Text}</span>
+        </div>
       </div>
     );
   }
