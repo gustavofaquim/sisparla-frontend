@@ -1,41 +1,71 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React from 'react'
 
-import "../styles/components/sidebar.sass"
+import  '../styles/components/sidebar.sass';
+
+import { 
+  FaTimes, 
+  FaHome, 
+  FaEnvelope, 
+  FaRegSun, 
+  FaUserAlt, 
+  FaIdCardAlt, 
+  FaRegFileAlt,
+  FaRegCalendarAlt,
+  FaChartBar
+} from 'react-icons/fa';
+
+import SidebarItem from './SidebarItem';
 
 
+const Sidebar = ({ active }) => {
 
-const Sidebar = () => {
+  const closeSidebar = () => {
+    active(false)
+  }
 
-    const [isOpen, setIsOpen] = useState(true);
 
-    const toggleSidebar = () => {
-        setIsOpen(!isOpen);
-    };
+  const menuItems = [
+    {
+      label: 'Home',
+      icon: FaHome,
+      subitems: [],
+    },
+    {
+      label: 'Apoiadores',
+      icon: FaChartBar,
+      subitems: [],
+    },
+    {
+      label: 'Users',
+      icon: FaUserAlt,
+      subitems: [
+        {
+          label: 'User 1',
+          link: '/user1',
+        },
+        {
+          label: 'User 2',
+          link: '/user2',
+        },
+      ],
+    },
+  ]
 
-    return (
-        <div className='head'>
 
-            <div className={`page-wrapper ${isOpen ? 'open' : ''}`}>
-                <button className="hamburger" onClick={toggleSidebar}> 
-                    <div className="bar"></div>
-                    <div className="bar"></div>
-                    <div className="bar"></div>
-                </button>
-            </div>
-            
-            <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-                <ul>
-                {/* Adicione aqui os links do menu */}
-                <li><a href="#">Item 1</a></li>
-                <li><a href="#">Item 2</a></li>
-                <li><a href="#">Item 3</a></li>
-                </ul>
-            </div>
-            
-        </div>
-        
-    );
-};
+  return (
+    <div sidebar={active} className="sidebar">
+      
+      <FaTimes onClick={closeSidebar} />
 
-export default Sidebar;
+      <div className="container-sidebar-item">
+        {menuItems.map((menuItem, index) => (
+          <SidebarItem key={index} Icon={menuItem.icon} Text={menuItem.label} Subitems={menuItem.subitems}>
+          </SidebarItem>
+        ))}
+      </div>
+      
+    </div>
+  )
+}
+
+export default Sidebar

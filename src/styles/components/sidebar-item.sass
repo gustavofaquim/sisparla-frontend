@@ -1,0 +1,33 @@
+.sidebar-item
+    display: block
+    align-items: center
+    background-color: #ffffff
+    font-size: 1em
+    padding: 20px
+    cursor: pointer
+    border-radius: 2px
+    margin-bottom: 0.3rem
+    align-content: center
+   
+    .icons 
+        margin: 0 20px
+        margin-left: 5px !important
+        width: 1.3rem
+
+    &:hover 
+        background-color: #f3f3f3
+
+    span
+        margin-left: 40px
+
+
+    ul.subitem-list
+        list-style: none
+        display: none
+        cursor: pointer
+        transition: opacity 0.3s ease
+        text-transform: none
+
+    ul.subitem-list.visible
+        display: block
+        opacity: 1
