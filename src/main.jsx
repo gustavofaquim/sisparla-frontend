@@ -4,6 +4,8 @@ import App from './App.jsx'
 
 import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 
+import "./styles/main.sass";
+
 //Paginas
 import ApoiadoresList from './components/ApoiadoresList.jsx';
 

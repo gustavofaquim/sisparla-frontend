@@ -5,7 +5,7 @@
     width: 100%
     background-color: #ffffff
     color: variables.$side-nav-link-color
-    font-size: 1em
+    font-size: 0.8em
     cursor: pointer
     border-radius: 2px
     margin-bottom: 0.3rem
@@ -17,19 +17,23 @@
         flex-direction: column
         padding-bottom: 20px
         padding-top: 20px
+
+        &:hover 
+            color: variables.$cor-destaque 
     
    
     .icons 
         margin: 0 20px
         margin-left: 20px !important
-        width: 1.3rem 
-        color: variables.$side-nav-link-color       
+        width: 1rem 
+        color: variables.$side-nav-link-color   
+
 
     .icon-arrow
         color: variables.$side-nav-link-color 
         margin-top: 0
         margin-left: 150px
-        width: 8px
+        width: 0.4rem
         transition: transform 0.4s ease
 
     .rotate
@@ -58,7 +62,6 @@
 
         a
             text-decoration: none
-           
             
 
     ul.subitem-list.visible

@@ -1,6 +1,32 @@
+@use '../variables'
+
 .listagem-apoiadores
-    width: 50%
-    border: 1px solid red
+    width: 95%
     position: relative
-    margin: auto
-    margin-top: 1rem
+    background-color: variables.$cor-fundo-branco
+
+    table
+        margin-top: 2rem
+        width: 100% 
+        min-width: 300px
+        white-space: nowrap
+        overflow-x: auto
+        border-collapse: collapse
+        text-align: left
+
+        th
+            padding: 5px
+            background: #00000043
+            height: 2.3rem
+        
+        tr
+           height: 2rem
+
+        tr:nth-child(even) 
+            background-color: #f2f2f2
+
+    .ativo
+        background: variables.$cor-ativo
+        padding: 3px 10px 3px 10px
+        border-radius: 15px
+        color: variables.$cor-fundo-branco
