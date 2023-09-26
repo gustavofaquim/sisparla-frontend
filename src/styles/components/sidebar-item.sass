@@ -1,11 +1,15 @@
+@use '../variables'
+    
 .sidebar-item
     display: block
     width: 100%
     background-color: #ffffff
+    color: variables.$side-nav-link-color
     font-size: 1em
     cursor: pointer
     border-radius: 2px
     margin-bottom: 0.3rem
+    font-weight: 100
 
     .btn-item
         display: flex
@@ -18,13 +22,14 @@
     .icons 
         margin: 0 20px
         margin-left: 20px !important
-        width: 1.3rem        
+        width: 1.3rem 
+        color: variables.$side-nav-link-color       
 
     .icon-arrow
+        color: variables.$side-nav-link-color 
         margin-top: 0
         margin-left: 150px
         width: 8px
-        color: #8a8a8ac4
         transition: transform 0.4s ease
 
     .rotate
@@ -46,8 +51,18 @@
         text-transform: none
         max-height: 0
         overflow: hidden
-        transition: max-height 0.5s ease-in-out
+        transition: 0.5s ease-in-out
+        margin-top: 0
+        margin-bottom: 0
+        
+
+        a
+            text-decoration: none
+           
+            
 
     ul.subitem-list.visible
         max-height: 50px
+        padding-bottom: 20px
+       
         

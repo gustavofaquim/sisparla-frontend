@@ -29,12 +29,12 @@ const SidebarItem = ({ Icon, Text, Link, Subitems }) => {
       <div className="sidebar-item" onClick={toggleSubitems}>
         <div className='btn-item'>
           <Icon className="icons" />
-          <span>{Text}</span>  <FaAngleRight className={`icon-arrow ${arrowRotation ? 'rotate' : ''}`} />
+          <span>{Text}</span> <FaAngleRight className={`icon-arrow ${arrowRotation ? 'rotate' : ''}`} />
         </div>
         <ul className={`subitem-list ${subitemsVisible ? 'visible' : ''}`}>
           {Subitems.map((subitem, index) => (
             <li key={index}>
-              <a href={subitem.link}>{subitem.label}</a>
+              <a href={subitem.link}> {subitem.label} </a>
             </li>
           ))}
         </ul>

@@ -11,9 +11,11 @@ function App() {
       
       <Header />
 
-      <div className="content">
-       
-        <Outlet />
+      <div className="main">
+       <div className="content">
+          <Outlet />
+       </div>
+        
       </div>
 
     </div>

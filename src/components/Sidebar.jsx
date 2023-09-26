@@ -41,7 +41,8 @@ const Sidebar = ({ active }) => {
         link: '/'
       },
       {
-        label: 'Lista Apoiadores'
+        label: 'Lista Apoiadores',
+        link:  '/apoiadores'
       }],
     },
     {

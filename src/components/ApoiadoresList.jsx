@@ -1,9 +1,11 @@
-import React from "react";
+import * as React from 'react';
 import { useState, useEffect } from "react";
 import userFetch from "../axios/config.js";
 import { useNavigate } from "react-router-dom";
-
 import { Link } from "react-router-dom";
+
+
+import "../styles/components/apoiadores-list.sass";
 
 
 const ApoiadoresList = () => {
@@ -30,10 +32,12 @@ const ApoiadoresList = () => {
         
     }, []);
 
-
+  
+    
     return(
         <div className="listagem-apoiadores">
             <h1>Apoiadores</h1>
+           
             <table>
                 <tr>
                     <th>Nome</th>
@@ -54,6 +58,11 @@ const ApoiadoresList = () => {
                     ))
                 )}
             </table>
+
+        
+          
+           
+            
         </div>
     );
 
