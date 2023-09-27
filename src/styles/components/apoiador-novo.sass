@@ -8,16 +8,48 @@
 
     .form-apoiador
         margin: auto
-        width: 80%
+        width: 100%
+
+
+
+        .form-session-title
+            margin-top: 2.5rem
+            font-size: 1.1rem
+            padding: 0.5rem
+            text-transform: uppercase
+            color: variables.$cor-destaque
+
+        .form-group
+            padding-right: 2rem
+            
         
 
         input
             border: 0px solid #c4c9d0
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
+            
 
             &:focus
                 box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px
                 outline: none
 
-        .btn-cadastrar
-            margin: auto
+        textarea
+            width: 500px
+            height: 100px
+
+        .btn
+            width: 100%
+            margin-top: 1rem
+
+            .btn-cadastrar
+                width: 200px
+                text-align: center
+
+
+@media (max-width: 1312px)
+
+    .cadastrar-apoiador
+        width: 100%
+    
+
+
