@@ -24,7 +24,7 @@ const ApoiadoresList = () => {
 
         try {
            console.log(termoBusca);
-           
+
             const response = await userFetch.get("/apoiadores", {
                 params: {
                     termoBusca
@@ -62,29 +62,34 @@ const ApoiadoresList = () => {
             </div>
 
             <table>
-                <tr>
-                    <th>Nome</th>
-                    <th>Apelido</th>
-                    <th>Telefone</th>
-                    <th>E-mail</th>
-                    <th>Cidade</th>
-                    <th>Status</th>
-                </tr>
-           
-                {apoiadores.length === 0 ? <p>Carregando...</p> : (
-                    apoiadores.map((apoiador) => (
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Apelido</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Cidade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+            
+                    {apoiadores.length === 0 ? <p>Carregando...</p> : (
+                        apoiadores.map((apoiador) => (
+                            
+                            <tr key={apoiador.idApoiador}>
+                                <td>{apoiador.Nome}</td>
+                                <td>{apoiador.Apelido}</td>
+                                <td>{apoiador.Telefone}</td>
+                                <td>{apoiador.Email}</td> 
+                                <td>{apoiador.EnderecoApoiador.CidadeApoiador.Nome}</td> 
+                                <td><span className={apoiador.SituacaoCadastroApoiador.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
+                            </tr>
                         
-                        <tr key={apoiador.idApoiador}>
-                            <td>{apoiador.Nome}</td>
-                            <td>{apoiador.Apelido}</td>
-                            <td>{apoiador.Telefone}</td>
-                            <td>{apoiador.Email}</td> 
-                            <td>{apoiador.EnderecoApoiador.CidadeApoiador.Nome}</td> 
-                            <td><span className={apoiador.SituacaoCadastroApoiador.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
-                        </tr>
-                       
-                    ))
-                )}
+                        ))
+                    )}
+                </tbody>
             </table>
 
         

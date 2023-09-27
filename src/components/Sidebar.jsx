@@ -38,7 +38,7 @@ const Sidebar = ({ active }) => {
       subitems: [
       {
         label: 'Novo Apoiador',
-        link: '/'
+        link: '/novo-apoiador'
       },
       {
         label: 'Lista Apoiadores',

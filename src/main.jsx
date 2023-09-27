@@ -8,6 +8,7 @@ import "./styles/main.sass";
 
 //Paginas
 import ApoiadoresList from './components/ApoiadoresList.jsx';
+import ApoiadoresNovo from './components/ApoiadoresNovo.jsx';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/apoiadores",
         element: <ApoiadoresList />
+      },
+      {
+        path: "/novo-apoiador",
+        element: <ApoiadoresNovo />
       }
     ]
   }
