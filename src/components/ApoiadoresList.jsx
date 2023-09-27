@@ -15,14 +15,15 @@ const ApoiadoresList = () => {
 
     const [termoBusca, setTermoBusca] = useState(''); // Estado para o termo de busca
 
-
-
-
+    useEffect(() => {
+        getApoiadores();
+    }, [termoBusca]);
 
     const getApoiadores = async() => {
 
 
         try {
+           console.log(termoBusca);
            
             const response = await userFetch.get("/apoiadores", {
                 params: {
@@ -54,9 +55,10 @@ const ApoiadoresList = () => {
 
 
             <div className="filtro-busca">
-                <input type="text" placeholder="Digite um termo de busca" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
-
-                <button onClick={() => getApoiadores()}>Buscar</button>
+                <div>
+                    <input type="text" placeholder="Digite um termo de busca" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                    
+                </div>
             </div>
 
             <table>
