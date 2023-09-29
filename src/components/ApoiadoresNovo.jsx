@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import userFetch from "../axios/config.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -14,20 +14,25 @@ const ApoiadoresNovo = () => {
 
     const [nome, setNome] = useState();
     const [apelido, setApelido] = useState();
+    const [profissoes, setProfissoes] = useState([]);
     const [profissao, setProfissao] = useState();
     const [religiao, setReligiao] = useState();
     const [nascimento, setNascimento] = useState();
+    const [classificacoes, setClassificacoes] = useState([]);
     const [classificacao, setClassificacao] = useState();
     const [email, setEmail] = useState();
     const [telefone, setTelefone] = useState();
+    const [situacoes, setSituacoes] = useState([]);
     const [situacao, setSituacao] = useState();
     const [cep, setCep] = useState();
     const [cidade, setCidade] = useState();
+    const [estados, setEstados] = useState([]);
     const [estado, setEstado] = useState();
     const [endereco, setEndereco] = useState();
     const [bairro, setBairro] = useState();
     const [complemento, setComplementoe] = useState();
     const [entidade, setEntidade] = useState();
+    const [tiposEntidade, setTiposEntidade] = useState([]);
     const [entidadeTipo, setEntidadeTipo] = useState();
     const [entidadeNome, setEntidadeNome] = useState();
     const [entidadeSigla, setEntidadeSigla] = useState();
@@ -40,6 +45,66 @@ const ApoiadoresNovo = () => {
 
     const [responseMessage, setResponseMessage] = useState();
 
+
+    const getProfissoes = async() => {
+
+        try {
+            const response = await userFetch.get("/profissoes");
+
+            const data = response.data;
+            
+            setProfissoes(data);
+            
+        } catch (error) {
+            console.log(`Erro ao recuperar a profissão: ${error}`);
+        }
+    }
+
+    const getClassificacoes = async() => {
+        try {
+            
+            const response = await userFetch.get("/classificacoes");
+            const data = response.data;
+            setClassificacoes(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar as informações de classificações: ${error}`);
+        }
+    }
+
+    const getSituacoes = async() => {
+        try {
+            
+            const response = await userFetch.get("/situacoesCadastros");            
+            const data = response.data;
+            setSituacoes(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar as informações de situacoes cadastrais: ${error}`);
+        }
+    }
+
+    const getTipoEntidade = async() => {
+        try {
+            
+            const response = await userFetch.get("/tiposEntidade");
+            const data = response.data;
+            setTiposEntidade(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar os tipos de entidades: ${error}`);
+        }
+    }
+
+    const getEstados = async() => {
+        try {
+            const response = await userFetch.get("/estados");
+            const data = response.data;
+            setEstados(data);
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de estados: ${error}`);
+        }
+    }
 
     const createApoiador = async(e) => {
         e.preventDefault();
@@ -67,6 +132,13 @@ const ApoiadoresNovo = () => {
         }
 
     }
+
+    useEffect(() => {
+        getProfissoes();
+        getClassificacoes();
+        getSituacoes();
+        getTipoEntidade();
+    }, []);
     
     return(
 
@@ -92,9 +164,14 @@ const ApoiadoresNovo = () => {
 
                     <div class="form-group col-md-2">
                         <label htmlFor="inputEstado">Profissão</label>
-                        <select id="inputEstado" class="form-control">
+                        <select id="inputEstado" class="form-control" value={profissao|| ''} onChange={(e) => setProfissao(e.target.value)}>
                             <option selected>Escolher...</option>
-                            <option>...</option>
+                            {
+                                profissoes.map((profissao) => (
+                                    
+                                    <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
+                                ))
+                            }
                         </select>
                     </div>
 
@@ -108,7 +185,12 @@ const ApoiadoresNovo = () => {
                         <label htmlFor="classificacao">Classificação</label>
                         <select id="classificacao" class="form-control">
                             <option selected>Escolher...</option>
-                            <option>...</option>
+                            
+                            {
+                                classificacoes.map((classificacao) => (
+                                    <option key={classificacao.IdClassificacao} value={classificacao.Descricao}>{classificacao.Descricao}</option>
+                                ))
+                            }
                         </select>
                     </div>
 
@@ -132,7 +214,11 @@ const ApoiadoresNovo = () => {
                         <label htmlFor="situacao">Situação</label>
                         <select id="situacao" class="form-control">
                             <option selected>Escolher...</option>
-                            <option>...</option>
+                            {
+                                situacoes.map((situacao) => (
+                                    <option key={situacao.IdSituacao} value={situacao.Descricao}>{situacao.Descricao}</option>
+                                ))
+                            }
                         </select>
                     </div>
                
@@ -154,7 +240,11 @@ const ApoiadoresNovo = () => {
                         <label htmlFor="estado">Estado</label>
                         <select id="estado" class="form-control" name='estado'>
                             <option selected>Escolher...</option>
-                            <option>...</option>
+                            {
+                                estados.map((estado) => (
+                                    <option key={estado.IdEstado} value={estado.UF}>{estado.UF}</option>
+                                ))
+                            }
                         </select>
                     </div>
 
@@ -198,7 +288,11 @@ const ApoiadoresNovo = () => {
                         <label htmlFor="entidadeTipo">Tipo</label>
                         <select id="entidadeTipo" class="form-control">
                             <option selected>Escolher...</option>
-                            <option>...</option>
+                           {
+                                tiposEntidade.map((tipos) => (
+                                    <option key={tipos.IdTipo} value={tipos.Tipo}>{tipos.Tipo}</option>
+                                ))
+                           }
                         </select>
                     </div>
 
