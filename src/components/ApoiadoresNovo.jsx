@@ -43,6 +43,9 @@ const ApoiadoresNovo = () => {
     const [partido, setPartido] = useState();
     const [partidoCargo, setPartidoCargo] = useState();
     const [partidoLideranca, setPartidoLideranca] = useState();
+    const [inputValue, setInputValue] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [selectedEntidade, setSelectedEntidade] = useState(null);
 
 
     const [responseMessage, setResponseMessage] = useState();
@@ -122,19 +125,25 @@ const ApoiadoresNovo = () => {
         }
     }
 
-    const getEntidades = async() => {
+    const getEntidades = async (filtro) => {
         try {
-            const tipo = 'partido'
-
+            const tipo = 'partido';
             const response = await userFetch.get(`/entidadesn/${tipo}`);
             const data = response.data;
-            
-            setEntidades(data);
-
+    
+            const entidadesFiltradas = data.filter(entidade =>
+                entidade.Nome.toLowerCase().includes(filtro.toLowerCase())
+            );
+    
+            setEntidades(entidadesFiltradas);  // Atualizar o estado 'entidades'
+    
+            const nomesEntidades = entidadesFiltradas.map(entidade => entidade.Nome);
+    
+            setSuggestions(nomesEntidades);
         } catch (error) {
             console.log(`Erro ao recuperar a lista de entidades: ${error}`);
         }
-    }
+    };
 
     const createApoiador = async(e) => {
         e.preventDefault();
@@ -151,7 +160,6 @@ const ApoiadoresNovo = () => {
 
             setResponseMessage(msg);
 
-            console.log(msg);
             
             navigate('/');
 
@@ -161,7 +169,7 @@ const ApoiadoresNovo = () => {
             setResponseMessage(error);
         }
 
-    }
+    };
 
     useEffect(() => {
         getProfissoes();
@@ -170,7 +178,48 @@ const ApoiadoresNovo = () => {
         getTipoEntidade();
         getEstados();
         getPartidos();
+        getEntidades();
     }, []);
+
+    useEffect(() => {
+        // Atualizar o campo de sigla quando a entidade selecionada muda
+        if (selectedEntidade) {
+            const siglaInput = document.getElementById('entidadeSigla');
+            if (siglaInput) {
+                siglaInput.value = selectedEntidade.Sigla || '';
+            }
+        }
+    }, [selectedEntidade, entidades]);
+
+
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setInputValue(value);
+    
+        if (value.trim() === '') {
+          setSuggestions([]);
+        } else {
+          getEntidades(value);
+        }
+    };
+
+    
+    const handleSuggestionClick = (suggestion) => {
+        setInputValue(suggestion);
+        setSuggestions([]);
+    
+        // Encontrar a entidade correspondente ao nome selecionado
+        const selectedEntity = entidades.find(entidade => entidade.Nome === suggestion);
+    
+        // Verificar se a entidade foi encontrada
+        if (selectedEntity) {
+            setEntidade(selectedEntity);  // Atualizar o estado 'entidade'
+            setSelectedEntidade(selectedEntity);
+        } else {
+            setEntidade(null);  // Limpar o estado 'entidade'
+            setSelectedEntidade(null);
+        }
+    };
     
     return(
 
@@ -330,8 +379,17 @@ const ApoiadoresNovo = () => {
 
                     <div class="form-group col-md-3">
                         <label htmlFor="entidadeNome">Nome</label>
-                        <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' />
-                    </div>
+                        <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' value={inputValue}  onChange={handleInputChange} />
+                        {suggestions.length > 0 && (
+                            <ul>
+                            {suggestions.map((suggestion, index) => (
+                                <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                                {suggestion}
+                                </li>
+                            ))}
+                            </ul>
+                        )}
+                        </div>
 
                     <div class="form-group col-md-1">
                         <label htmlFor="entidadeSigla">Sigla</label>
