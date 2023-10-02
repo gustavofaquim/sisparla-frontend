@@ -31,6 +31,8 @@ const ApoiadoresNovo = () => {
     const [endereco, setEndereco] = useState();
     const [bairro, setBairro] = useState();
     const [complemento, setComplementoe] = useState();
+    const [partidos, setPartidos] = useState([]);
+    const [entidades, setEntidades] = useState([]);
     const [entidade, setEntidade] = useState();
     const [tiposEntidade, setTiposEntidade] = useState([]);
     const [entidadeTipo, setEntidadeTipo] = useState();
@@ -106,6 +108,34 @@ const ApoiadoresNovo = () => {
         }
     }
 
+    const getPartidos = async() => {
+        try {
+            const tipo = 'partido'
+
+            const response = await userFetch.get(`/entidades/${tipo}`);
+            const data = response.data;
+            
+            setPartidos(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de partidos: ${error}`);
+        }
+    }
+
+    const getEntidades = async() => {
+        try {
+            const tipo = 'partido'
+
+            const response = await userFetch.get(`/entidadesn/${tipo}`);
+            const data = response.data;
+            
+            setEntidades(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de entidades: ${error}`);
+        }
+    }
+
     const createApoiador = async(e) => {
         e.preventDefault();
 
@@ -138,6 +168,8 @@ const ApoiadoresNovo = () => {
         getClassificacoes();
         getSituacoes();
         getTipoEntidade();
+        getEstados();
+        getPartidos();
     }, []);
     
     return(
@@ -333,7 +365,11 @@ const ApoiadoresNovo = () => {
                         <label htmlFor="partido">Agremiação partidária</label>
                         <select id="partido" class="form-control">
                             <option selected>Escolher...</option>
-                            <option>...</option>
+                            {
+                                partidos.map((partido) => (
+                                    <option key={partido.IdEntidade} value={partidos.Sigla}>{partido.Nome}</option>
+                                ))
+                           }
                         </select>
                     </div>
 
