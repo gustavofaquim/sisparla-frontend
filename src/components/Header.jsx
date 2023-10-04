@@ -35,11 +35,16 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="header">
-      <FaBars onClick={toggleSidebar} />
-      <UserFront />
+    <div className="menu">
+       <div className="header-bar">
+        <FaBars onClick={toggleSidebar} /> 
+        <span>Menu</span>
+        <UserFront /> 
+       
+      </div>
       {sidebarVisible && <Sidebar active={setSidebarVisible} />}
     </div>
+   
   );
 };
 
