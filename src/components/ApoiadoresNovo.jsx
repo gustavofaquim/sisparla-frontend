@@ -176,7 +176,7 @@ const ApoiadoresNovo = () => {
             setResponseMessage(msg);
 
             
-            navigate('/');
+            navigate('/apoiadores');
 
 
         } catch (error) {
