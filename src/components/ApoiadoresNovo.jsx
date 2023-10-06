@@ -450,17 +450,17 @@ const ApoiadoresNovo = () => {
                 <p className='form-session-title'>Partido Político</p>
                 <div class="form-row">
                     
-                    <div class="form-group col-md-3">
-                        <label htmlFor="partido">Agremiação partidária</label>
-                        <select id="partido" class="form-control"  value={partido|| ''} onChange={(e) => setPartido(e.target.value)}>
-                            <option selected>Escolher...</option>
-                            {
-                                partidos.map((partido) => (
-                                    <option key={partido.IdEntidade} value={partidos.Sigla}>{partido.Nome}</option>
-                                ))
-                           }
-                        </select>
-                    </div>
+                <div className="form-group col-md-3">
+                    <label htmlFor="partido">Agremiação partidária</label>
+                    <select id="partido" className="form-control" value={partido || ''} onChange={(e) => setPartido(e.target.value)}>
+                        <option disabled>Escolher...</option>
+                        {partidos.map((partidoItem) => (
+                            <option key={partidoItem.IdEntidade} value={partidoItem.Sigla}>
+                                {partidoItem.Sigla} - {partidoItem.Nome}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
                     <div class="form-group col-md-3">
                         <label htmlFor="partidoCargo">Cargo</label>
