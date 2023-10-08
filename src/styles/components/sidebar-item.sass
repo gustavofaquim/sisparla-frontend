@@ -3,13 +3,11 @@
 .sidebar-item
     display: block
     width: 100%
-    background-color: #ffffff
     color: variables.$side-nav-link-color
     font-size: 1em
     cursor: pointer
     border-radius: 2px
     margin-bottom: 0.3rem
-    font-weight: 100
 
     .btn-item
         display: flex
@@ -34,12 +32,11 @@
         margin-top: 0
         margin-left: 150px
         width: 0.4rem
-        transition: transform 0.4s ease
+        transition: transform 0.8s ease
 
     .rotate
         transform: rotate(90deg)
-
-        
+  
 
     &:hover 
         background-color: #f3f3f3
@@ -59,13 +56,20 @@
         margin-top: 0
         margin-bottom: 0
         
-
         a
             text-decoration: none
+            color: variables.$cor-destaque
+
+            &:hover
+                color: variables.$cor-destaque-hover
             
+    .subitem-list 
+        li
+            padding: 0.5rem 1rem 1rem 0.5rem
+
 
     ul.subitem-list.visible
-        max-height: 50px
+        max-height: 350px
         padding-bottom: 20px
        
         

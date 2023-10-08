@@ -11,7 +11,9 @@ import {
   FaIdCardAlt, 
   FaRegFileAlt,
   FaRegCalendarAlt,
-  FaChartBar
+  FaChartBar,
+  FaCalendarAlt,
+  FaRegWindowClose
 } from 'react-icons/fa';
 
 
@@ -34,31 +36,61 @@ const Sidebar = ({ active }) => {
     },
     {
       label: 'Apoiadores',
-      icon: FaChartBar,
+      icon: FaUserAlt,
       subitems: [
+      {
+          label: 'Todos',
+          link:  '/apoiadores'
+      },
       {
         label: 'Novo Apoiador',
         link: '/novo-apoiador'
       },
       {
-        label: 'Lista Apoiadores',
-        link:  '/apoiadores'
-      }],
+        label: 'Aniversariantes',
+        link: '/aniversariantes'
+      },
+      {
+        label: 'Pendentes',
+        link: '/pendentes'
+      }
+    ],
     },
     {
-      label: 'Users',
-      icon: FaUserAlt,
+      label: 'Demandas',
+      icon: FaChartBar,
       subitems: [
         {
-          label: 'User 1',
-          link: '/user1',
+          label: 'Cadastrar Nova',
+          link: '/nova-demanda',
         },
         {
-          label: 'User 2',
-          link: '/user2',
+          label: 'Lista',
+          link: '/demandas',
+        },
+        {
+          label: 'Categorias',
+          link: '/demandas',
         },
       ],
     },
+    {
+      label: 'Eventos',
+      icon: FaCalendarAlt,
+      subitems: [
+        {
+          label: 'Todos',
+          link: '/eventos'
+        },{
+          label: 'Cadastrar Novo',
+          link: '/novo-evento'
+        }
+      ]
+    },
+    {
+      label: 'Sair',
+      icon: FaRegWindowClose,
+    }
   ]
 
 

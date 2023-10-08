@@ -13,7 +13,7 @@ import Login from './login.jsx';
 
 const Root = () => {
 
-  const [isAuthenticated, setAuthenticated] = useState(false);
+  const [isAuthenticated, setAuthenticated] = useState(true);
 
   const handleLogin = () => {
     // Lógica de autenticação aqui (por exemplo, chamada à API de login)
