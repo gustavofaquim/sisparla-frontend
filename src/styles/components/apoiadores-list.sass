@@ -9,6 +9,7 @@
         width: 100% 
         min-width: 300px
         white-space: nowrap
+        max-width: 100%
         overflow-x: auto
         border-collapse: collapse
         text-align: left
@@ -26,10 +27,18 @@
             height: 2.3rem
         
         tr
-           height: 2rem
+            height: 3rem
+           
 
         tr:nth-child(even) 
             background-color: #f2f2f2
+
+
+        td
+            display: table-cell
+            padding: 0.5rem 1rem
+            text-overflow: ellipsis
+            overflow: hidden
 
     .ativo
         @include mixins.status
@@ -79,3 +88,5 @@
 
 
        
+
+  

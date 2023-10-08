@@ -1,31 +1,19 @@
-import { useState } from 'react';
-
-import Header from "./components/Header.jsx";
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 
+import Header from "./components/Header.jsx";
 
-import './styles/app.sass'
+import './styles/app.sass';
 
-function App() {
-  
+const App = ({isAuthenticated, onLogout}) => {
   return (
     <div className="app">
-      <div className='main'>
-       
-       <div className='header'>
-        <Header />
-       </div>
-        
-        <div className="content">
-          <Outlet />
-        </div>
-
-        
+      <Header isAuthenticated={isAuthenticated}  />
+      <div className="content">
+        <Outlet />
       </div>
-     
-
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

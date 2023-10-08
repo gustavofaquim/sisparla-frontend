@@ -7,7 +7,7 @@ import '../styles/components/header.sass';
 import Sidebar from '../components/Sidebar.jsx';
 import UserFront from './UserFront';
 
-const Header = () => {
+const Header = ({isAuthenticated}) => {
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   const toggleSidebar = () => setSidebarVisible(!sidebarVisible);
@@ -33,6 +33,12 @@ const Header = () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  console.log(isAuthenticated)
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="menu">

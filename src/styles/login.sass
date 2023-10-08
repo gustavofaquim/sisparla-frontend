@@ -1,0 +1,37 @@
+@use "variables"
+@use "mixins"  
+
+
+.login
+    padding: 3rem
+    margin: auto
+    width: 100%
+    justify-content: center
+    max-width: 600px
+    border-radius: 10pt
+    background: variables.$cor-fundo-branco
+    text-align: center
+
+    form
+        margin: auto
+        margin-top: 2rem
+        width: 100%
+        max-width: 350px
+        text-align: left
+
+        input
+            border-radius: 0
+            border: 0px solid #c4c9d0
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
+
+            &:focus
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, variables.$cor-destaque 0px 1px 3px -1px
+                outline: none
+
+        button
+            background-color: variables.$cor-destaque
+            border: 0px solid
+            width: 100%
+
+            &:hover
+                background-color: variables.$cor-destaque-hover

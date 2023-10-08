@@ -1,34 +1,60 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-
-import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import "./styles/main.sass";
 
-//Paginas
+// Componentes
+import App from './App.jsx';
 import ApoiadoresList from './components/ApoiadoresList.jsx';
 import ApoiadoresNovo from './components/ApoiadoresNovo.jsx';
+import Login from './login.jsx';
 
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    children:[
-      {
-        path: "/apoiadores",
-        element: <ApoiadoresList />
-      },
-      {
-        path: "/novo-apoiador",
-        element: <ApoiadoresNovo />
-      }
-    ]
-  }
-]);
 
+const Root = () => {
+
+  const [isAuthenticated, setAuthenticated] = useState(false);
+
+  const handleLogin = () => {
+    // Lógica de autenticação aqui (por exemplo, chamada à API de login)
+    // Se a autenticação for bem-sucedida, chame setAuthenticated(true)
+    setAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    // Lógica de logout aqui
+    // Por exemplo, chame setAuthenticated(false)
+    setAuthenticated(false);
+  };
+
+
+  const PrivateRoute = ({ element }) => {
+    return isAuthenticated ? element : <Navigate to="/login" />;
+  };
+  
+
+
+  return (
+    <Router>
+
+      <Routes>
+        <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>
+
+          <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} />}/>
+          
+          <Route path="novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} />}/>
+          
+          <Route path="login" element={<Login />} />
+        
+        </Route>
+
+      </Routes>
+    </Router>
+  );
+};
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Root />
   </React.StrictMode>,
-)
+);
