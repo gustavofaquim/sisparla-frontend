@@ -43,6 +43,8 @@ const Sidebars = () => {
                     <MenuItem component={<Link to="/eventos " />}> Eventos</MenuItem>
                 </SubMenu>
 
+                <MenuItem  icon={<FaRegWindowClose/>}>Sair</MenuItem>
+
                 
             </Menu>
         </Sidebar>
