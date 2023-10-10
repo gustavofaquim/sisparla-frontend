@@ -8,6 +8,7 @@ import "./styles/main.sass";
 import App from './App.jsx';
 import ApoiadoresList from './components/ApoiadoresList.jsx';
 import ApoiadoresNovo from './components/ApoiadoresNovo.jsx';
+import ApoiadoresFicha from "./components/ApoiadoresFicha.jsx";
 import Login from './login.jsx';
 
 
@@ -43,6 +44,8 @@ const Root = () => {
           <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} />}/>
           
           <Route path="novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} />}/>
+
+          <Route path="ficha-apoiador/:id" element={<PrivateRoute element={<ApoiadoresFicha />} />}/>
           
           <Route path="login" element={<Login />} />
         

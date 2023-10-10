@@ -77,9 +77,8 @@ const ApoiadoresList = () => {
             
                     {apoiadores.length === 0 ? <p>Carregando...</p> : (
                         apoiadores.map((apoiador) => (
-                            
-                            <tr key={apoiador.idApoiador}>
-                                <td>{apoiador.Nome}</td>
+                            <tr key={apoiador.IdApoiador}>
+                                <td> <Link to={`/ficha-apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
                                 <td>{apoiador.Apelido}</td>
                                 <td>{apoiador.Telefone}</td>
                                 <td>{apoiador.Email}</td> 
