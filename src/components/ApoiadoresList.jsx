@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import "../styles/components/apoiadores-list.sass";
 
 
+
 const ApoiadoresList = () => {
 
     const navigate = useNavigate();
@@ -53,7 +54,9 @@ const ApoiadoresList = () => {
             <h1 className='title-page'>Listagem de Apoiadores</h1>
             <h2 className='subtitle-page'>Lista de todos os eleitores ativos, desativos e com cadastro incompleto.</h2>
 
-
+            <div className='novo-apoiador'>
+             Adicionar Novo Apoiador
+            </div>
             <div className="filtro-busca">
                 <div>
                     <input type="text" placeholder="Digite um termo de busca" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
