@@ -9,6 +9,7 @@ import App from './App.jsx';
 import ApoiadoresList from './components/ApoiadoresList.jsx';
 import ApoiadoresNovo from './components/ApoiadoresNovo.jsx';
 import ApoiadoresFicha from "./components/ApoiadoresFicha.jsx";
+import NovaDemanda from "./components/demandas/Nova.jsx";
 import Login from './login.jsx';
 
 
@@ -47,6 +48,8 @@ const Root = () => {
 
           <Route path="ficha-apoiador/:id" element={<PrivateRoute element={<ApoiadoresFicha />} />}/>
           
+          <Route path="nova-demanda" element={<PrivateRoute element={<NovaDemanda />} />}/>
+
           <Route path="login" element={<Login />} />
         
         </Route>
