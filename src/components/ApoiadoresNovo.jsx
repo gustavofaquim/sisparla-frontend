@@ -389,12 +389,12 @@ const ApoiadoresNovo = () => {
                    <div class="form-group">
                     <p>Movimento ou Entidade ?</p>
                     <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="entidade" id="entidade" value="sim" onChange={(e) => setEntidade(e.target.value)} />
+                            <input class="form-check-input" type="radio" name="entidade" id="entidade" value="s" onChange={(e) => setEntidade(e.target.value)} />
                             <label class="form-check-label" for="entidade">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="entidade" id="entidade2" value="nao" onChange={(e) => setEntidade(e.target.value)}  />
+                            <input class="form-check-input" type="radio" name="entidade" id="entidade2" value="n" onChange={(e) => setEntidade(e.target.value)}  />
                             <label class="form-check-label" for="entidade2">Não</label>
                         </div>
                    </div>
@@ -439,12 +439,12 @@ const ApoiadoresNovo = () => {
                     <div class="form-group">
                         <p>Liderança ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="lideranca" id="lideranca1" value="sim" onChange={(e) => setEntidadeLideranca(e.target.value)}  />
+                            <input class="form-check-input" type="radio" name="lideranca" id="lideranca1" value="s" onChange={(e) => setEntidadeLideranca(e.target.value)}  />
                             <label class="form-check-label" for="lideranca1">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="lideranca" id="lideranca2" value="nao"  onChange={(e) => setEntidadeLideranca(e.target.value)} />
+                            <input class="form-check-input" type="radio" name="lideranca" id="lideranca2" value="n"  onChange={(e) => setEntidadeLideranca(e.target.value)} />
                             <label class="form-check-label" for="lideranca2">Não</label>
                         </div>
                    </div>
@@ -474,12 +474,12 @@ const ApoiadoresNovo = () => {
                     <div class="form-group">
                         <p>Liderança ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca1" value="sim" onChange={(e) => setPartidoLideranca(e.target.value)} />
+                            <input class="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca1" value="s" onChange={(e) => setPartidoLideranca(e.target.value)} />
                             <label class="form-check-label" for="partidoLideranca1">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca2" value="nao" onChange={(e) => setPartidoLideranca(e.target.value)} />
+                            <input class="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca2" value="n" onChange={(e) => setPartidoLideranca(e.target.value)} />
                             <label class="form-check-label" for="partidoLideranca2">Não</label>
                         </div>
                    </div>
