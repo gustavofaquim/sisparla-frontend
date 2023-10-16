@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import userFetch from "../axios/config.js";
+import { Link } from "react-router-dom";
 
 import "../styles/components/apoiador-ficha.sass";
 
@@ -65,22 +66,26 @@ const ApoiadoresFicha = () => {
         getApoiador();
     }, []);
 
-    
-    //Receber os valores dos inputs
-    const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
-    
-    const apoiadorEdit = async(e) =>{
-        e.preventDefault();
 
-        try {
-            
-            const response = await userFetch.put(`/apoiadores/${id}`)
-
-            navigate('/apoiadores');
-        } catch (error) {
-            
+    function formataData(dataString) {
+        
+        const data = new Date(`${dataString}T00:00:00-03:00`);
+       
+        // Verificando se a conversão foi bem-sucedida
+        if (isNaN(data.getTime())) {
+            return 'Data inválida';
         }
+
+    
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        const ano = data.getFullYear();
+      
+        return `${dia}/${mes}/${ano}`;
     }
+
+
+    const dataNascimento = formataData(data.DataNascimento);
 
     return(
         <div className="apoiador-ficha">
@@ -89,38 +94,32 @@ const ApoiadoresFicha = () => {
             
             <div className="dados-topo">
                 <h2>{data.Nome}</h2>
-                <p>{data.Apelido}</p>
+                <span>{data.Apelido}</span>
+                <span>Celular: {data?.TelefoneApoiador?.Numero}</span>
             </div>
 
             <div className="dados-corpo">
-                <p>{data.DataNascimento}</p>
-                <p>{data.Email}</p>
-                <p>{data.Religiao}</p>
-                <p>{data.Profissao}</p>
+                <span>Data de Nascimento: {dataNascimento}</span>
+                <span>{data.Email}</span>
+                <span>{data.Religiao}</span>
+                <span>{data.Profissao}</span>
             </div>
 
             <div className="dados-endereco">
-                <p>{data?.EnderecoApoiador?.CidadeApoiador?.Nome}</p>
-                <p>{data?.EnderecoApoiador?.Bairro}</p>
-                <p>{data?.EnderecoApoiador?.CidadeApoiador?.Lagradouro}</p>
-              
+                <span>{data?.EnderecoApoiador?.CidadeApoiador?.Nome}</span>
+                <span>{data?.EnderecoApoiador?.CidadeApoiador?.Nome}</span>
+                <span>{data?.EnderecoApoiador?.CEP}</span>
+                <span>{data?.EnderecoApoiador?.Bairro}</span>
+                <span>{data?.EnderecoApoiador?.Lagradouro}</span>
+                <span>{data?.EnderecoApoiador?.Numero}</span>
+                <span>{data?.EnderecoApoiador?.Quadra}</span>
+                <span>{data?.EnderecoApoiador?.PontoReferencia}</span>
             </div>
             
-            <div className='form-apoiador'>
-                <form >
-                    <div class="form-row">
-
-                        <div class="form-group col-md-5">
-                            <label htmlFor="nome">Nome</label>
-                            <input type="disable" class="form-control" id="nome" name='nome' placeholder="Nome" disabled value={data.Nome} onChange={valueInput} />
-                        </div>
-
-                    </div>
-
-                </form>
-
-            </div>
+            <Link to={`/apoiador-edit/${data.IdApoiador}`}><button className="btn" >Editar Dados</button></Link>
         </div>
+
+        
     );
 }
 

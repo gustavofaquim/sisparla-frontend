@@ -3,7 +3,7 @@ import * as React from 'react';
 import userFetch from "../axios/config.js";
 import { useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import "../styles/components/apoiador-novo.sass"
 
@@ -12,6 +12,8 @@ import { FaWhatsapp } from "react-icons/fa6";
 const ApoiadoresEdit = () => {
 
 
+    const params = useParams();
+    const id = params.id;
     const navigate = useNavigate();
 
     const [nome, setNome] = useState();
@@ -63,184 +65,75 @@ const ApoiadoresEdit = () => {
     const [responseMessage, setResponseMessage] = useState();
 
 
-    const getProfissoes = async() => {
+    const [data, setData] = useState({
+        title: '',
+        description: '',
+        image: '',
+        profissao: '',
+        cpf: '',
+        religiao: '',
+        nascimento: '',
+        classificacao: '',
+        email: '',
+        telefone: '',
+        situacao: '',
+        cep: '',
+        cidade: '',
+        estado: '',
+        lagradouro: '',
+        quadra: '',
+        numero: '',
+        bairro: '',
+        pontoReferencia: '',
+        partido: '',
+        entidade: '',
+        informacoesAdicionais: ''
+    });
 
-        try {
-            const response = await userFetch.get("/profissoes");
-
-            const data = response.data;
-            
-            setProfissoes(data);
-            
-        } catch (error) {
-            console.log(`Erro ao recuperar a profissão: ${error}`);
+    const getApoiador = async() => {
+        
+        if(id === undefined){
+            console.log("Apoiador não encontrado");
+            return;
         }
+
+        await userFetch.get(`/apoiadores/${id}`)
+            .then((response) => {
+                setData(response.data); 
+                console.log(response.data);   
+            })
+            .catch((error) => {
+
+                if(error.response){
+                    console.log(error.response.data.msg);
+                }else{
+                    console.log("Api não respondeu");
+                }
+            });
     }
 
-    const getClassificacoes = async() => {
-        try {
-            
-            const response = await userFetch.get("/classificacoes");
-            const data = response.data;
-            setClassificacoes(data);
 
-        } catch (error) {
-            console.log(`Erro ao recuperar as informações de classificações: ${error}`);
-        }
-    }
-
-    const getSituacoes = async() => {
-        try {
-            
-            const response = await userFetch.get("/situacoesCadastros");            
-            const data = response.data;
-            setSituacoes(data);
-
-        } catch (error) {
-            console.log(`Erro ao recuperar as informações de situacoes cadastrais: ${error}`);
-        }
-    }
-
-    const getTipoEntidade = async() => {
-        try {
-            
-            const response = await userFetch.get("/tiposEntidade");
-            const data = response.data;
-            setTiposEntidade(data);
-
-        } catch (error) {
-            console.log(`Erro ao recuperar os tipos de entidades: ${error}`);
-        }
-    }
-
-    const getEstados = async() => {
-        try {
-            const response = await userFetch.get("/estados");
-            const data = response.data;
-            setEstados(data);
-        } catch (error) {
-            console.log(`Erro ao recuperar a lista de estados: ${error}`);
-        }
-    }
-
-    const getPartidos = async() => {
-        try {
-            const tipo = 'partido'
-
-            const response = await userFetch.get(`/entidades/${tipo}`);
-            const data = response.data;
-            
-            setPartidos(data);
-
-        } catch (error) {
-            console.log(`Erro ao recuperar a lista de partidos: ${error}`);
-        }
-    }
-
-    const getEntidades = async (filtro) => {
-        try {
-            const tipo = 'partido';
-            const response = await userFetch.get(`/entidadesn/${tipo}`);
-            const data = response.data;
-    
-            const entidadesFiltradas = data.filter(entidade =>
-                entidade.Nome.toLowerCase().includes(filtro.toLowerCase())
-            );
-    
-            setEntidades(entidadesFiltradas);  // Atualizar o estado 'entidades'
-    
-            const nomesEntidades = entidadesFiltradas.map(entidade => entidade.Nome);
-    
-            setSuggestions(nomesEntidades);
-        } catch (error) {
-            console.log(`Erro ao recuperar a lista de entidades: ${error}`);
-        }
-    };
+    useEffect(() => {
+        getApoiador();
+    }, []);
 
 
-    const createApoiador = async(e) => {
+    //Receber os valores dos inputs
+    const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
+
+    const apoiadorEdit = async (e) => {
         e.preventDefault();
 
         try {
             
-            const post = {
-                nome, apelido, profissao, cpf, religiao, nascimento, classificacao, email, telefone, situacao, 
-                cep, cidade, estado, lagradouro, numero, bairro, quadra, pontoReferencia,  
-                entidadeNome: entidadeNome || inputValue, entidadeTipo, entidadeSigla, entidadeCargo, entidadeLideranca,
-                partido, partidoCargo, partidoLideranca,
-                informacoesAdicionais };
+            const response = await userFetch.put(`/apoiadores/${id}`,data);
 
-            console.log(post);
-                
-            const response = await userFetch.post("/apoiadores", post);
-
-            const msg = response.data.msg || "Usuário cadastrado com sucesso :) "; 
-
-            setResponseMessage(msg);
-
-            
             navigate('/apoiadores');
 
-
         } catch (error) {
-            console.log(`Erro ao cadastrar o apoiador: ${error}`);
-            setResponseMessage(error);
+            console.log('Deu erro:' + error);
         }
-
-    };
-
-    useEffect(() => {
-        getProfissoes();
-        getClassificacoes();
-        getSituacoes();
-        getTipoEntidade();
-        getEstados();
-        getPartidos();
-        getEntidades();
-    }, []);
-
-    useEffect(() => {
-        // Atualizar o campo de sigla quando a entidade selecionada muda
-        if (selectedEntidade) {
-            const siglaInput = document.getElementById('entidadeSigla');
-            if (siglaInput) {
-                siglaInput.value = selectedEntidade.Sigla || '';
-            }
-        }
-    }, [selectedEntidade, entidades]);
-
-
-    const handleInputChange = (e) => {
-        const value = e.target.value;
-        setInputValue(value);
-    
-        if (value.trim() === '') {
-            setEntidadeNome(''); // Definir entidadeNome como string vazia se o campo estiver vazio
-            setEntidade(null);
-            setSuggestions([]);
-        } else {
-            // Resetar entidadeNome se uma nova entrada de texto for iniciada
-            if (selectedEntidade) {
-                setEntidadeNome('');
-            }
-            getEntidades(value);
-        }
-    };
-    
-    const handleSuggestionClick = (suggestion) => {
-        setInputValue(suggestion);
-        setSuggestions([]);
-    
-        // Encontrar a entidade correspondente ao nome selecionado
-        const selectedEntity = entidades.find(entidade => entidade.Nome === suggestion);
-    
-        // Atualizar os estados 'entidadeNome' e 'entidadeSigla' apenas se a sugestão for clicada
-        if (selectedEntity) {
-            setEntidadeNome(selectedEntity.Nome);
-            setEntidadeSigla(selectedEntity.Sigla);
-            setSelectedEntidade(selectedEntity);
-        }
-    };
+    }
     
     
     
@@ -251,14 +144,14 @@ const ApoiadoresEdit = () => {
            <h2 className='subtitle-page'>Cadastre um novo apoiador.</h2>
 
             <div className='form-apoiador'>
-                <form onSubmit={createApoiador}>
+                <form onSubmit={(e) => apoiadorEdit(e)}>
 
                 <p className='form-session-title'>Informações Pessoais</p>
                 <div class="form-row">
 
                     <div class="form-group col-md-5">
                         <label htmlFor="nome">Nome</label>
-                        <input type="nome" class="form-control" id="nome" name='nome' placeholder="Nome" value={nome|| ''} onChange={(e) => setNome(e.target.value)} />
+                        <input type="nome" class="form-control" id="nome" name='nome' placeholder="Nome" value={data.Nome}  onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
@@ -268,7 +161,7 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="inputEstado">Profissão</label>
-                        <select id="inputEstado" class="form-control" value={profissao|| ''} onChange={(e) => setProfissao(e.target.value)}>
+                        <select id="inputEstado" class="form-control"  onChange={valueInput}>
                             <option selected>Escolher...</option>
                             {
                                 profissoes.map((profissao) => (
@@ -281,13 +174,13 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="nascimento">Data de Nascimento</label>
-                        <input type="date" class="form-control" id="nascimento" value={nascimento|| ''} onChange={(e) => setNascimento(e.target.value)}  />
+                        <input type="date" class="form-control" id="nascimento" value={data.DataNascimento} onChange={(e) => setNascimento(e.target.value)}  />
                     </div>
 
 
                     <div class="form-group">
                         <label htmlFor="classificacao">Classificação</label>
-                        <select id="classificacao" class="form-control" value={classificacao|| ''} onChange={(e) => setClassificacao(e.target.value)}>
+                        <select id="classificacao" class="form-control" value={data.Classificacao} onChange={(e) => setClassificacao(e.target.value)}>
                             <option selected>Escolher...</option>
                             
                             {
@@ -301,7 +194,7 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="situacao">Situação</label>
-                        <select id="situacao" class="form-control" value={situacao|| ''} onChange={(e) => setSituacao(e.target.value)} >
+                        <select id="situacao" class="form-control" value={data.Situacao} onChange={(e) => setSituacao(e.target.value)} >
                             <option selected>Escolher...</option>
                             {
                                 situacoes.map((situacao) => (
@@ -318,14 +211,14 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="email">E-mail</label>
-                        <input type="email" class="form-control" id="email" placeholder="E-mail" value={email|| ''} onChange={(e) => setEmail(e.target.value)} />
+                        <input type="email" class="form-control" id="email" placeholder="E-mail" value={data.Email}  onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
                         <label htmlFor="telefone">Telefone 
                         <span> <input type="checkbox" id='whatsapp' name='whatsapp' /> <FaWhatsapp /> </span>
                         </label>
-                        <input type="text" class="form-control" id="telefone" placeholder="Telefone" value={telefone|| ''} onChange={(e) => setTelefone(e.target.value)} />
+                        <input type="text" class="form-control" id="telefone" placeholder="Telefone" value={data?.TelefoneApoiador?.Numero}  onChange={valueInput}/>
                     </div>
                
                 </div>
@@ -335,17 +228,17 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input type="text" class="form-control" id="cep" name="cep" value={cep|| ''} onChange={(e) => setCep(e.target.value)}  />
+                        <input type="text" class="form-control" id="cep" name="cep" value={data?.EnderecoApoiador?.CEP}  onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
                         <label htmlFor="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" placeholder='Cidade' value={cidade|| ''} onChange={(e) => setCidade(e.target.value)}  />
+                        <input type="text" class="form-control" id="cidade" placeholder='Cidade' vaçue={data?.EnderecoApoiador?.CidadeApoiador?.Nome}   onChange={valueInput} />
                     </div>
                     
                     <div class="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" class="form-control" name='estado' value={estado|| ''} onChange={(e) => setEstado(e.target.value)} >
+                        <select id="estado" class="form-control" name='estado'  onChange={valueInput} >
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
@@ -357,28 +250,28 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="endereco">Lagradouro</label>
-                        <input type="text" class="form-control" id="endereco" value={lagradouro|| ''} onChange={(e) => setLagradouro(e.target.value)}  />
+                        <input type="text" class="form-control" id="endereco" value={data?.EnderecoApoiador?.Lagradouro} onChange={valueInput}  />
                     </div>
                     
                     <div class="form-group">
                         <label htmlFor="bairro">Bairro</label>
-                        <input type="text" class="form-control" id="bairro" value={bairro|| ''} onChange={(e) => setBairro(e.target.value)}  />
+                        <input type="text" class="form-control" id="bairro" value={data?.EnderecoApoiador?.Bairro} onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
                         <label htmlFor="bairro">Quadra</label>
-                        <input type="text" class="form-control" id="bairro" value={quadra|| ''} onChange={(e) => setQuadra(e.target.value)}  />
+                        <input type="text" class="form-control" id="bairro" value={data?.EnderecoApoiador?.Quadra} onChange={valueInput}  />
                     </div>
 
                     <div class="form-group">
                         <label htmlFor="numero">Numero</label>
-                        <input type="text" class="form-control" id="numero" value={numero|| ''} onChange={(e) => setNumero(e.target.value)}  />
+                        <input type="text" class="form-control" id="numero" value={data?.EnderecoApoiador?.Numero} onChange={valueInput}  />
                     </div>
 
 
                     <div class="form-group">
                         <label htmlFor="complemento">Ponto Referencia</label>
-                        <input type="text" class="form-control" id="complemento" value={pontoReferencia|| ''} onChange={(e) => setPontoReferencia(e.target.value)}  />
+                        <input type="text" class="form-control" id="complemento" value={data?.EnderecoApoiador?.PontoReferencia} onChange={valueInput} />
                     </div>
 
                 </div>
@@ -415,7 +308,7 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="entidadeNome">Nome</label>
-                        <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' value={inputValue}  onChange={handleInputChange} />
+                        <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' value={inputValue}   />
                         {suggestions.length > 0 && (
                             <ul>
                             {suggestions.map((suggestion, index) => (
