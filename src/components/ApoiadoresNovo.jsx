@@ -403,7 +403,7 @@ const ApoiadoresNovo = () => {
                     <div class="form-group">
                         <label htmlFor="entidadeTipo">Tipo</label>
                         <select id="entidadeTipo" class="form-control"  value={entidadeTipo|| ''} onChange={(e) => setEntidadeTipo(e.target.value)}>
-                            <option selected>Escolher...</option>
+                            <option selected >Escolher...</option>
                            {
                                 tiposEntidade.map((tipos) => (
                                     <option key={tipos.IdTipo} value={tipos.Tipo}>{tipos.Tipo}</option>
@@ -457,7 +457,7 @@ const ApoiadoresNovo = () => {
                 <div className="form-group">
                     <label htmlFor="partido">Agremiação partidária</label>
                     <select id="partido" className="form-control" value={partido || ''} onChange={(e) => setPartido(e.target.value)}>
-                        <option disabled>Escolher...</option>
+                        <option selected >Escolher...</option>
                         {partidos.map((partidoItem) => (
                             <option key={partidoItem.IdEntidade} value={partidoItem.Sigla}>
                                 {partidoItem.Sigla} - {partidoItem.Nome}

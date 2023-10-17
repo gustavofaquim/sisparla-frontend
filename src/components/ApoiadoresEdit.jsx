@@ -16,74 +16,36 @@ const ApoiadoresEdit = () => {
     const id = params.id;
     const navigate = useNavigate();
 
-    const [nome, setNome] = useState();
-    const [apelido, setApelido] = useState();
+    
     const [profissoes, setProfissoes] = useState([]);
-    const [profissao, setProfissao] = useState();
-    const [cpf, setCpf] = useState();
-    const [religiao, setReligiao] = useState();
-    const [nascimento, setNascimento] = useState();
     const [classificacoes, setClassificacoes] = useState([]);
-    const [classificacao, setClassificacao] = useState();
-    const [email, setEmail] = useState();
-    const [telefone, setTelefone] = useState();
     const [situacoes, setSituacoes] = useState([]);
-    const [situacao, setSituacao] = useState();
-    
-    const [cep, setCep] = useState();
-    const [cidade, setCidade] = useState();
     const [estados, setEstados] = useState([]);
-    const [estado, setEstado] = useState();
-    const [lagradouro, setLagradouro] = useState();
-    const [quadra, setQuadra] = useState();
-    const [numero, setNumero] = useState();
-    const [bairro, setBairro] = useState();
-    const [pontoReferencia, setPontoReferencia] = useState();
-
     const [partidos, setPartidos] = useState([]);
-    
-    const [entidades, setEntidades] = useState([]);
-    const [entidade, setEntidade] = useState();
     const [tiposEntidade, setTiposEntidade] = useState([]);
-    const [entidadeTipo, setEntidadeTipo] = useState();
-    const [entidadeNome, setEntidadeNome] = useState();
-    const [entidadeSigla, setEntidadeSigla] = useState();
-    const [entidadeCargo, setEntidadeCargo] = useState();
-    const [entidadeLideranca, setEntidadeLideranca] = useState();
-
     const [partido, setPartido] = useState();
-    const [partidoCargo, setPartidoCargo] = useState();
-    const [partidoLideranca, setPartidoLideranca] = useState();
-
-    const [informacoesAdicionais, setInformacoesAdicionais] = useState();
-
-    const [inputValue, setInputValue] = useState('');
     const [suggestions, setSuggestions] = useState([]);
-    const [selectedEntidade, setSelectedEntidade] = useState(null);
-
-
-    const [responseMessage, setResponseMessage] = useState();
+    
 
 
     const [data, setData] = useState({
-        title: '',
-        description: '',
-        image: '',
-        profissao: '',
-        cpf: '',
-        religiao: '',
-        nascimento: '',
-        classificacao: '',
-        email: '',
-        telefone: '',
-        situacao: '',
-        cep: '',
-        cidade: '',
-        estado: '',
-        lagradouro: '',
-        quadra: '',
-        numero: '',
-        bairro: '',
+        Nome: '',
+        Apelido: '',
+        Profissao: '',
+        CPF: '',
+        Religiao: '',
+        DataNascimento: '',
+        Classificacao: '',
+        Email: '',
+        Telefone: '',
+        Situacao: '',
+        CEP: '',
+        Cidade: '',
+        Estado: '',
+        Lagradouro: '',
+        Quadra: '',
+        Numero: '',
+        Bairro: '',
         pontoReferencia: '',
         partido: '',
         entidade: '',
@@ -100,7 +62,7 @@ const ApoiadoresEdit = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
-                console.log(response.data);   
+                 
             })
             .catch((error) => {
 
@@ -110,21 +72,78 @@ const ApoiadoresEdit = () => {
                     console.log("Api não respondeu");
                 }
             });
-    }
+    };
+    
+    const getSituacoes = async() => {
+        try {
+            
+            const response = await userFetch.get("/situacoesCadastros");            
+            const data = response.data;
+            setSituacoes(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar as informações de situacoes cadastrais: ${error}`);
+        }
+    };
+
+    const getClassificacoes = async() => {
+        try {
+            
+            const response = await userFetch.get("/classificacoes");
+            const data = response.data;
+            setClassificacoes(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar as informações de classificações: ${error}`);
+        }
+    };
+
+    const getTipoEntidade = async() => {
+        try {
+            
+            const response = await userFetch.get("/tiposEntidade");
+            const data = response.data;
+            setTiposEntidade(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar os tipos de entidades: ${error}`);
+        }
+    };
+
+    const getPartidos = async() => {
+        try {
+            const tipo = 'partido'
+
+            const response = await userFetch.get(`/entidades/${tipo}`);
+            const data = response.data;
+            
+            setPartidos(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de partidos: ${error}`);
+        }
+    };
 
 
     useEffect(() => {
         getApoiador();
+        getSituacoes();
+        getClassificacoes();
+        getTipoEntidade();
+        getPartidos();
     }, []);
 
 
     //Receber os valores dos inputs
+    
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
 
     const apoiadorEdit = async (e) => {
         e.preventDefault();
+        console.log('Dados do form');
+        console.log(data);
 
-        try {
+       /* try {
             
             const response = await userFetch.put(`/apoiadores/${id}`,data);
 
@@ -132,7 +151,7 @@ const ApoiadoresEdit = () => {
 
         } catch (error) {
             console.log('Deu erro:' + error);
-        }
+        } */
     }
 
     
@@ -166,7 +185,7 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group col-md-5">
                         <label htmlFor="nome">Nome</label>
-                        <input type="nome" class="form-control" id="nome" name='nome' placeholder="Nome" value={data.Nome}  onChange={valueInput} />
+                        <input type="nome" class="form-control" id="nome" name='Nome' placeholder="Nome" value={data.Nome}  onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
@@ -195,12 +214,12 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="classificacao">Classificação</label>
-                        <select id="classificacao" class="form-control" value={data.Classificacao}  onChange={valueInput}>
+                        <select id="classificacao" class="form-control"   onChange={valueInput}>
                             <option selected>Escolher...</option>
                             
                             {
                                 classificacoes.map((classificacao) => (
-                                    <option key={classificacao.IdClassificacao} value={classificacao.Descricao}>{classificacao.Descricao}</option>
+                                    <option key={classificacao.IdClassificacao} selected={classificacao.Descricao === data?.ClassificacaoApoiador?.Descricao} value={classificacao.Descricao}>{classificacao.Descricao}</option>
                                 ))
                             }
                         </select>
@@ -209,11 +228,11 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="situacao">Situação</label>
-                        <select id="situacao" class="form-control" value={data.Situacao} onChange={valueInput} >
+                        <select id="situacao" class="form-control" onChange={valueInput} >
                             <option selected>Escolher...</option>
                             {
                                 situacoes.map((situacao) => (
-                                    <option key={situacao.IdSituacao} value={situacao.Descricao}>{situacao.Descricao}</option>
+                                    <option key={situacao.IdSituacao} selected={situacao.Descricao === data?.SituacaoCadastroApoiador?.Descricao} value={situacao.Descricao}>{situacao.Descricao}</option>
                                 ))
                             }
                         </select>
@@ -231,9 +250,9 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="telefone">Telefone 
-                        <span> <input type="checkbox" id='whatsapp' name='whatsapp' /> <FaWhatsapp /> </span>
+                        <span> <input type="checkbox" id='whatsapp' name='Whatsapp' /> <FaWhatsapp /> </span>
                         </label>
-                        <input type="text" class="form-control" id="telefone" placeholder="Telefone" value={data?.TelefoneApoiador?.Numero}  onChange={valueInput}/>
+                        <input type="text" class="form-control" name="Telefone" id="telefone" placeholder="Telefone" value={data?.TelefoneApoiador?.Numero}  onChange={valueInput}/>
                     </div>
                
                 </div>
@@ -243,17 +262,17 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input type="text" class="form-control" id="cep" name="cep" value={data?.EnderecoApoiador?.CEP}  onChange={valueInput} />
+                        <input type="text" class="form-control" id="cep" name="CEP" value={data?.EnderecoApoiador?.CEP}  onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
                         <label htmlFor="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" placeholder='Cidade' vaçue={data?.EnderecoApoiador?.CidadeApoiador?.Nome}   onChange={valueInput} />
+                        <input type="text" class="form-control" name="Cidade" id="cidade" placeholder='Cidade' value={data?.EnderecoApoiador?.CidadeApoiador?.Nome}   onChange={valueInput} />
                     </div>
                     
                     <div class="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" class="form-control" name='estado'  onChange={valueInput} >
+                        <select id="estado" class="form-control" name='Estado'  onChange={valueInput} >
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
@@ -265,12 +284,12 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="endereco">Lagradouro</label>
-                        <input type="text" class="form-control" id="endereco" value={data?.EnderecoApoiador?.Lagradouro} onChange={valueInput}  />
+                        <input type="text" class="form-control" name="Lagradouro" id="endereco" value={data?.EnderecoApoiador?.Lagradouro} onChange={valueInput}  />
                     </div>
                     
                     <div class="form-group">
                         <label htmlFor="bairro">Bairro</label>
-                        <input type="text" class="form-control" id="bairro" value={data?.EnderecoApoiador?.Bairro} onChange={valueInput} />
+                        <input type="text" class="form-control" id="bairro" name="Bairro" value={data?.EnderecoApoiador?.Bairro} onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
@@ -298,12 +317,12 @@ const ApoiadoresEdit = () => {
                    <div class="form-group">
                     <p>Movimento ou Entidade ?</p>
                     <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="entidade" id="entidade" value=""  onChange={valueInput} />
+                            <input class="form-check-input" type="radio" name="Entidade" id="entidade" value=""  onChange={valueInput} />
                             <label class="form-check-label" for="entidade">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="entidade" id="entidade2" value="nao"  onChange={valueInput}  />
+                            <input class="form-check-input" type="radio" name="Entidade" id="entidade2" value="nao"  onChange={valueInput}  />
                             <label class="form-check-label" for="entidade2">Não</label>
                         </div>
                     </div>
@@ -311,12 +330,12 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="entidadeTipo">Tipo</label>
-                        <input type="text" value={vinculacaoEntidade[0].VinculacaoEntidade.Tipo} />
-                        <select id="entidadeTipo" class="form-control" value={vinculacaoEntidade[0].VinculacaoEntidade.Tipo} onChange={valueInput}>
+                       
+                        <select id="entidadeTipo" class="form-control" value={vinculacaoEntidade[0]?.VinculacaoEntidade?.Tipo} onChange={valueInput}>
                             <option selected>Escolher...</option>
                            {
                                 tiposEntidade.map((tipos) => (
-                                    <option key={tipos.IdTipo} value={tipos.Tipo}>{tipos.Tipo}</option>
+                                    <option key={tipos.IdTipo} selected={tipos.Tipo === vinculacaoEntidade[0]?.VinculacaoEntidade?.Tipo} value={tipos.Tipo}>{tipos.Tipo}</option>
                                 ))
                            }
                         </select>
@@ -324,7 +343,7 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="entidadeNome">Nome</label>
-                        <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' value={vinculacaoEntidade[0].VinculacaoEntidade.Nome}   />
+                        <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' value={vinculacaoEntidade[0]?.VinculacaoEntidade?.Nome}   />
                         {suggestions.length > 0 && (
                             <ul>
                             {suggestions.map((suggestion, index) => (
@@ -338,23 +357,23 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="entidadeSigla">Sigla</label>
-                        <input type="text" class="form-control" id="entidadeSigla"  value={vinculacaoEntidade[0].VinculacaoEntidade.Sigla} onChange={(e) => setEntidadeSigla(e.target.value)} />
+                        <input type="text" class="form-control" id="entidadeSigla"  value={vinculacaoEntidade[0]?.VinculacaoEntidade.Sigla} onChange={(e) => setEntidadeSigla(e.target.value)} />
                     </div>
 
                     <div class="form-group">
                         <label htmlFor="entidadeCargo">Cargo</label>
-                        <input type="text" class="form-control" id="entidadeCargo" value={vinculacaoEntidade[0].Cargo} onChange={(e) => setEntidadeCargo(e.target.value)} />
+                        <input type="text" class="form-control" id="entidadeCargo" value={vinculacaoEntidade[0]?.Cargo} onChange={(e) => setEntidadeCargo(e.target.value)} />
                     </div>
 
                     <div class="form-group">
                         <p>Liderança ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="lideranca" id="lideranca1" value="sim" onChange={(e) => setEntidadeLideranca(e.target.value)}  />
+                            <input class="form-check-input" type="radio" name="Lideranca" id="lideranca1" value="sim" onChange={(e) => setEntidadeLideranca(e.target.value)}  />
                             <label class="form-check-label" for="lideranca1">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="lideranca" id="lideranca2" value="nao"  onChange={(e) => setEntidadeLideranca(e.target.value)} />
+                            <input class="form-check-input" type="radio" name="Lideranca" id="lideranca2" value="nao"  onChange={(e) => setEntidadeLideranca(e.target.value)} />
                             <label class="form-check-label" for="lideranca2">Não</label>
                         </div>
                    </div>
@@ -366,10 +385,10 @@ const ApoiadoresEdit = () => {
                     
                 <div className="form-group">
                     <label htmlFor="partido">Agremiação partidária</label>
-                    <select id="partido" className="form-control" value={vinculacaoPartiPolitico[0].VinculacaoEntidade.Nome} onChange={(e) => setPartido(e.target.value)}>
-                        <option disabled>Escolher...</option>
+                    <select id="partido" className="form-control"  onChange={(e) => setPartido(e.target.value)}>
+                        <option >Escolher...</option>
                         {partidos.map((partidoItem) => (
-                            <option key={partidoItem.IdEntidade} value={vinculacaoPartiPolitico[0].VinculacaoEntidade.Nome}>
+                            <option key={partidoItem.IdEntidade} selected={partidoItem.Nome === vinculacaoPartiPolitico[0]?.VinculacaoEntidade?.Nome}  value={vinculacaoPartiPolitico[0]?.VinculacaoEntidade?.Nome}>
                                 {partidoItem.Sigla} - {partidoItem.Nome}
                             </option>
                         ))}
@@ -378,7 +397,7 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="partidoCargo">Cargo</label>
-                        <input type="text" class="form-control" id="partidoCargo" value={vinculacaoPartiPolitico[0].Cargo} onChange={valueInput} />
+                        <input type="text" class="form-control" id="partidoCargo" value={vinculacaoPartiPolitico[0]?.Cargo} onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
@@ -399,7 +418,7 @@ const ApoiadoresEdit = () => {
                 <div class="form-row">
                     <div class="form-group">
                         <label for="infoAdicional">Anotações Internas</label>
-                        <textarea class="form-control" id="infoAdicional" name='infoAdicional'  value={data.InformacaoAdicional} onChange={valueInput} ></textarea>
+                        <textarea class="form-control" id="infoAdicional" name='InformacaoAdicional'  value={data.InformacaoAdicional} onChange={valueInput} ></textarea>
                     </div> 
                 </div>
 
