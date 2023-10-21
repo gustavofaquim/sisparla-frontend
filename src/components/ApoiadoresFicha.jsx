@@ -14,30 +14,7 @@ const ApoiadoresFicha = () => {
     const navigate = useNavigate();
 
 
-    const [data, setData] = useState({
-        title: '',
-        description: '',
-        image: '',
-        profissao: '',
-        cpf: '',
-        religiao: '',
-        nascimento: '',
-        classificacao: '',
-        email: '',
-        telefone: '',
-        situacao: '',
-        cep: '',
-        cidade: '',
-        estado: '',
-        lagradouro: '',
-        quadra: '',
-        numero: '',
-        bairro: '',
-        pontoReferencia: '',
-        partido: '',
-        entidade: '',
-        informacoesAdicionais: ''
-    });
+    const [data, setData] = useState({});
 
     const getApoiador = async() => {
         
@@ -49,7 +26,6 @@ const ApoiadoresFicha = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
-                console.log(response.data);   
             })
             .catch((error) => {
 
@@ -85,7 +61,7 @@ const ApoiadoresFicha = () => {
     }
 
 
-    const dataNascimento = formataData(data.DataNascimento);
+    const dataNascimento = formataData(data.dataNascimento);
 
     return(
         <div className="apoiador-ficha">
@@ -93,30 +69,29 @@ const ApoiadoresFicha = () => {
 
             
             <div className="dados-topo">
-                <h2>{data.Nome}</h2>
-                <span>{data.Apelido}</span>
-                <span>Celular: {data?.TelefoneApoiador?.Numero}</span>
+                <h2>{data.nome}</h2>
+                <span>{data.apelido}</span>
+                <span>Celular: {data.numeroTelefone}</span>
             </div>
 
             <div className="dados-corpo">
                 <span>Data de Nascimento: {dataNascimento}</span>
-                <span>{data.Email}</span>
-                <span>{data.Religiao}</span>
-                <span>{data.Profissao}</span>
+                <span>{data.email}</span>
+                <span>{data.religiao}</span>
+                <span>{data.profissao}</span>
             </div>
 
             <div className="dados-endereco">
-                <span>{data?.EnderecoApoiador?.CidadeApoiador?.Nome}</span>
-                <span>{data?.EnderecoApoiador?.CidadeApoiador?.Nome}</span>
-                <span>{data?.EnderecoApoiador?.CEP}</span>
-                <span>{data?.EnderecoApoiador?.Bairro}</span>
-                <span>{data?.EnderecoApoiador?.Lagradouro}</span>
-                <span>{data?.EnderecoApoiador?.Numero}</span>
-                <span>{data?.EnderecoApoiador?.Quadra}</span>
-                <span>{data?.EnderecoApoiador?.PontoReferencia}</span>
+                <span>{data.cidade}</span>
+                <span>{data.cep}</span>
+                <span>{data.bairro}</span>
+                <span>{data.lagradouro}</span>
+                <span>{data.numeroEndereco}</span>
+                <span>{data.quadra}</span>
+                <span>{data.pontoReferencia}</span>
             </div>
             
-            <Link to={`/apoiador-edit/${data.IdApoiador}`}><button className="btn" >Editar Dados</button></Link>
+            <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn" >Editar Dados</button></Link>
         </div>
 
         
