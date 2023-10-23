@@ -71,6 +71,7 @@ const ApoiadoresEdit = () => {
             const response = await userFetch.get("/classificacoes");
             const data = response.data;
             setClassificacoes(data);
+          
 
         } catch (error) {
             console.log(`Erro ao recuperar as informações de classificações: ${error}`);
@@ -210,7 +211,7 @@ const ApoiadoresEdit = () => {
                             
                             {
                                 classificacoes.map((classificacao) => (
-                                    <option key={classificacao.IdClassificacao} selected={classificacao.IdClassificacao === data.IdClassificacao} value={classificacao.IdClassificacao}>{classificacao.Descricao}</option>
+                                    <option key={classificacao.idClassificacao} selected={classificacao.idClassificacao === data.idClassificacao} value={classificacao.idClassificacao}>{classificacao.Descricao}</option>
                                 ))
                             }
                         </select>
