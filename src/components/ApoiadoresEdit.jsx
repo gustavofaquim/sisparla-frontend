@@ -218,8 +218,8 @@ const ApoiadoresEdit = () => {
                             <option >Escolher...</option>
                             {
                                 religioes.map((religiao) => (
-                                    
-                                    <option key={religiao.IdReligiao} selected={religiao.Nome === data.religiao}  value={data.religiao}>{religiao.Nome}</option>
+\
+                                    <option key={religiao.IdReligiao} selected={religiao.Nome === data.religiao}  value={religiao.Nome}>{religiao.Nome}</option>
                                 ))
                             }
                         </select>
