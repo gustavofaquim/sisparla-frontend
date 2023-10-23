@@ -19,6 +19,7 @@ const ApoiadoresEdit = () => {
     
     const [profissoes, setProfissoes] = useState([]);
     const [classificacoes, setClassificacoes] = useState([]);
+    const [religioes, setReligioes] = useState([]);
     const [situacoes, setSituacoes] = useState([]);
     const [estados, setEstados] = useState([]);
     const [partidos, setPartidos] = useState([]);
@@ -128,6 +129,18 @@ const ApoiadoresEdit = () => {
         }
     };
 
+    const getReligioes = async() => {
+
+        try {
+            const response = await userFetch.get('/religioes');
+            const data = response.data;
+            setReligioes(data);
+           
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de religioes: ${error}`);
+        }
+    }
+
 
     useEffect(() => {
         getApoiador();
@@ -137,6 +150,7 @@ const ApoiadoresEdit = () => {
         getPartidos();
         getProfissoes();
         getEstados();
+        getReligioes();
     }, []);
 
 
@@ -193,6 +207,19 @@ const ApoiadoresEdit = () => {
                                 profissoes.map((profissao) => (
                                     
                                     <option key={profissao.IdProfissao} selected={profissao.Nome === data.profissao}  value={profissao.profissao}>{profissao.Nome}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label htmlFor="religiao">Religião</label>
+                        <select id="religiao" name='religiao' class="form-control"  onChange={valueInput}>
+                            <option >Escolher...</option>
+                            {
+                                religioes.map((religiao) => (
+                                    
+                                    <option key={religiao.IdReligiao} selected={religiao.Nome === data.religiao}  value={data.religiao}>{religiao.Nome}</option>
                                 ))
                             }
                         </select>
