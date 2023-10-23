@@ -89,6 +89,16 @@ const ApoiadoresEdit = () => {
         }
     };
 
+    const getEstados = async() => {
+        try {
+            const response = await userFetch.get("/estados");
+            const data = response.data;
+            setEstados(data);
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de estados: ${error}`);
+        }
+    };
+
     const getPartidos = async() => {
         try {
             const tipo = 'partido'
@@ -125,6 +135,7 @@ const ApoiadoresEdit = () => {
         getTipoEntidade();
         getPartidos();
         getProfissoes();
+        getEstados();
     }, []);
 
 
@@ -253,11 +264,11 @@ const ApoiadoresEdit = () => {
                     
                     <div class="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" class="form-control" name='estado'  onChange={valueInput} >
+                        <select id="estado" class="form-control" name='idEstado'  onChange={valueInput} >
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
-                                    <option key={estado.IdEstado} value={estado.UF}>{estado.UF}</option>
+                                    <option key={estado.IdEstado} selected={estado.IdEstado === data.estado}  value={estado.IdEstado}>{estado.UF}</option>
                                 ))
                             }
                         </select>
