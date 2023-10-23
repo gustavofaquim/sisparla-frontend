@@ -187,12 +187,12 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="profissao">Profissão</label>
-                        <select id="profissao" name='idProfissao' class="form-control"  onChange={valueInput}>
+                        <select id="profissao" name='profissao' class="form-control"  onChange={valueInput}>
                             <option >Escolher...</option>
                             {
                                 profissoes.map((profissao) => (
                                     
-                                    <option key={profissao.IdProfissao} selected={profissao.IdProfissao === data.IdProfissao}  value={profissao.IdProfissao}>{profissao.Nome}</option>
+                                    <option key={profissao.IdProfissao} selected={profissao.Nome === data.profissao}  value={profissao.profissao}>{profissao.Nome}</option>
                                 ))
                             }
                         </select>
