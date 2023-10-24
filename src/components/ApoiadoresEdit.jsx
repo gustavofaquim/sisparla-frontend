@@ -218,7 +218,7 @@ const ApoiadoresEdit = () => {
                             <option >Escolher...</option>
                             {
                                 religioes.map((religiao) => (
-\
+
                                     <option key={religiao.IdReligiao} selected={religiao.Nome === data.religiao}  value={religiao.Nome}>{religiao.Nome}</option>
                                 ))
                             }
@@ -271,7 +271,7 @@ const ApoiadoresEdit = () => {
                         <label htmlFor="telefone">Telefone 
                         <span> <input type="checkbox" id='whatsapp' checked={data.telefoneWhatsApp} name='Whatsapp' /> <FaWhatsapp /> </span>
                         </label>
-                        <input type="text" class="form-control" name="TelefoneApoiador.Numero" id="numeroTelefone" placeholder="Telefone" value={data.numeroTelefone}  onChange={valueInput}/>
+                        <input type="text" class="form-control" name="numeroTelefone" id="numeroTelefone" placeholder="Telefone" value={data.numeroTelefone}  onChange={valueInput}/>
                     </div>
                
                 </div>
