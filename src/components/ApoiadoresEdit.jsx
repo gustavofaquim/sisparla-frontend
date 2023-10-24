@@ -218,11 +218,6 @@ const ApoiadoresEdit = () => {
                             <option >Escolher...</option>
                             {
                                 religioes.map((religiao) => (
-<<<<<<< Updated upstream
-
-=======
-                                    
->>>>>>> Stashed changes
                                     <option key={religiao.IdReligiao} selected={religiao.Nome === data.religiao}  value={religiao.Nome}>{religiao.Nome}</option>
                                 ))
                             }
