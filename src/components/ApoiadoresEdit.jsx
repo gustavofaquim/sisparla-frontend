@@ -272,6 +272,7 @@ const ApoiadoresEdit = () => {
                         </label>
                         <input type="text" class="form-control" name="numeroTelefone" id="numeroTelefone" placeholder="Telefone" value={data.numeroTelefone}  onChange={valueInput}/>
                     </div>
+                    <input type="hidden"  value={data.numeroAntigo} />
                
                 </div>
 
