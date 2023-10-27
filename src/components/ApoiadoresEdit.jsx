@@ -268,7 +268,7 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="telefone">Telefone 
-                        <span> <input type="checkbox" id='whatsapp' checked={data.telefoneWhatsApp} name='Whatsapp' /> <FaWhatsapp /> </span>
+                        <span> <input type="checkbox" id='whatsapp' checked={data.numeroWhatsapp} name='numeroWhatsapp' onChange={valueInput} /> <FaWhatsapp /> </span>
                         </label>
                         <input type="text" class="form-control" name="numeroTelefone" id="numeroTelefone" placeholder="Telefone" value={data.numeroTelefone}  onChange={valueInput}/>
                     </div>
