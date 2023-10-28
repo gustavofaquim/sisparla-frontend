@@ -16,6 +16,7 @@ const ApoiadoresFicha = () => {
 
     const [data, setData] = useState({});
 
+
     const getApoiador = async() => {
         
         if(id === undefined){
@@ -26,6 +27,7 @@ const ApoiadoresFicha = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
+                console.log(response.data);
             })
             .catch((error) => {
 
@@ -65,33 +67,55 @@ const ApoiadoresFicha = () => {
 
     return(
         <div className="apoiador-ficha">
-            <h3>Ficha de Cadastro</h3>
 
-            
             <div className="dados-topo">
                 <h2>{data.nome}</h2>
                 <span>{data.apelido}</span>
                 <span>Celular: {data.numeroTelefone}</span>
             </div>
 
+
             <div className="dados-corpo">
-                <span>Data de Nascimento: {dataNascimento}</span>
-                <span>{data.email}</span>
-                <span>{data.religiao}</span>
-                <span>{data.profissao}</span>
+                <p className='session-title'>Informações Pessoais</p>
+                <span>Data de Nascimento: {dataNascimento || 'Não informado'} </span>
+                <span>E-mail: {data.email || 'Não informado'}</span>
+                <span>Religião: {data.religiao || 'Não informado'}</span>
+                <span>Profissão: {data.profissao || 'Não informado'}</span>
             </div>
 
+           
             <div className="dados-endereco">
-                <span>{data.cidade}</span>
-                <span>{data.cep}</span>
-                <span>{data.bairro}</span>
-                <span>{data.lagradouro}</span>
-                <span>{data.numeroEndereco}</span>
-                <span>{data.quadra}</span>
-                <span>{data.pontoReferencia}</span>
+                <p className='session-title'>Endereço</p>
+                <span>{data.lagradouro} nº {data.numeroEndereco || '0'} - {data.bairro} Qd. {data.quadra}</span>
+                <span>Completo: {data.pontoReferencia}</span>
+                <span>{data.cidade} CEP: {data.CEP}</span>
             </div>
             
-            <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn" >Editar Dados</button></Link>
+            {data.entidadeNome &&
+                <>
+                <div className="dados-entidade">
+                    <p className='session-title'>Movimento Social/Sindical/Entidade</p>
+                    <span>{data.entidadeNome}</span>
+                    <span> Liderança: {data.entidadeLideranca}</span>
+                    <span>Cargo: {data.entidadeCargo}</span>
+                </div>
+                </>
+            }
+
+            {data.partidoId &&
+                <>
+                <div className="dados-partido">
+                    <p className='session-title'>Informações Pardidárias</p>
+                    <span>{data.partidoNome}</span>
+                    <span> Liderança: {data.partidoLideranca}</span>
+                    <span>Cargo: {data.partidoCargo}</span>
+                </div>
+                </>
+            }
+            <div className="div-btn">
+                <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn" >Editar Dados</button></Link>
+                <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
+            </div>
         </div>
 
         

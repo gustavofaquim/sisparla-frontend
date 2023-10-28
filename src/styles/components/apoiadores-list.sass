@@ -6,7 +6,26 @@
 
     .novo-apoiador
         margin-top: 4rem
-        border: 1px solid red
+       
+        font-size: 1em
+        justify-content: center
+        padding: 0.3em
+        width: 20%
+        max-width: 230px
+        text-align: center
+        border-radius: 4px
+
+        &:hover
+            background: variables.$cor-destaque
+
+            a
+                color: variables.$cor-fundo-branco
+
+        a
+            color: variables.$cor-destaque
+            text-decoration: none
+
+     
 
     table
         margin-top: 2rem
@@ -63,10 +82,10 @@
 
     .filtro-busca
         display: flex
-        width: 50%
+        width: 80%
         margin: auto
         text-align: center
-        padding: 5px
+        padding: 10px
         margin-top: 50px
        
 
@@ -74,11 +93,11 @@
             width: 100%
 
         input
-            width: 70%
+            width: 80%
             padding: 6px
             border-radius: 3px
-            height: 2.5rem
-            font-size: 0.9rem
+            height: 2.9rem
+            font-size: 1rem
             border: 0px solid #c4c9d0
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
             font-family: variables.$font-family

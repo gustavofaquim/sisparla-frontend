@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import userFetch from "../axios/config.js";
 import { useState, useEffect } from "react";
+import Autosuggest from 'react-autosuggest';
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -28,8 +29,21 @@ const ApoiadoresEdit = () => {
     const [suggestions, setSuggestions] = useState([]);
     
 
-
+  
     const [data, setData] = useState({});
+
+
+
+
+    
+
+    const inputProps = {
+        placeholder: 'Nome do Movimento Social ou Sindicato',
+        data,
+       
+    };
+
+
 
     const getApoiador = async() => {
         
@@ -41,6 +55,7 @@ const ApoiadoresEdit = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
+                console.log(response.data);
                  
             })
             .catch((error) => {
@@ -100,6 +115,27 @@ const ApoiadoresEdit = () => {
             console.log(`Erro ao recuperar a lista de estados: ${error}`);
         }
     };
+
+    const getEntidades = async (filtro) => {
+        try {
+            const tipo = 'partido';
+            const response = await userFetch.get(`/entidadesn/${tipo}`);
+            const data = response.data;
+    
+            const entidadesFiltradas = data.filter(entidade =>
+                entidade.Nome.toLowerCase().includes(filtro.toLowerCase())
+            );
+    
+            setEntidades(entidadesFiltradas);  // Atualizar o estado 'entidades'
+    
+            const nomesEntidades = entidadesFiltradas.map(entidade => entidade.Nome);
+    
+            setSuggestions(nomesEntidades);
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de entidades: ${error}`);
+        }
+    };
+
 
     const getPartidos = async() => {
         try {
@@ -177,11 +213,13 @@ const ApoiadoresEdit = () => {
     
 
     
+
+    
     return(
 
         <div className="cadastrar-apoiador">
-           <h1 className='title-page'>Novo Apoiador</h1>
-           <h2 className='subtitle-page'>Cadastre um novo apoiador.</h2>
+           <h1 className='title-page'>Atualizar Dados Cadastrais</h1>
+           <h2 className='subtitle-page'>Atualize as informações cadastrais.</h2>
 
             <div className='form-apoiador'>
                 <form onSubmit={(e) => apoiadorEdit(e)}>
@@ -351,20 +389,11 @@ const ApoiadoresEdit = () => {
                     <div class="form-group">
                         <label htmlFor="entidadeNome">Nome</label>
                         <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' name="entidadeNome" value={data.entidadeNome}  onChange={valueInput} />
-                        {suggestions.length > 0 && (
-                            <ul>
-                            {suggestions.map((suggestion, index) => (
-                                <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                                {suggestion}
-                                </li>
-                            ))}
-                            </ul>
-                        )}
-                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label htmlFor="entidadeSigla">Sigla</label>
-                        <input type="text" class="form-control" id="entidadeSigla" name="entidadeSigla"  value={data.enntidadeSigla} onChange={valueInput} />
+                        <input type="text" class="form-control" id="entidadeSigla" name="entidadeSigla"  value={data.entidadeSigla} onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
@@ -430,7 +459,7 @@ const ApoiadoresEdit = () => {
                 </div>
 
                 <div className='btn'>
-                    <button type="submit" class="btn btn-primary btn-cadastrar" >Cadastrar Apoiador</button>
+                    <button type="submit" class="btn btn-primary btn-cadastrar" >Atualizar Dados</button>
                 </div>
                 
 

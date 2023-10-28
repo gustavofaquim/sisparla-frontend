@@ -3,11 +3,37 @@
 
 .apoiador-ficha
     @include mixins.paginas
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-around
 
     div
-        border: 1px solid red
         padding: 1rem
-
+       
         span
             display: block
+
+    .dados-topo
+        width: 100%
+    
+    .dados-corpo,
+    .dados-endereco,
+    .dados-entidade,
+    .dados-partido 
+        flex: 1
+        min-width: 30vh
+        margin: 10px
+    
+    .session-title
+        font-size: 1.1rem
+        text-transform: uppercase
+        color: variables.$cor-destaque
+
+    .div-btn
+        width: 100%
+
+    .btn-add-evento
+        margin-left: 20px
+        background-color: variables.$cor-ativo
+        color: variables.$cor-fundo-branco
         

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import userFetch from "../axios/config.js";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
 
 
 import "../styles/components/apoiadores-list.sass";
@@ -55,10 +56,11 @@ const ApoiadoresList = () => {
             <h2 className='subtitle-page'>Lista de todos os eleitores ativos, desativos e com cadastro incompleto.</h2>
 
             <div className='novo-apoiador'>
-             Adicionar Novo Apoiador
+             <Link to={`/novo-apoiador`}><FaCirclePlus /> Adicionar Novo Apoiador</Link>
             </div>
             <div className="filtro-busca">
                 <div>
+                    <FaMagnifyingGlass />
                     <input type="text" placeholder="Digite um termo de busca" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
                     
                 </div>
