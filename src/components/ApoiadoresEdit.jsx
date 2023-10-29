@@ -27,21 +27,8 @@ const ApoiadoresEdit = () => {
     const [tiposEntidade, setTiposEntidade] = useState([]);
     const [partido, setPartido] = useState();
     const [suggestions, setSuggestions] = useState([]);
-    
-
-  
+      
     const [data, setData] = useState({});
-
-
-
-
-    
-
-    const inputProps = {
-        placeholder: 'Nome do Movimento Social ou Sindicato',
-        data,
-       
-    };
 
 
 
@@ -139,9 +126,8 @@ const ApoiadoresEdit = () => {
 
     const getPartidos = async() => {
         try {
-            const tipo = 'partido'
-
-            const response = await userFetch.get(`/entidades/${tipo}`);
+        
+            const response = await userFetch.get(`/partidos/`);
             const data = response.data;
             
             setPartidos(data);
@@ -424,7 +410,7 @@ const ApoiadoresEdit = () => {
                     <select id="partido" className="form-control" name="partidoId" onChange={valueInput}>
                         <option >Escolher...</option>
                         {partidos.map((partidoItem) => (
-                            <option key={partidoItem.IdEntidade} selected={partidoItem.IdEntidade === data.partidoId}  value={partidoItem.IdEntidade}>
+                            <option key={partidoItem.IdPartido} selected={partidoItem.IdPartido === data.partidoId}  value={partidoItem.IdPartido}>
                                 {partidoItem.Sigla} - {partidoItem.Nome}
                             </option>
                         ))}

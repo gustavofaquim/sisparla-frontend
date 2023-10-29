@@ -60,8 +60,8 @@ const ApoiadoresList = () => {
             </div>
             <div className="filtro-busca">
                 <div>
-                    <FaMagnifyingGlass />
-                    <input type="text" placeholder="Digite um termo de busca" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                   
+                    <input type="text" placeholder="🔎 Digite um termo de busca" style={{ paddingLeft: '20px' }} value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
                     
                 </div>
             </div>

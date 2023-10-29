@@ -113,7 +113,7 @@ const ApoiadoresFicha = () => {
                 </>
             }
             <div className="div-btn">
-                <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn" >Editar Dados</button></Link>
+                <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn btn-editar" >Editar Dados</button></Link>
                 <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
             </div>
         </div>
