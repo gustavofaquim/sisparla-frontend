@@ -49,7 +49,7 @@ const ApoiadoresNovo = () => {
     const [entidadeCargo, setEntidadeCargo] = useState();
     const [entidadeLideranca, setEntidadeLideranca] = useState();
 
-    const [partido, setPartido] = useState();
+    const [partidoId, setPartidoId] = useState();
     const [partidoCargo, setPartidoCargo] = useState();
     const [partidoLideranca, setPartidoLideranca] = useState();
 
@@ -125,10 +125,10 @@ const ApoiadoresNovo = () => {
 
     const getPartidos = async() => {
         try {
-            const tipo = 'partido'
 
-            const response = await userFetch.get(`/entidades/${tipo}`);
+            const response = await userFetch.get(`/partidos/`);
             const data = response.data;
+            console.log(response.data)
             
             setPartidos(data);
 
@@ -166,7 +166,7 @@ const ApoiadoresNovo = () => {
                 nome, apelido, profissao, cpf, religiao, nascimento, classificacao, email, telefone, situacao, 
                 cep, cidade, estado, lagradouro, numero, bairro, quadra, pontoReferencia,  
                 entidadeNome: entidadeNome || inputValue, entidadeTipo, entidadeSigla, entidadeCargo, entidadeLideranca,
-                partido, partidoCargo, partidoLideranca,
+                partidoId, partidoCargo, partidoLideranca,
                 informacoesAdicionais };
 
             console.log(post);
@@ -455,11 +455,11 @@ const ApoiadoresNovo = () => {
                 <div class="form-row">
                     
                 <div className="form-group">
-                    <label htmlFor="partido">Agremiação partidária</label>
-                    <select id="partido" className="form-control" value={partido || ''} onChange={(e) => setPartido(e.target.value)}>
+                    <label htmlFor="partidoId">Agremiação partidária</label>
+                    <select id="partidoId" className="form-control" name='partidoId' value={partidoId || ''}  onChange={(e) => setPartidoId(e.target.value)}>
                         <option selected >Escolher...</option>
                         {partidos.map((partidoItem) => (
-                            <option key={partidoItem.IdEntidade} value={partidoItem.Sigla}>
+                            <option key={partidoItem.IdPartido} value={partidoItem.IdPartido}>
                                 {partidoItem.Sigla} - {partidoItem.Nome}
                             </option>
                         ))}
