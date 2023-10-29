@@ -26,11 +26,21 @@ const ApoiadoresEdit = () => {
     const [partidos, setPartidos] = useState([]);
     const [tiposEntidade, setTiposEntidade] = useState([]);
     const [partido, setPartido] = useState();
+    
+    const [selectedEntidade, setSelectedEntidade] = useState(null);
+    const [entidades, setEntidades] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
       
     const [data, setData] = useState({});
 
 
+    const onSuggestionsFetchRequested = ({ value }) => {
+        getEntidades(value); // Chame sua função existente para obter entidades
+      };
+      
+      const onSuggestionsClearRequested = () => {
+        setSuggestions([]); // Limpe as sugestões quando necessário
+      };
 
     const getApoiador = async() => {
         
@@ -113,11 +123,9 @@ const ApoiadoresEdit = () => {
                 entidade.Nome.toLowerCase().includes(filtro.toLowerCase())
             );
     
-            setEntidades(entidadesFiltradas);  // Atualizar o estado 'entidades'
-    
-            const nomesEntidades = entidadesFiltradas.map(entidade => entidade.Nome);
-    
-            setSuggestions(nomesEntidades);
+            setEntidades(entidadesFiltradas);
+            setSuggestions(entidadesFiltradas);
+            setSelectedEntidade(null);
         } catch (error) {
             console.log(`Erro ao recuperar a lista de entidades: ${error}`);
         }
@@ -316,7 +324,7 @@ const ApoiadoresEdit = () => {
                     
                     <div class="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" class="form-control" name='idEstado'  onChange={valueInput} >
+                        <select id="estado" class="form-control" name='estado'  onChange={valueInput} >
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
@@ -374,12 +382,36 @@ const ApoiadoresEdit = () => {
 
                     <div class="form-group">
                         <label htmlFor="entidadeNome">Nome</label>
-                        <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' name="entidadeNome" value={data.entidadeNome}  onChange={valueInput} />
+                           
+
+                        <Autosuggest className="form-control"
+                            suggestions={suggestions}
+                            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                            onSuggestionsClearRequested={onSuggestionsClearRequested}
+                            getSuggestionValue={(entidade) => entidade.Nome}
+                            renderSuggestion={(entidade) => <div>{entidade.Nome}</div>}
+                            inputProps={{
+                                placeholder: 'Digite o nome da entidade',
+                                className: 'autosuggest',
+                                value: selectedEntidade ? selectedEntidade.Nome : data.entidadeNome || '', // Use a entidade selecionada se existir, senão use o valor do estado
+                                onChange: (e, { newValue }) => {
+                                    setSelectedEntidade(null);
+                                    valueInput({ target: { name: 'entidadeNome', value: newValue } });
+                                },
+                            }}
+                            // Adicione a propriedade onSuggestionSelected para lidar com a seleção de uma sugestão
+                            onSuggestionSelected={(event, { suggestion }) => {
+                                setSelectedEntidade(suggestion);
+                                valueInput({ target: { name: 'entidadeNome', value: suggestion.Nome } });
+                                valueInput({ target: { name: 'entidadeSigla', value: suggestion.Sigla } });
+                            }}
+                        /> 
+                    
                     </div>
 
                     <div class="form-group">
                         <label htmlFor="entidadeSigla">Sigla</label>
-                        <input type="text" class="form-control" id="entidadeSigla" name="entidadeSigla"  value={data.entidadeSigla} onChange={valueInput} />
+                        <input type="text" className="form-control" id="entidadeSigla" name="entidadeSigla"  value={data.entidadeSigla} onChange={valueInput} />
                     </div>
 
                     <div class="form-group">
@@ -390,12 +422,12 @@ const ApoiadoresEdit = () => {
                     <div class="form-group">
                         <p>Liderança ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="entidadeLideranca" id="lideranca1" value="sim" checked={data.entidadeLideranca == "s"} onChange={valueInput} />
+                            <input class="form-check-input" type="radio" name="entidadeLideranca" id="lideranca1" value="s" checked={data.entidadeLideranca == "s"} onChange={valueInput} />
                             <label class="form-check-label" for="lideranca1">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="entidadeLideranca" id="lideranca2" value="nao" checked={data.entidadeLideranca == "n"}  onChange={valueInput} />
+                            <input class="form-check-input" type="radio" name="entidadeLideranca" id="lideranca2" value="n" checked={data.entidadeLideranca == "n"}  onChange={valueInput} />
                             <label class="form-check-label" for="lideranca2">Não</label>
                         </div>
                    </div>

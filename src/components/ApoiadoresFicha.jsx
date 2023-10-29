@@ -84,12 +84,17 @@ const ApoiadoresFicha = () => {
             </div>
 
            
-            <div className="dados-endereco">
-                <p className='session-title'>Endereço</p>
-                <span>{data.lagradouro} nº {data.numeroEndereco || '0'} - {data.bairro} Qd. {data.quadra}</span>
-                <span>Completo: {data.pontoReferencia}</span>
-                <span>{data.cidade} CEP: {data.CEP}</span>
-            </div>
+            {data.cidade &&
+                <>
+                    <div className="dados-endereco">
+                        <p className='session-title'>Endereço</p>
+                        <span>{data.lagradouro} nº {data.numeroEndereco || '0'} - {data.bairro} Qd. {data.quadra}</span>
+                        <span>Completo: {data.pontoReferencia}</span>
+                        <span>{data.cidade} CEP: {data.CEP}</span>
+                    </div>
+                </>
+            }
+            
             
             {data.entidadeNome &&
                 <>

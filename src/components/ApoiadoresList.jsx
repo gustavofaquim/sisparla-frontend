@@ -84,11 +84,11 @@ const ApoiadoresList = () => {
                         apoiadores.map((apoiador) => (
                             <tr key={apoiador.IdApoiador}>
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
-                                <td>{apoiador.Apelido}</td>
-                                <td>{apoiador.Telefone}</td>
-                                <td>{apoiador.Email}</td> 
-                                <td>{apoiador.EnderecoApoiador.CidadeApoiador.Nome}</td> 
-                                <td><span className={apoiador.SituacaoCadastroApoiador.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
+                                <td>{apoiador?.Apelido}</td>
+                                <td>{apoiador?.Telefone}</td>
+                                <td>{apoiador?.Email}</td> 
+                                <td>{apoiador?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
+                                <td><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
                             </tr>
                         
                         ))
