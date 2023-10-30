@@ -409,13 +409,22 @@ const ApoiadoresEdit = () => {
                              renderSuggestion={(entidade) => <div>{entidade.Nome}</div>}
                              inputProps={{
                                  placeholder: 'Digite o nome da entidade',
+                                 className: 'form-control',
                                  value: selectedEntidade ? selectedEntidade.Nome : entidadeInputValue,
                                  onChange: handleEntidadeInputChange,
                              }}
                              onSuggestionSelected={(event, { suggestion }) => {
                                  setSelectedEntidade(suggestion);
-                                 valueInput({ target: { name: 'entidadeSigla', value: suggestion.Sigla } });
+                                 valueInput({ target: { name: 'entidadeSigla', value: suggestion.Sigla }, clasName: 'autosuggest' });
                              }}
+                             renderSuggestionsContainer={({ containerProps, children, query }) => (
+                                <div
+                                    {...containerProps}
+                                    className="custom-suggestions-container"
+                                >
+                                    {children}
+                                </div>
+                            )}
                         />   
                     </div>
 
