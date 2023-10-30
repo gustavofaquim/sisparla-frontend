@@ -187,6 +187,24 @@ const ApoiadoresEdit = () => {
     //Receber os valores dos inputs
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
     
+    const [entidadeInputValue, setEntidadeInputValue] = useState(data.entidadeNome || '');
+
+    useEffect(() => {
+        if (selectedEntidade) {
+            setEntidadeInputValue(selectedEntidade.Nome);
+            valueInput({ target: { name: 'entidadeNome', value: selectedEntidade.Nome } });
+        }
+    }, [selectedEntidade]);
+
+    const handleEntidadeInputChange = (event, { newValue }) => {
+        setEntidadeInputValue(newValue);
+        setSelectedEntidade(null);
+        valueInput({ target: { name: 'entidadeNome', value: newValue } });
+    };
+
+
+
+    
 
     const apoiadorEdit = async (e) => {
         e.preventDefault();
@@ -383,27 +401,21 @@ const ApoiadoresEdit = () => {
                     <div class="form-group">
                         <label htmlFor="entidadeNome">Nome</label>
                            
-
                         <Autosuggest
-                            suggestions={suggestions}
-                            onSuggestionsFetchRequested={({ value }) => getEntidades(value)}
-                            onSuggestionsClearRequested={() => setSuggestions([])}
-                            getSuggestionValue={(entidade) => entidade.Nome}
-                            renderSuggestion={(entidade) => <div>{entidade.Nome}</div>}
-                            inputProps={{
-                                placeholder: 'Digite o nome da entidade',
-                                value: selectedEntidade ? selectedEntidade.Nome : data.entidadeNome || '',
-                                onChange: (e, { newValue }) => {
-                                    console.log(newValue);
-                                    setSelectedEntidade(null);
-                                    valueInput({ target: { name: 'entidadeNome', value: newValue } });
-                                },
-                            }}
-                            onSuggestionSelected={(event, { suggestion, suggestionValue }) => {
-                                setSelectedEntidade(suggestion);
-                                valueInput({ target: { name: 'entidadeNome', value: suggestionValue } });
-                                valueInput({ target: { name: 'entidadeSigla', value: suggestion.Sigla } });
-                            }}
+                             suggestions={suggestions}
+                             onSuggestionsFetchRequested={({ value }) => getEntidades(value)}
+                             onSuggestionsClearRequested={() => setSuggestions([])}
+                             getSuggestionValue={(entidade) => entidade.Nome}
+                             renderSuggestion={(entidade) => <div>{entidade.Nome}</div>}
+                             inputProps={{
+                                 placeholder: 'Digite o nome da entidade',
+                                 value: selectedEntidade ? selectedEntidade.Nome : entidadeInputValue,
+                                 onChange: handleEntidadeInputChange,
+                             }}
+                             onSuggestionSelected={(event, { suggestion }) => {
+                                 setSelectedEntidade(suggestion);
+                                 valueInput({ target: { name: 'entidadeSigla', value: suggestion.Sigla } });
+                             }}
                         />   
                     </div>
 
