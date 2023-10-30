@@ -186,7 +186,7 @@ const ApoiadoresEdit = () => {
 
     //Receber os valores dos inputs
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
-
+    
 
     const apoiadorEdit = async (e) => {
         e.preventDefault();
@@ -384,29 +384,27 @@ const ApoiadoresEdit = () => {
                         <label htmlFor="entidadeNome">Nome</label>
                            
 
-                        <Autosuggest className="form-control"
+                        <Autosuggest
                             suggestions={suggestions}
-                            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                            onSuggestionsClearRequested={onSuggestionsClearRequested}
+                            onSuggestionsFetchRequested={({ value }) => getEntidades(value)}
+                            onSuggestionsClearRequested={() => setSuggestions([])}
                             getSuggestionValue={(entidade) => entidade.Nome}
                             renderSuggestion={(entidade) => <div>{entidade.Nome}</div>}
                             inputProps={{
                                 placeholder: 'Digite o nome da entidade',
-                                className: 'autosuggest',
-                                value: selectedEntidade ? selectedEntidade.Nome : data.entidadeNome || '', // Use a entidade selecionada se existir, senão use o valor do estado
+                                value: selectedEntidade ? selectedEntidade.Nome : data.entidadeNome || '',
                                 onChange: (e, { newValue }) => {
+                                    console.log(newValue);
                                     setSelectedEntidade(null);
                                     valueInput({ target: { name: 'entidadeNome', value: newValue } });
                                 },
                             }}
-                            // Adicione a propriedade onSuggestionSelected para lidar com a seleção de uma sugestão
-                            onSuggestionSelected={(event, { suggestion }) => {
+                            onSuggestionSelected={(event, { suggestion, suggestionValue }) => {
                                 setSelectedEntidade(suggestion);
-                                valueInput({ target: { name: 'entidadeNome', value: suggestion.Nome } });
+                                valueInput({ target: { name: 'entidadeNome', value: suggestionValue } });
                                 valueInput({ target: { name: 'entidadeSigla', value: suggestion.Sigla } });
                             }}
-                        /> 
-                    
+                        />   
                     </div>
 
                     <div class="form-group">
