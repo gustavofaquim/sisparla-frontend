@@ -169,6 +169,7 @@ const ApoiadoresNovo = () => {
                 partidoId, partidoCargo, partidoLideranca,
                 informacoesAdicionais };
 
+            console.log('Dados do FORM');
             console.log(post);
                 
             const response = await userFetch.post("/apoiadores", post);
@@ -347,7 +348,7 @@ const ApoiadoresNovo = () => {
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
-                                    <option key={estado.IdEstado} value={estado.UF}>{estado.UF}</option>
+                                    <option key={estado.IdEstado} value={estado.IdEstado}>{estado.UF}</option>
                                 ))
                             }
                         </select>
