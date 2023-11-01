@@ -193,8 +193,11 @@ const ApoiadoresEdit = () => {
         if (selectedEntidade) {
             setEntidadeInputValue(selectedEntidade.Nome);
             valueInput({ target: { name: 'entidadeNome', value: selectedEntidade.Nome } });
+        } else if (data.entidadeNome) {
+            setEntidadeInputValue(data.entidadeNome);
+            valueInput({ target: { name: 'entidadeNome', value: data.entidadeNome } });
         }
-    }, [selectedEntidade]);
+    }, [data.entidadeNome, selectedEntidade]);
 
     const handleEntidadeInputChange = (event, { newValue }) => {
         setEntidadeInputValue(newValue);
