@@ -34,7 +34,7 @@ const Header = ({isAuthenticated}) => {
     };
   }, []);
 
-  console.log(isAuthenticated)
+  
 
   if (!isAuthenticated) {
     return null;
