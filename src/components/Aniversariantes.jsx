@@ -68,7 +68,7 @@ const Aniversariantes = () => {
             <h1 className='title-page'>Aniversariantes</h1>
             <h2 className='subtitle-page'></h2>
 
-            <div>
+            <div className='seletor-periodo'>
                 <div>
                     <select name="periodo" id="periodo" onChange={(e) => setPeriodo(e.target.value)}>
                         <option name="periodo" value="dia">Dia</option>
