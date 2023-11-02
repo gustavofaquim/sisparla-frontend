@@ -25,8 +25,7 @@ const ApoiadoresList = () => {
 
 
         try {
-           console.log(termoBusca);
-
+          
             const response = await userFetch.get("/apoiadores", {
                 params: {
                     termoBusca

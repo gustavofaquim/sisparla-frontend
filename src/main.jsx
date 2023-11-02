@@ -12,6 +12,7 @@ import ApoiadoresFicha from "./components/ApoiadoresFicha.jsx";
 import ApoiadorEdit from "./components/ApoiadoresEdit.jsx";
 import NovaDemanda from "./components/demandas/Nova.jsx";
 import Login from './login.jsx';
+import Aniversariantes from './components/Aniversariantes';
 
 
 const Root = () => {
@@ -45,6 +46,8 @@ const Root = () => {
 
           <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} />}/>
           
+          <Route path="aniversariantes" element={<PrivateRoute element={<Aniversariantes />} />}/>
+
           <Route path="novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} />}/>
 
           <Route path="apoiador/:id" element={<PrivateRoute element={<ApoiadoresFicha />} />}/>
