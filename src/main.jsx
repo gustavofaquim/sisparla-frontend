@@ -1,6 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+
+import {AuthProvider} from "./AuthProvider";
 
 import './styles/main.sass';
 
@@ -14,18 +17,27 @@ import Login from './login';
 import Aniversariantes from './components/Aniversariantes';
 import userFetch from './axios/config';
 
+
 const Root = () => {
   const [isAuthenticated, setAuthenticated] = React.useState(false);
+
 
   const handleLogin = async (data) => {
     try {
       const response = await userFetch.post(`/logar`, data);
-      console.log('Bem-vindo, você fez login');
+      
 
       if (response.status === 200) {
+
+        const { token } = response.data;
+
+        // Armazene o token no localStorage
+        localStorage.setItem('token', token);
+       // console.log('Token armazenado:', token);
+
         setAuthenticated(true);
-        return <Navigate to="/" />;
-        
+
+
       } else {
         console.error('Erro durante o login:', response.data.error);
       }
@@ -35,33 +47,45 @@ const Root = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
     setAuthenticated(false);
   };
 
   const PrivateRoute = ({ element }) => {
-    return isAuthenticated ? element : <Navigate to="/login" />;
+    const storedToken = localStorage.getItem('token');
+    const isAuthenticated = !!storedToken;  // Verifique se o token existe
+  
+    console.log('PrivateRoute isAuthenticated:', isAuthenticated);
+  
+    if (!isAuthenticated) {
+      console.log('Redirecionando para /login');
+      return <Navigate to="/login" />;
+    }
+  
+    return element;
   };
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>
-          <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} />} />
-          <Route path="aniversariantes" element={<PrivateRoute element={<Aniversariantes />} />} />
-          <Route path="novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} />} />
-          <Route path="apoiador/:id" element={<PrivateRoute element={<ApoiadoresFicha />} />} />
-          <Route path="apoiador-edit/:id" element={<PrivateRoute element={<ApoiadorEdit />} />} />
-          <Route path="nova-demanda" element={<PrivateRoute element={<NovaDemanda />} />} />
-          <Route path="login" element={<Login onLogin={handleLogin} />} />
-        </Route>
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={ <App isAuthenticated={isAuthenticated} onLogout={handleLogout} /> }>
+            <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} />} />
+            <Route path="aniversariantes" element={<PrivateRoute element={<Aniversariantes />} />} />
+            <Route path="novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} />} />
+            <Route path="apoiador/:id" element={<PrivateRoute element={<ApoiadoresFicha />} />} />
+            <Route path="apoiador-edit/:id" element={<PrivateRoute element={<ApoiadorEdit />} />} />
+            <Route path="nova-demanda" element={<PrivateRoute element={<NovaDemanda />} />} />
+            <Route path="login" element={<Login onLogin={handleLogin} />} />
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Root />
   </React.StrictMode>,
-  document.getElementById('root')
 );
