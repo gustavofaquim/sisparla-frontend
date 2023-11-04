@@ -11,13 +11,53 @@ import "../../styles/components/nova-demanda.sass";
 const Nova = () => {
 
     const navigate = useNavigate();
-    const [assunto, setAssunto] = useState([]);
-    const [descricao, setDescricao] = useState([]);
-    const [categoria, setCategoria] = useState([]); 
-    const [responsavel, setResponsavel] = useState([]);
-    const [situacao, setSituacao] = useState([]); 
+    const [categorias, setCategorias] = useState([]); 
+    const [responsaveis, setResponsaveis] = useState([]);
+    const [situacoes, setSituacoes] = useState([]); 
     const [emendaParlamentar, setEmendaParlamentar] = useState([]); 
     
+    const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
+
+    const getCategorias = async() => {
+        try {
+            
+            const response = await userFetch('/categorias-demandas');
+            const data = response.data;
+            setCategorias(data);
+
+        } catch (error) {
+            console.log('Erro ao recuperar as categorias de demandas');
+        }
+    }
+
+    const getSituacoes = async() => {
+        try {
+            
+            const response = await userFetch('/situacao-demandas');
+            const data = response.data;
+            setSituacoes(data);
+
+        } catch (error) {
+            console.log('Erro ao recuperar as situações de demandas');
+        }
+    }
+
+    const getUsers = async() => {
+        try {
+            const response = await userFetch("/lista-usuarios");
+            const data = response.data;
+            setResponsaveis(data);
+        } catch (error) {
+            console.log('Erro ao recuperar os usuários');
+        }
+    }
+
+    useEffect(() => {
+        getCategorias();
+        getSituacoes();
+        getUsers();
+    },[]);
+
 
     return(
         <div className="cadastar-demanda">
@@ -35,7 +75,7 @@ const Nova = () => {
 
                     <div class="form-group col-md-7">
                         <label htmlFor="assunto">Assunto</label>
-                        <input type="assunto" class="form-control" id="assunto" name='nome' placeholder="Assunto" value={assunto|| ''} onChange={(e) => setAssunto(e.target.value)} />
+                        <input type="assunto" class="form-control" id="assunto" name='nome' placeholder="Assunto"  onChange={valueInput} />
                     </div>
 
                 </div>
@@ -55,17 +95,29 @@ const Nova = () => {
 
 
                     <div class="form-group">
-                        <label htmlFor="inputEstado">Categoria</label>
-                        <select id="categoria" class="form-control" value={categoria|| ''} onChange={(e) => setCategoria(e.target.value)}>
+                        <label htmlFor="categoria">Categoria</label>
+                        <select id="categoria" class="form-control" name="idCategoria" onChange={valueInput}>
                             <option selected>Escolher...</option>
+                            {
+                                categorias.map((cat) => (
+                                    <option key={cat.IdCategoria} value={cat.IdCategoria}> {cat.Descricao} </option>
+                                ))
+                            }
                         </select>
+
+                     
                     </div>
 
 
                     <div class="form-group">
-                        <label htmlFor="inputEstado">Situação</label>
-                        <select id="categoria" class="form-control" value={situacao|| ''} onChange={(e) => setSituacao(e.target.value)}>
+                        <label htmlFor="situacao">Situação</label>
+                        <select id="situacao" class="form-control" name="idSituacao" onChange={valueInput}>
                             <option selected>Escolher...</option>
+                            {
+                                situacoes.map((sit) => (
+                                    <option key={sit.IdSituacao} value={sit.IdSituacao}> {sit.Descricao} </option>
+                                ))
+                            }
                         </select>
                     </div>
 
@@ -73,9 +125,14 @@ const Nova = () => {
 
                 <div class="form-row">
                     <div class="form-group col-md-4">
-                        <label htmlFor="inputEstado">Responsável</label>
-                        <select id="categoria" class="form-control" value={responsavel|| ''} onChange={(e) => setResponsavel(e.target.value)}>
+                        <label htmlFor="responsavel">Responsável</label>
+                        <select id="responsavel" class="form-control" name="idResponsavel" onChange={valueInput}>
                             <option selected>Escolher...</option>
+                            {
+                                responsaveis.map((resp) => (
+                                    <option key={resp.IdUsuario} value={resp.IdUsuario}> {resp.Nome} </option>
+                                ))
+                            }
                         </select>
                     </div>
                 </div>
