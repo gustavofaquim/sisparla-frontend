@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
+
+import { useAuth } from '../AuthProvider'; // Importação hook useAuth
 
 import "../styles/components/sidebar.sass"
 
@@ -20,6 +23,16 @@ import {
   } from 'react-icons/fa';
 
 const Sidebars = () => {
+  // Use o hook useAuth para obter a função handleLogout
+  const { handleLogout } = useAuth();
+  const navigate = useNavigate();
+
+  const logoutAndRedirect = () => {
+    handleLogout();
+    window.location.reload();
+    navigate('/login');
+  };
+  
   return (
     <div className='sidebar-menu'>
         <Sidebar>
@@ -43,7 +56,7 @@ const Sidebars = () => {
                     <MenuItem component={<Link to="/eventos " />}> Eventos</MenuItem>
                 </SubMenu>
 
-                <MenuItem  icon={<FaRegWindowClose/>}>Sair</MenuItem>
+                <MenuItem icon={<FaRegWindowClose/>} onClick={logoutAndRedirect} >Sair</MenuItem>
 
                 
             </Menu>

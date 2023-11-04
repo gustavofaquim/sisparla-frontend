@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+
 import { AuthProvider } from "./AuthProvider";
 
 import './styles/main.sass';
@@ -16,8 +17,9 @@ import Aniversariantes from './components/Aniversariantes';
 import userFetch from './axios/config';
 
 const Root = () => {
-
+  
   const [isAuthenticated, setAuthenticated] = React.useState(false);
+ 
 
 
   useEffect(() => {
@@ -25,7 +27,10 @@ const Root = () => {
       const storedToken = localStorage.getItem('token');
 
       if (storedToken) {
+        // Adicione lógica para verificar a validade do token se necessário
         setAuthenticated(true);
+        console.log('Token valido')
+        
       }
     };
 
@@ -34,19 +39,24 @@ const Root = () => {
 
 
   const handleLogin = async (data) => {
+   
     try {
       const response = await userFetch.post(`/logar`, data);
 
       if (response.status === 200) {
         const { token } = response.data;
         localStorage.setItem('token', token);
-        console.log('Token armazenado no localStorage:', token);
         setAuthenticated(true);
+        return true;
+        
       } else {
         console.error('Erro durante o login:', response.data.error);
+        return false;
+       
       }
     } catch (error) {
       console.error('Erro durante o login:', error.message);
+      return false;
     }
   };
 
@@ -59,8 +69,6 @@ const Root = () => {
   const PrivateRoute = ({ element }) => {
     const storedToken = localStorage.getItem('token');
     const isAuthenticated = !!storedToken;
-
-    console.log('PrivateRoute isAuthenticated:', isAuthenticated);
 
     if (!isAuthenticated) {
       console.log('Redirecionando para /login');

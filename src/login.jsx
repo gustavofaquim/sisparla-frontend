@@ -1,17 +1,29 @@
 
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
+
 import "./styles/login.sass";
 import userFetch from "./axios/config";
 
 const Login = ({ onLogin }) => {
-
+    
     const [data, setData] = useState({});
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
-    
-        onLogin(data);
+        const loginStatus = await onLogin(data);
+
+        if (loginStatus) {
+            // Login bem-sucedido, fazer algo
+            console.log('Login bem-sucedidooo');
+            navigate('/apoiadores');
+        } else {
+            // Login falhou, fazer algo
+            console.log('Login falhouuuuuuu');
+        }
     };
     
     //Receber os valores dos inputs

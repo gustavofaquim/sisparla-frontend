@@ -6,7 +6,7 @@ import Header from "./components/Header.jsx";
 import './styles/app.sass';
 
 const App = ({ isAuthenticated, onLogout }) => {
-  console.log('App isAuthenticated:', isAuthenticated);
+  
   return (
     <div className="app">
       
