@@ -12,6 +12,7 @@ import ApoiadoresNovo from './components/ApoiadoresNovo';
 import ApoiadoresFicha from './components/ApoiadoresFicha';
 import ApoiadorEdit from './components/ApoiadoresEdit';
 import NovaDemanda from './components/demandas/Nova';
+import DemandasList from "./components/demandas/Lista";
 import Login from './login';
 import Aniversariantes from './components/Aniversariantes';
 import userFetch from './axios/config';
@@ -89,6 +90,7 @@ const Root = () => {
             <Route path="apoiador/:id" element={<PrivateRoute element={<ApoiadoresFicha />} />} />
             <Route path="apoiador-edit/:id" element={<PrivateRoute element={<ApoiadorEdit />} />} />
             <Route path="nova-demanda" element={<PrivateRoute element={<NovaDemanda />} />} />
+            <Route path="demandas" element={<PrivateRoute element={<DemandasList />} />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />
           </Route>
         </Routes>

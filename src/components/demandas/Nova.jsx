@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
+
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
 import "../../styles/components/nova-demanda.sass";
@@ -16,6 +17,8 @@ const Nova = () => {
     const [situacoes, setSituacoes] = useState([]); 
     const [emendaParlamentar, setEmendaParlamentar] = useState([]); 
     
+    const [data, setData] = useState([]);
+
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
 
     const getCategorias = async() => {
@@ -59,6 +62,25 @@ const Nova = () => {
     },[]);
 
 
+    const createDemanda = async(e) => {
+        e.preventDefault();
+
+        try {
+            
+            const response = await userFetch.post("/demandas", data);
+            console.log(response);
+
+            if(response.status == '200'){
+                navigate('/');
+            }
+            
+
+        } catch (error) {
+            console.log('Erro ao cadastrar a demanda:' + error);
+        }
+    }
+
+
     return(
         <div className="cadastar-demanda">
              <h1 className='title-page'>Nova Demanda</h1>
@@ -67,7 +89,7 @@ const Nova = () => {
 
              <div className='form-demanda'>
 
-                <form >
+                <form  onSubmit={createDemanda}>
 
                 <p className='form-session-title'></p>
                 
@@ -75,7 +97,7 @@ const Nova = () => {
 
                     <div class="form-group col-md-7">
                         <label htmlFor="assunto">Assunto</label>
-                        <input type="assunto" class="form-control" id="assunto" name='nome' placeholder="Assunto"  onChange={valueInput} />
+                        <input type="assunto" required class="form-control" id="assunto" name='assunto' placeholder="Assunto"  onChange={valueInput} />
                     </div>
 
                 </div>
@@ -85,7 +107,7 @@ const Nova = () => {
                     
                     <div class="form-group col-md-7">
                         <label htmlFor="descricao">Descrição</label>
-                        <textarea name="descricao" id="descricao"></textarea>
+                        <textarea name='descricao' onChange={valueInput} id="descricao"></textarea>
                     </div>
 
                     
@@ -96,8 +118,8 @@ const Nova = () => {
 
                     <div class="form-group">
                         <label htmlFor="categoria">Categoria</label>
-                        <select id="categoria" class="form-control" name="idCategoria" onChange={valueInput}>
-                            <option selected>Escolher...</option>
+                        <select id="categoria" required class="form-control" name="idCategoria" onChange={valueInput}>
+                            <option selected value="" disabled>Escolher...</option>
                             {
                                 categorias.map((cat) => (
                                     <option key={cat.IdCategoria} value={cat.IdCategoria}> {cat.Descricao} </option>
@@ -111,8 +133,8 @@ const Nova = () => {
 
                     <div class="form-group">
                         <label htmlFor="situacao">Situação</label>
-                        <select id="situacao" class="form-control" name="idSituacao" onChange={valueInput}>
-                            <option selected>Escolher...</option>
+                        <select id="situacao" required class="form-control" name="idSituacao" onChange={valueInput}>
+                            <option selected value="" disabled>Escolher...</option>
                             {
                                 situacoes.map((sit) => (
                                     <option key={sit.IdSituacao} value={sit.IdSituacao}> {sit.Descricao} </option>
