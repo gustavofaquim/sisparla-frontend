@@ -223,10 +223,6 @@ const ApoiadoresEdit = () => {
     }
 
     
-
-    
-
-    
     return(
 
         <div className="cadastrar-apoiador">

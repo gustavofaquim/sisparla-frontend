@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 
+import "../../styles/components/listagem.sass";
 
 const DemandasList = () => {
 
     const [termoBusca, setTermoBusca] = useState('');
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
 
     
 
@@ -19,7 +20,6 @@ const DemandasList = () => {
 
     const getDemandas = async() => {
         
-      
         try {
             
             const response = await userFetch.get('/demandas', {
@@ -28,8 +28,8 @@ const DemandasList = () => {
                 },
             })
 
-            const data = response.data;
-            setData(data);
+            const resp = response.data;
+            setData(resp);
 
 
         } catch (error) {
@@ -73,8 +73,8 @@ const DemandasList = () => {
                         data.map((demanda) => (
                             <tr key={demanda.IdDemanda}>
                                 <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
-                                <td>{demanda?.Situacao}</td>
-                                <td>{demanda?.Categoria}</td>
+                                <td>{demanda?.DemandaSituaco?.Descricao}</td>
+                                <td>{demanda?.DemandaCategoria?.Descricao}</td>
                             </tr>
                         
                         ))

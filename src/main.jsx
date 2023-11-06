@@ -13,6 +13,7 @@ import ApoiadoresFicha from './components/ApoiadoresFicha';
 import ApoiadorEdit from './components/ApoiadoresEdit';
 import NovaDemanda from './components/demandas/Nova';
 import DemandasList from "./components/demandas/Lista";
+import DemandasEdit from "./components/demandas/Edit";
 import Login from './login';
 import Aniversariantes from './components/Aniversariantes';
 import userFetch from './axios/config';
@@ -30,7 +31,6 @@ const Root = () => {
       if (storedToken) {
         // Adicione lógica para verificar a validade do token se necessário
         setAuthenticated(true);
-        console.log('Token valido')
         
       }
     };
@@ -91,6 +91,7 @@ const Root = () => {
             <Route path="apoiador-edit/:id" element={<PrivateRoute element={<ApoiadorEdit />} />} />
             <Route path="nova-demanda" element={<PrivateRoute element={<NovaDemanda />} />} />
             <Route path="demandas" element={<PrivateRoute element={<DemandasList />} />} />
+            <Route path="demandas/:id" element={<PrivateRoute element={<DemandasEdit />} />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />
           </Route>
         </Routes>

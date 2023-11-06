@@ -8,13 +8,11 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    console.log('AuthProvider useEffect');
   
     const token = localStorage.getItem('token');
   
     if (token && !user) {
       const decodedUser = jwtDecode(token);
-      console.log('Token decodificado:', decodedUser);
       setUser(decodedUser);
     }
   }, [user]);
