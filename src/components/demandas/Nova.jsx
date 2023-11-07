@@ -1,5 +1,6 @@
 import userFetch from "../../axios/config.js";
 import { useState, useEffect } from "react";
+import Autosuggest from 'react-autosuggest';
 
 import { useNavigate } from "react-router-dom";
 
@@ -16,6 +17,10 @@ const Nova = () => {
     const [responsaveis, setResponsaveis] = useState([]);
     const [situacoes, setSituacoes] = useState([]); 
     const [emendaParlamentar, setEmendaParlamentar] = useState([]); 
+
+
+    const [apoiador, setApoiador] = useState([]);
+    const [suggestions, setSuggestions] = useState([]);
     
     const [data, setData] = useState([]);
 
@@ -24,7 +29,7 @@ const Nova = () => {
     const getCategorias = async() => {
         try {
             
-            const response = await userFetch('/categorias-demandas');
+            const response = await userFetch.get('/categorias-demandas');
             const data = response.data;
             setCategorias(data);
 
@@ -36,7 +41,7 @@ const Nova = () => {
     const getSituacoes = async() => {
         try {
             
-            const response = await userFetch('/situacao-demandas');
+            const response = await userFetch.get('/situacao-demandas');
             const data = response.data;
             setSituacoes(data);
 
@@ -47,7 +52,7 @@ const Nova = () => {
 
     const getUsers = async() => {
         try {
-            const response = await userFetch("/lista-usuarios");
+            const response = await userFetch.get("/lista-usuarios");
             const data = response.data;
             setResponsaveis(data);
         } catch (error) {
@@ -55,10 +60,26 @@ const Nova = () => {
         }
     }
 
+    const getApoiadores = async() => {
+        try {
+            const response = await userFetch.get("/apoiadores");
+            const data = response.data;
+            console.log(data);
+
+            setApoiador(data);
+            setSuggestions(data);
+
+            setSelectedEntidade(null);
+        } catch (error) {
+            console.log('Erro ao recuperar os apoiadores');
+        }
+    }
+
     useEffect(() => {
         getCategorias();
         getSituacoes();
         getUsers();
+        getApoiadores();
     },[]);
 
 
@@ -80,6 +101,28 @@ const Nova = () => {
         }
     }
 
+    const [selectedApoiador, setSelectedApoiador] = useState(null);
+    const [apoiadorInputValue, setApoiadorInputValue] = useState(data.apoiadorNome || '');
+
+    useEffect(() => {
+        if (selectedApoiador) {
+            setApoiadorInputValue(selectedApoiador.Nome);
+            valueInput({ target: { name: 'apoiadorNome', value: selectedApoiador.Nome } });
+        } else if (data.apoiadorNome) {
+            setApoiadorInputValue(data.apoiadorNome);
+            valueInput({ target: { name: 'apoiadorNome', value: data.apoiadorNome } });
+        }
+    }, [data.apoiadorNome, selectedApoiador]);
+
+    const handleEntidadeInputChange = (event, { newValue }) => {
+        setApoiadorInputValue(newValue);
+        setSelectedApoiador(null);
+        valueInput({ target: { name: 'apoiadorNome', value: newValue } });
+    };
+
+   
+    
+   
 
     return(
         <div className="cadastar-demanda">
@@ -104,13 +147,42 @@ const Nova = () => {
 
                 <div class="form-row">
 
-                    
                     <div class="form-group col-md-7">
                         <label htmlFor="descricao">Descrição</label>
                         <textarea name='descricao' onChange={valueInput} id="descricao"></textarea>
                     </div>
 
-                    
+                </div>
+
+                <div class="form-row">
+
+                    <Autosuggest
+                        suggestions={suggestions}
+                        onSuggestionsFetchRequested={({ value }) => getApoiadores(value)}
+                        onSuggestionsClearRequested={() => setSuggestions([])}
+                        getSuggestionValue={(apoiador) => apoiador.Nome}
+                        renderSuggestion={(apoiador) => <div>{apoiador.Nome}</div>}
+                        inputProps={{
+                            placeholder: 'Digite o nome do apoiador',
+                            className: 'form-control',
+                            value: selectedApoiador ? selectedApoiador.Nome : apoiadorInputValue,
+                            onChange: handleEntidadeInputChange,
+                        }}
+                        onSuggestionSelected={(event, { suggestion }) => {
+                            setSelectedApoiador(suggestion);
+                            
+                        }}
+                        renderSuggestionsContainer={({ containerProps, children, query }) => (
+                        <div
+                            {...containerProps}
+                            className="custom-suggestions-container"
+                        >
+                            {children}
+                        </div>
+                        )}
+                    />  
+                        
+
                 </div>
 
                 <div class="form-row">
