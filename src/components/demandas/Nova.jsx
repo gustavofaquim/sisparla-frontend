@@ -115,7 +115,6 @@ const Nova = () => {
 
                 <div class="form-row">
 
-
                     <div class="form-group">
                         <label htmlFor="categoria">Categoria</label>
                         <select id="categoria" required class="form-control" name="idCategoria" onChange={valueInput}>
@@ -164,20 +163,20 @@ const Nova = () => {
                     <div class="form-group">
                         <p>Emanda Parlamentar ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="sim" onChange={(e) => setEmendaParlamentar(e.target.value)} />
+                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" onChange={valueInput} />
                             <label class="form-check-label" for="emendaParlamentarS">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarN" value="nao" onChange={(e) => setEmendaParlamentar(e.target.value)} />
+                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarN" value="N" onChange={valueInput} />
                             <label class="form-check-label" for="emendaParlamentarN">Não</label>
                         </div>
                     </div>
 
                     
                     <div class="form-group">
-                        <label htmlFor="valor">Valor Estimado</label>
-                        <input type="number" name="valor" id="vaor" />
+                        <label htmlFor="valor" > Valor Estimado</label>
+                        <input type="number" name="valor" id="valor"  onChange={valueInput} />
                     </div>
 
                 </div>

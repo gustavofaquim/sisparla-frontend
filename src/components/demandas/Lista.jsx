@@ -37,7 +37,22 @@ const DemandasList = () => {
         }
     }
 
+    function formataData(dataString) {
+        
+        const data = new Date(`${dataString}T00:00:00-03:00`);
+       
+        // Verificando se a conversão foi bem-sucedida
+        if (isNaN(data.getTime())) {
+            return '-----';
+        }
 
+    
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        const ano = data.getFullYear();
+      
+        return `${dia}/${mes}/${ano}`;
+    }
 
 
 
@@ -64,6 +79,7 @@ const DemandasList = () => {
                         <th>Assunto</th>
                         <th>Categoria</th>
                         <th>Situacao</th>
+                        <th>Data de Abertura</th>
                     </tr>
                 </thead>
 
@@ -75,6 +91,7 @@ const DemandasList = () => {
                                 <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
                                 <td>{demanda?.DemandaSituaco?.Descricao}</td>
                                 <td>{demanda?.DemandaCategoria?.Descricao}</td>
+                                <td>{formataData(demanda?.Data)}</td>
                             </tr>
                         
                         ))
