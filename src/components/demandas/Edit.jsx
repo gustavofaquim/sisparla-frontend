@@ -138,7 +138,7 @@ const DemandasEdit = () => {
 
                     <div class="form-group col-md-7">
                         <label htmlFor="assunto">Assunto</label>
-                        <input type="assunto" required class="form-control" id="assunto" name='assunto' placeholder="Assunto" value={data.Assunto} onChange={valueInput} />
+                        <input type="assunto" required class="form-control" id="assunto" name='assunto' placeholder="Assunto" value={data.assunto} onChange={valueInput} />
                     </div>
 
                 </div>
@@ -148,7 +148,7 @@ const DemandasEdit = () => {
                     
                     <div class="form-group col-md-7">
                         <label htmlFor="descricao">Descrição</label>
-                        <textarea name='descricao' value={data.Descricao} onChange={valueInput} id="descricao"></textarea>
+                        <textarea name='descricao' value={data.descricao} onChange={valueInput} id="descricao"></textarea>
                     </div>
 
                     
@@ -163,7 +163,7 @@ const DemandasEdit = () => {
                             <option selected value="" disabled>Escolher...</option>
                             {
                                 categorias.map((cat) => (
-                                    <option key={cat.IdCategoria}  selected={cat.IdCategoria === data?.DemandaCategoria?.IdCategoria}  value={cat.IdCategoria}   > {cat.Descricao} </option>
+                                    <option key={cat.IdCategoria}  selected={cat.IdCategoria === data.idCategoria}  value={cat.IdCategoria}   > {cat.Descricao} </option>
                                 ))
                             }
                         </select>
@@ -178,7 +178,7 @@ const DemandasEdit = () => {
                             <option selected value="" disabled>Escolher...</option>
                             {
                                 situacoes.map((sit) => (
-                                    <option key={sit.IdSituacao} value={sit.IdSituacao} selected={sit.IdSituacao === data?.DemandaSituaco?.IdSituacao}  > {sit.Descricao} </option>
+                                    <option key={sit.IdSituacao} value={sit.IdSituacao} selected={sit.IdSituacao === data.idSituacao}  > {sit.Descricao} </option>
                                 ))
                             }
                         </select>
@@ -193,7 +193,7 @@ const DemandasEdit = () => {
                             <option selected>Escolher...</option>
                             {
                                 responsaveis.map((resp) => (
-                                    <option key={resp.IdUsuario} value={resp.IdUsuario}  selected={resp.IdUsuario === data?.DemandaResponsavel?.IdUsuario} > {resp.Nome} </option>
+                                    <option key={resp.IdUsuario} value={resp.IdUsuario}  selected={resp.IdUsuario === data.idResponsavel} > {resp.Nome} </option>
                                 ))
                             }
                         </select>
@@ -205,12 +205,12 @@ const DemandasEdit = () => {
                     <div class="form-group">
                         <p>Emanda Parlamentar ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" checked={data.EmendaParlamentar == "S"} onChange={valueInput} />
+                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" checked={data.emendaParlamentar == "S"} onChange={valueInput} />
                             <label class="form-check-label" for="emendaParlamentarS">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarN" value="N" checked={data.EmendaParlamentar != "S"} onChange={(e) => setEmendaParlamentar(e.target.value)} />
+                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarN" value="N" checked={data.emendaParlamentar != "S"} onChange={(e) => setEmendaParlamentar(e.target.value)} />
                             <label class="form-check-label" for="emendaParlamentarN">Não</label>
                         </div>
                     </div>
@@ -218,7 +218,7 @@ const DemandasEdit = () => {
                     
                     <div class="form-group">
                         <label htmlFor="valor">Valor Estimado</label>
-                        <input type="number" name="valor" id="valor" />
+                        <input type="number" name="valor" id="valor" value={data.valor} onChange={valueInput} />
                     </div>
 
                 </div>
