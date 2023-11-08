@@ -95,15 +95,37 @@ const DemandasEdit = () => {
         }
     };
 
+    const getApoiadores = async(filtro) => {
+        try {
+            const response = await userFetch.get(`/apoiadores`);
+            const data = response.data;
+            
+            const apoiadoresFiltrados = data.filter(apoiador =>
+                apoiador.Nome.toLowerCase().includes(filtro.toLowerCase())
+            );
+
+            setApoiador(apoiadoresFiltrados);
+            setSuggestions(apoiadoresFiltrados);
+            setSelectedEntidade(null);
+
+        } catch (error) {
+            console.log('Erro ao recuperar os apoiadores');
+        }
+    }
+
+
     useEffect(() => {
         getCategorias();
         getSituacoes();
         getUsers();
         getDemanda();
+        getApoiadores();
     },[]);
 
-
-    const [selectedApoiador, setSelectedApoiador] = useState(null);
+    const [apoiador, setApoiador] = useState([]);
+    const [suggestions, setSuggestions] = useState([]);
+    const [selectedApoiador, setSelectedApoiador] = useState(data.apoiadorNome | null);
+    const [selectedApoiadorId, setSelectedApoiadorId] = useState(data.idApoiador || null);
     const [apoiadorInputValue, setApoiadorInputValue] = useState(data.apoiadorNome || '');
 
     useEffect(() => {
@@ -128,8 +150,9 @@ const DemandasEdit = () => {
         e.preventDefault();
 
         try {
+            const dataToSend = { ...data, idApoiador: selectedApoiadorId };
             
-            const response = await userFetch.put(`/demandas/${id}`, data);
+            const response = await userFetch.put(`/demandas/${id}`, dataToSend);
             
 
             if(response.status == '200'){
