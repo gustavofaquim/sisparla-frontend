@@ -17,6 +17,7 @@ const Nova = () => {
     const [responsaveis, setResponsaveis] = useState([]);
     const [situacoes, setSituacoes] = useState([]); 
     const [emendaParlamentar, setEmendaParlamentar] = useState([]); 
+    const [selectedApoiadorId, setSelectedApoiadorId] = useState(null);
 
 
     const [apoiador, setApoiador] = useState([]);
@@ -60,16 +61,19 @@ const Nova = () => {
         }
     }
 
-    const getApoiadores = async() => {
+    const getApoiadores = async(filtro) => {
         try {
-            const response = await userFetch.get("/apoiadores");
+            const response = await userFetch.get(`/apoiadores`);
             const data = response.data;
-            console.log(data);
+            
+            const apoiadoresFiltrados = data.filter(apoiador =>
+                apoiador.Nome.toLowerCase().includes(filtro.toLowerCase())
+            );
 
-            setApoiador(data);
-            setSuggestions(data);
-
+            setApoiador(apoiadoresFiltrados);
+            setSuggestions(apoiadoresFiltrados);
             setSelectedEntidade(null);
+
         } catch (error) {
             console.log('Erro ao recuperar os apoiadores');
         }
@@ -88,9 +92,10 @@ const Nova = () => {
 
         try {
             
-            const response = await userFetch.post("/demandas", data);
-            console.log(response);
+            const dataToSend = { ...data, idApoiador: selectedApoiadorId };
 
+            const response = await userFetch.post("/demandas", dataToSend);
+            
             if(response.status == '200'){
                 navigate('/');
             }
@@ -117,6 +122,7 @@ const Nova = () => {
     const handleEntidadeInputChange = (event, { newValue }) => {
         setApoiadorInputValue(newValue);
         setSelectedApoiador(null);
+        setSelectedApoiadorId(null);
         valueInput({ target: { name: 'apoiadorNome', value: newValue } });
     };
 
@@ -170,6 +176,7 @@ const Nova = () => {
                         }}
                         onSuggestionSelected={(event, { suggestion }) => {
                             setSelectedApoiador(suggestion);
+                            setSelectedApoiadorId(suggestion.IdApoiador);
                             
                         }}
                         renderSuggestionsContainer={({ containerProps, children, query }) => (
