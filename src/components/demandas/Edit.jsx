@@ -103,6 +103,27 @@ const DemandasEdit = () => {
     },[]);
 
 
+    const [selectedApoiador, setSelectedApoiador] = useState(null);
+    const [apoiadorInputValue, setApoiadorInputValue] = useState(data.apoiadorNome || '');
+
+    useEffect(() => {
+        if (selectedApoiador) {
+            setApoiadorInputValue(selectedApoiador.Nome);
+            valueInput({ target: { name: 'apoiadorNome', value: selectedApoiador.Nome } });
+        } else if (data.apoiadorNome) {
+            setApoiadorInputValue(data.apoiadorNome);
+            valueInput({ target: { name: 'apoiadorNome', value: data.apoiadorNome } });
+        }
+    }, [data.apoiadorNome, selectedApoiador]);
+
+    const handleEntidadeInputChange = (event, { newValue }) => {
+        setApoiadorInputValue(newValue);
+        setSelectedApoiador(null);
+        setSelectedApoiadorId(null);
+        valueInput({ target: { name: 'apoiadorNome', value: newValue } });
+    };
+
+
     const editDemanda = async(e) => {
         e.preventDefault();
 
@@ -153,6 +174,40 @@ const DemandasEdit = () => {
 
                     
                 </div>
+
+
+                <div class="form-row">
+
+                    <Autosuggest
+                        suggestions={suggestions}
+                        onSuggestionsFetchRequested={({ value }) => getApoiadores(value)}
+                        onSuggestionsClearRequested={() => setSuggestions([])}
+                        getSuggestionValue={(apoiador) => apoiador.Nome}
+                        renderSuggestion={(apoiador) => <div>{apoiador.Nome}</div>}
+                        inputProps={{
+                            placeholder: 'Digite o nome do apoiador',
+                            className: 'form-control',
+                            value: selectedApoiador ? selectedApoiador.Nome : apoiadorInputValue,
+                            onChange: handleEntidadeInputChange,
+                        }}
+                        onSuggestionSelected={(event, { suggestion }) => {
+                            setSelectedApoiador(suggestion);
+                            setSelectedApoiadorId(suggestion.IdApoiador);
+                            
+                        }}
+                        renderSuggestionsContainer={({ containerProps, children, query }) => (
+                        <div
+                            {...containerProps}
+                            className="custom-suggestions-container"
+                        >
+                            {children}
+                        </div>
+                        )}
+                    />  
+                        
+
+                </div>
+
 
                 <div class="form-row">
 
