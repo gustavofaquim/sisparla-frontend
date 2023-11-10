@@ -79,7 +79,6 @@ const DemandasEdit = () => {
           await userFetch(`/demandas/${id}`)
             .then((response) => {
                 setData(response.data)
-                console.log(response.data);
             })
             .catch((error) => {
 
@@ -91,7 +90,7 @@ const DemandasEdit = () => {
             })
 
         } catch (error) {
-            console.log(`Erro au recuperar a demanda ${error}`);
+            console.log(`Erro ao recuperar a demanda ${error}`);
         }
     };
 
