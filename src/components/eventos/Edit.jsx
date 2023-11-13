@@ -23,9 +23,9 @@ const Edit = () =>{
     const navigate = useNavigate();
 
     const [data, setData] = useState([]); 
+    const [dataDoBanco, setDataDoBanco] = useState(""); // Inicialize com uma string vazia
 
-    const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
-    
+   
 
     const getEvento = async() => {
         try {
@@ -57,6 +57,30 @@ const Edit = () =>{
     useEffect(() => {
         getEvento();
     }, [])
+
+    useEffect(() => {
+        // Atualize o estado da data do banco quando receber a resposta da API
+        setDataDoBanco(formatarData(data.DataHorario) || ""); // Use a data do banco de dados como valor inicial
+    }, [data]);
+
+
+
+    const formatarData = (dataString) => {
+        if (!dataString) return "";
+        const dataObjeto = new Date(dataString);
+        const formatoLocal = new Date(dataObjeto.getTime() - dataObjeto.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+        return formatoLocal;
+    };
+
+    const valueInput = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    
+        if (e.target.name === "DataHorario") {
+          setDataDoBanco(formatarData(e.target.value));
+        }
+      };
+
+
 
 
     const editEvento = async(e) => {
@@ -125,7 +149,7 @@ const Edit = () =>{
 
                         <div className="form-group col-md-3">
                             <label htmlFor="dataHorario">Data e Horário</label>
-                            <input type="datetime-local" required className="form-control" id="dataHorario" name='DataHorario' value={data.DataHorario} placeholder="Data e Horário do evento"  onChange={valueInput} />
+                            <input type="datetime-local" required className="form-control" id="dataHorario" name='DataHorario' value={dataDoBanco} placeholder="Data e Horário do evento"  onChange={valueInput} />
                         </div>
 
                     </div>
@@ -148,7 +172,7 @@ const Edit = () =>{
                     </div>
 
                     <div className='btn'>
-                        <button type="submit" class="btn btn-primary btn-cadastrar">Criar Evento</button>
+                        <button type="submit" class="btn btn-primary btn-cadastrar">Atualizar Evento</button>
                     </div>
 
 
