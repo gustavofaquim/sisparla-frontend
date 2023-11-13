@@ -32,8 +32,8 @@ const ApoiadoresList = () => {
                 },
             });
             const data = response.data;
-            
             setApoiadores(data);
+            console.log(response.data);
 
         } catch (error) {
             console.log(`Ocorreu um erro ao buscar os apoiadores: ${error}`);
@@ -84,7 +84,7 @@ const ApoiadoresList = () => {
                             <tr key={apoiador.IdApoiador}>
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
                                 <td>{apoiador?.Apelido}</td>
-                                <td>{apoiador?.Telefone}</td>
+                                <td>{apoiador?.TelefoneApoiador?.Numero}</td>
                                 <td>{apoiador?.Email}</td> 
                                 <td>{apoiador?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
                                 <td><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
@@ -94,11 +94,7 @@ const ApoiadoresList = () => {
                     )}
                 </tbody>
             </table>
-
-        
-          
-           
-            
+   
         </div>
     );
 

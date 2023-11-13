@@ -123,7 +123,7 @@ const ApoiadoresFicha = () => {
                     <p className='session-title'>Demandas</p>
                     {data?.demandas?.map((demanda, index) => (
                         <div key={index}>
-                        <Link to={`/demandas/${demanda.demandaId}`}><span>Assunto: {demanda.assunto}</span></Link>
+                        <Link to={`/demandas/${demanda.demandaId}`}><span>{demanda.assunto}</span></Link>
                         </div>
                     ))}
                 </div>
