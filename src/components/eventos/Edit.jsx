@@ -9,6 +9,13 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 
 
+const relacoes = [
+    {"descricao": "Participante"},
+    {"descricao": "Organizador"},
+    {"descricao": "Patrocinador"},
+];
+
+
 const Edit = () =>{
 
     const params = useParams();
@@ -31,6 +38,7 @@ const Edit = () =>{
             await userFetch(`/eventos/${id}`)
                 .then((response) => {
                     setData(response.data)
+                    console.log(response.data);
                     
                 })
                 .catch((error) => {
@@ -48,7 +56,7 @@ const Edit = () =>{
 
     useEffect(() => {
         getEvento();
-    })
+    }, [])
 
 
     const editEvento = async(e) => {
@@ -56,10 +64,15 @@ const Edit = () =>{
 
        try {
         
+        if(id === undefined){
+            console.log('Evento não encontrado');
+            return;
+        }
+        
         const response = await userFetch.put(`/eventos/${id}`, data);
 
         if(response.status == '200'){
-            nagivate('/')
+            navigate('/')
         }
 
        } catch (error) {
@@ -89,7 +102,7 @@ const Edit = () =>{
 
                         <div className="form-group col-md-7">
                             <label htmlFor="nome">Descrição</label>
-                            <textarea name='descricao' onChange={valueInput} id="Descricao" value={data.Descricao}></textarea>
+                            <textarea name='Descricao' onChange={valueInput} id="Descricao" value={data.Descricao}></textarea>
                         </div>
 
                     </div>
@@ -107,7 +120,7 @@ const Edit = () =>{
 
                         <div className="form-group col-md-7">
                             <label htmlFor="local">Local do Evento</label>
-                            <input type="text" required className="form-control" id="local" name='local' placeholder="Endereço do evento" value={data.Local} onChange={valueInput} />
+                            <input type="text" required className="form-control" id="local" name='Local' placeholder="Endereço do evento" value={data.Local} onChange={valueInput} />
                         </div>
 
                         <div className="form-group col-md-3">
@@ -121,11 +134,13 @@ const Edit = () =>{
 
                         <div className="form-group col-md-5">
                             <label htmlFor="relacao">Relação</label>
-                            <select name="relacao" id="relacao" onChange={valueInput} required className="form-control" value={data.Relacao} >
+                            <select name="Relacao" id="relacao" onChange={valueInput} required className="form-control" value={data.Relacao} >
                                 <option selected value="" disabled>Escolher...</option>
-                                <option value="Participante">Participante</option>
-                                <option value="Organizador">Organizador</option>
-                                <option value="Patrocinador">Patrocinador</option>
+                                {
+                                relacoes.map((rel) => (
+                                    <option value={rel.descricao} selected={rel.descricao === data.Relacao}  > {rel.descricao} </option>
+                                ))
+                            }
                             </select>
 
                         </div>
