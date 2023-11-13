@@ -27,7 +27,6 @@ const ApoiadoresFicha = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
-                console.log(response.data);
             })
             .catch((error) => {
 
@@ -117,6 +116,20 @@ const ApoiadoresFicha = () => {
                 </div>
                 </>
             }
+
+            {data.demandas &&
+                <>
+                <div className="dados-demandas">
+                    <p className='session-title'>Demandas</p>
+                    {data?.demandas?.map((demanda, index) => (
+                        <div key={index}>
+                        <Link to={`/demandas/${demanda.demandaId}`}><span>Assunto: {demanda.assunto}</span></Link>
+                        </div>
+                    ))}
+                </div>
+                </>
+            }
+
             <div className="div-btn">
                 <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn btn-editar" >Editar Dados</button></Link>
                 <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
