@@ -208,8 +208,7 @@ const ApoiadoresEdit = () => {
 
     const apoiadorEdit = async (e) => {
         e.preventDefault();
-        console.log('Dados do form');
-        console.log(data);
+
 
        try {
             

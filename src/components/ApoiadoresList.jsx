@@ -4,7 +4,7 @@ import userFetch from "../axios/config.js";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
-
+import { FaWhatsapp } from "react-icons/fa6";
 
 import "../styles/components/apoiadores-list.sass";
 
@@ -45,6 +45,17 @@ const ApoiadoresList = () => {
         
     }, []);
 
+    const enviarMensagem = async() => {
+        console.log('teste teste teste');
+        try {
+            
+            const response = await userFetch.post("/send", data);
+
+        } catch (error) {
+            console.log('Erro ao enviar a mensagem')
+        }
+    }
+
    
 
   
@@ -71,6 +82,7 @@ const ApoiadoresList = () => {
                         <th>Nome</th>
                         <th>Apelido</th>
                         <th>Telefone</th>
+                        <th></th>
                         <th>E-mail</th>
                         <th>Cidade</th>
                         <th>Status</th>
@@ -85,6 +97,7 @@ const ApoiadoresList = () => {
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
                                 <td>{apoiador?.Apelido}</td>
                                 <td>{apoiador?.TelefoneApoiador?.Numero}</td>
+                                <td><FaWhatsapp onClick={enviarMensagem} /></td>
                                 <td>{apoiador?.Email}</td> 
                                 <td>{apoiador?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
                                 <td><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
