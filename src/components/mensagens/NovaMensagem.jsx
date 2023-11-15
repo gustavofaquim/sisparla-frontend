@@ -72,22 +72,78 @@ const NovaMensagem = () => {
     };
 
 
-    const sendMessage = async(e) => {
-        e.preventDefault();
+    const [selectedFiles, setSelectedFiles] = useState([]);
 
-    
-        try {
-            
-            const dataToSend = { ...data, selectedApoiadores };
-            const response = await userFetch.post('/send', dataToSend)
+    const handleFilesChange = (e) => {
+        const files = e.target.files;
 
-            console.log('Mensagens enviadas com sucesso');
+         // Adiciona os arquivos ao array de arquivos selecionados
+         setSelectedFiles([...selectedFiles, ...files]);
 
-        } catch (error) {
-            console.log('Erro ao enviar mensagem:' + error);
+    };
+
+    const handleRemoveFile = (index) => {
+        const updatedFiles = [...selectedFiles];
+        updatedFiles.splice(index, 1);
+        setSelectedFiles(updatedFiles);
+    };
+
+
+    const getFilePreview = (file) => {
+        // Verifica se o arquivo é uma imagem para exibir uma prévia
+        if (file.type && file.type.startsWith('image/')) {
+             // Cria a URL apenas para exibição na prévia
+            const previewURL = URL.createObjectURL(file);
+            return <img className='arquivo' src={previewURL} alt={file.name} />;
         }
 
-    }
+       
+
+        // Adicione casos para outros tipos de arquivos aqui, se necessário
+
+        // Caso padrão: exibe apenas o nome do arquivo
+        return <span>{file.name}</span>;
+    };
+
+
+    const sendMessage = async (e) => {
+        e.preventDefault();
+    
+        try {
+            const dataToSend = { ...data, selectedApoiadores };
+    
+            // Converte os arquivos para base64 e adiciona ao array de arquivos selecionados
+            const selectedFilesData = await Promise.all(selectedFiles.map(async (file) => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        resolve({
+                            data: reader.result.split(',')[1], // Remove o prefixo "data:image/png;base64,"
+                            name: file.name,
+                            type: file.type,
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }));
+    
+            // Adiciona as URLs dos arquivos aos dados
+            dataToSend.selectedFiles = selectedFilesData;
+    
+            console.log('Dados a serem enviados:', dataToSend);
+    
+            const response = await userFetch.post('/send', dataToSend);
+    
+            // Limpa as prévias após o envio
+            setSelectedFiles([]);
+    
+            console.log('Mensagens enviadas com sucesso');
+        } catch (error) {
+            console.error('Erro ao enviar mensagem:', error);
+        }
+    };
+    
+    
 
 
     return(
@@ -105,6 +161,31 @@ const NovaMensagem = () => {
                             <textarea name='texto' onChange={valueInput} id="texto"></textarea>
                         </div>
 
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label htmlFor="arquivos">Selecione um arquivo</label>
+                            <input type="file" id="arquivos" name="arquivos" multiple onChange={handleFilesChange} />
+                        </div>
+
+                    </div>
+
+                    <div className="form-row">
+                        <div className="form-group col-md-7">
+                             {/* Exibe a prévia dos arquivos selecionados */}
+                            <div className="selected-files">
+                                {selectedFiles.map((file, index) => (
+                                    <div key={index} className="selected-file">
+                                        {getFilePreview(file)}
+
+                                        <FaRegCircleXmark class='btn-remove-arquivo'onClick={() => handleRemoveFile(index)} />
+                                    
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-row">
