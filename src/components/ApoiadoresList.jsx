@@ -46,7 +46,7 @@ const ApoiadoresList = () => {
     }, []);
 
     const enviarMensagem = async() => {
-        console.log('teste teste teste');
+       
         try {
             
             const response = await userFetch.post("/send", data);

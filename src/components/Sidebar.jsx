@@ -37,10 +37,11 @@ const Sidebars = () => {
     <div className='sidebar-menu'>
         <Sidebar>
             <Menu>
-                <SubMenu  icon={<FaUserAlt/>} label="Apoidores">
+                <SubMenu icon={<FaUserAlt/>} label="Apoidores">
                     <MenuItem component={<Link to="/apoiadores" />}> Lista</MenuItem>
                     <MenuItem component={<Link to="/novo-apoiador" />}> Novo</MenuItem>
                     <MenuItem component={<Link to="/aniversariantes" />}> Aniversariantes</MenuItem>
+                    <MenuItem component={<Link to="/nova-mensagem" />}> Enviar Mensagem</MenuItem>
                 </SubMenu>
 
                 <SubMenu icon={<FaChartBar/>} label="Demandas">
