@@ -97,11 +97,6 @@ const NovaMensagem = () => {
             return <img className='arquivo' src={previewURL} alt={file.name} />;
         }
 
-       
-
-        // Adicione casos para outros tipos de arquivos aqui, se necessário
-
-        // Caso padrão: exibe apenas o nome do arquivo
         return <span>{file.name}</span>;
     };
 
@@ -112,6 +107,7 @@ const NovaMensagem = () => {
         try {
             const dataToSend = { ...data, selectedApoiadores };
     
+            
             // Converte os arquivos para base64 e adiciona ao array de arquivos selecionados
             const selectedFilesData = await Promise.all(selectedFiles.map(async (file) => {
                 return new Promise((resolve) => {
@@ -129,6 +125,7 @@ const NovaMensagem = () => {
     
             // Adiciona as URLs dos arquivos aos dados
             dataToSend.selectedFiles = selectedFilesData;
+            console.log(dataToSend)
     
             console.log('Dados a serem enviados:', dataToSend);
     
@@ -152,7 +149,7 @@ const NovaMensagem = () => {
 
              <div className='form-mensagem'>
 
-                <form  onSubmit={sendMessage}>
+                <form  onSubmit={sendMessage} encType="multipart/form-data">
 
                     <div class="form-row">
 
