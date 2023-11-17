@@ -105,9 +105,9 @@ const NovaMensagem = () => {
         e.preventDefault();
     
         try {
-            const dataToSend = { ...data, selectedApoiadores };
+            const dataToSend = { ...data, selectedApoiadores, selectedFiles };
     
-            
+           /* 
             // Converte os arquivos para base64 e adiciona ao array de arquivos selecionados
             const selectedFilesData = await Promise.all(selectedFiles.map(async (file) => {
                 return new Promise((resolve) => {
@@ -121,10 +121,10 @@ const NovaMensagem = () => {
                     };
                     reader.readAsDataURL(file);
                 });
-            }));
+            })); */
     
             // Adiciona as URLs dos arquivos aos dados
-            dataToSend.selectedFiles = selectedFilesData;
+            //dataToSend.selectedFiles = selectedFilesData;
             console.log(dataToSend)
     
             console.log('Dados a serem enviados:', dataToSend);
