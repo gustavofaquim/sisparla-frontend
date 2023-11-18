@@ -11,6 +11,7 @@ import "../../styles/components/mensagem/nova.sass";
 
 const NovaMensagem = () => {
 
+
     const navigate = useNavigate();
     const [selectedApoiadorId, setSelectedApoiadorId] = useState(null);
     const [suggestions, setSuggestions] = useState([]);
@@ -105,35 +106,27 @@ const NovaMensagem = () => {
         e.preventDefault();
     
         try {
-            const dataToSend = { ...data, selectedApoiadores, selectedFiles };
-    
-           /* 
-            // Converte os arquivos para base64 e adiciona ao array de arquivos selecionados
-            const selectedFilesData = await Promise.all(selectedFiles.map(async (file) => {
-                return new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        resolve({
-                            data: reader.result.split(',')[1], // Remove o prefixo "data:image/png;base64,"
-                            name: file.name,
-                            type: file.type,
-                        });
-                    };
-                    reader.readAsDataURL(file);
-                });
-            })); */
-    
-            // Adiciona as URLs dos arquivos aos dados
-            //dataToSend.selectedFiles = selectedFilesData;
-            console.log(dataToSend)
-    
-            console.log('Dados a serem enviados:', dataToSend);
-    
-            const response = await userFetch.post('/send', dataToSend);
+
+            const formData = new FormData();
+            formData.append("texto", data.texto);
+            formData.append("apoiadores", JSON.stringify(selectedApoiadores));
+
+            // Adicione cada arquivo ao objeto FormData
+            selectedFiles.forEach((file) => {
+                formData.append('arquivos', file);
+            });
+
+            
+            const response = await fetch('http://localhost:3000/api/send', {
+                method: 'POST',
+                body: formData,
+            });
+
     
             // Limpa as prévias após o envio
-            setSelectedFiles([]);
+            //setSelectedFiles([]);
     
+
             console.log('Mensagens enviadas com sucesso');
         } catch (error) {
             console.error('Erro ao enviar mensagem:', error);
@@ -149,7 +142,7 @@ const NovaMensagem = () => {
 
              <div className='form-mensagem'>
 
-                <form  onSubmit={sendMessage} encType="multipart/form-data">
+                <form enctype="multipart/form-data" onSubmit={sendMessage}>
 
                     <div class="form-row">
 
