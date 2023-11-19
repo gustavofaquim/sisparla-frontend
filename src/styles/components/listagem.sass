@@ -25,6 +25,10 @@
             padding: 0.5rem 1rem
             background: variables.$cor-fundo-branco
             height: 2.3rem
+
+        #th-acao
+            text-align: center
+
         
         tr
             height: 3rem
@@ -68,3 +72,15 @@
 
         button
             margin-left: 20px
+
+.btn-acao
+    @include mixins.status
+    cursor: pointer
+    color: variables.$cor-fundo-branco
+
+.btn-concluir
+    background: variables.$cor-editar
+
+.btn-excluir
+    background: variables.$cor-menu-ativo
+    

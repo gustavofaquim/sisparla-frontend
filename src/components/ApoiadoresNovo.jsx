@@ -257,7 +257,7 @@ const ApoiadoresNovo = () => {
                 <div class="form-row">
 
                     <div class="form-group col-md-5">
-                        <label htmlFor="nome">Nome</label>
+                        <label htmlFor="nome">Nome *</label>
                         <input type="nome" required class="form-control" id="nome" name='nome' placeholder="Nome" value={nome|| ''} onChange={(e) => setNome(e.target.value)} />
                     </div>
 
@@ -280,13 +280,13 @@ const ApoiadoresNovo = () => {
                     </div>
 
                     <div class="form-group">
-                        <label htmlFor="nascimento">Data de Nascimento</label>
+                        <label htmlFor="nascimento">Data de Nascimento *</label>
                         <input type="date" required class="form-control" id="nascimento" value={nascimento|| ''} onChange={(e) => setNascimento(e.target.value)}  />
                     </div>
 
 
                     <div class="form-group">
-                        <label htmlFor="classificacao">Classificação</label>
+                        <label htmlFor="classificacao">Classificação *</label>
                         <select id="classificacao" class="form-control" required onChange={(e) => setClassificacao(e.target.value)}>
                             <option selected  value="" disabled>Escolher...</option>
                             {
@@ -299,7 +299,7 @@ const ApoiadoresNovo = () => {
 
 
                     <div class="form-group">
-                        <label htmlFor="situacao">Situação</label>
+                        <label htmlFor="situacao">Situação *</label>
                         <select id="situacao" required class="form-control" onChange={(e) => setSituacao(e.target.value)} >
                             <option selected value="" disabled>Escolher...</option>
                             {
@@ -317,11 +317,11 @@ const ApoiadoresNovo = () => {
 
                     <div class="form-group">
                         <label htmlFor="email">E-mail</label>
-                        <input type="email" required class="form-control" id="email" placeholder="E-mail" value={email|| ''} onChange={(e) => setEmail(e.target.value)} />
+                        <input type="email" class="form-control" id="email" placeholder="E-mail" value={email|| ''} onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
                     <div class="form-group">
-                        <label htmlFor="telefone">Telefone 
+                        <label htmlFor="telefone">Telefone *
                         <span> <input  type="checkbox" id='whatsapp' name='whatsapp' /> <FaWhatsapp /> </span>
                         </label>
                         <input type="text" required class="form-control" id="telefone" placeholder="Telefone" value={telefone|| ''} onChange={(e) => setTelefone(e.target.value)} />

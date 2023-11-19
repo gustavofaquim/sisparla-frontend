@@ -37,6 +37,31 @@ const DemandasList = () => {
         }
     }
 
+    const mudaSituacao = async(id) => {
+        try {
+            
+            const data = {'situacao': 5} // 5 pois é o id da situacao concluida
+            const response = await userFetch.put(`/muda-situacao-demanda/${id}`, data);
+
+            console.log('Deu certo ai zé');
+            
+
+        } catch (error) {
+            console.log(`Não foi possível alterar a situação da demanda: ${error}`);
+        }
+    }
+
+    const deletaDemanda = async(id) => {
+        try {
+            
+            const response = await userFetch.delete(`demandas/${id}`);
+
+
+        } catch (error) {
+            console.log(`Não foi possível deletar a demanda: ${error}`);
+        }
+    }
+
     function formataData(dataString) {
         
         const data = new Date(`${dataString}T00:00:00-03:00`);
@@ -61,7 +86,7 @@ const DemandasList = () => {
         <div className='listagem-demandas'>
 
             <h1 className='title-page'>Lista de Demandas</h1>
-            <h2 className='subtitle-page'></h2>
+            <h2 className='subtitle-page'>Lista de todas as demandas, com status e data de abertura.</h2>
 
 
             <div className="filtro-busca">
@@ -77,9 +102,10 @@ const DemandasList = () => {
                 <thead>
                     <tr>
                         <th>Assunto</th>
-                        <th>Categoria</th>
                         <th>Situacao</th>
+                        <th>Categoria</th>
                         <th>Data de Abertura</th>
+                        <th colspan="2" id='th-acao'>Ações</th>
                     </tr>
                 </thead>
 
@@ -92,6 +118,12 @@ const DemandasList = () => {
                                 <td>{demanda?.DemandaSituaco?.Descricao}</td>
                                 <td>{demanda?.DemandaCategoria?.Descricao}</td>
                                 <td>{formataData(demanda?.Data)}</td>
+                                <td> 
+                                    <span onClick={() => mudaSituacao(demanda?.IdDemanda)} class='btn-acao btn-concluir'>Concluir</span> 
+                                </td>
+                                <td>
+                                    <span onClick={() => deletaDemanda(demanda?.IdDemanda)} class='btn-acao btn-excluir'>Excluir</span>
+                                </td>
                             </tr>
                         
                         ))

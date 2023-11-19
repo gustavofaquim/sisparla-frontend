@@ -168,7 +168,7 @@ const DemandasEdit = () => {
     return(
         <div className="cadastar-demanda">
              <h1 className='title-page'>Atualizar Demanda</h1>
-             <h2 className='subtitle-page'>=</h2>
+             <h2 className='subtitle-page'>Altere informações da demanda criada.</h2>
 
 
              <div className='form-demanda'>

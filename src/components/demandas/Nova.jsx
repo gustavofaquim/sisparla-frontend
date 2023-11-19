@@ -145,7 +145,7 @@ const Nova = () => {
                 <div class="form-row">
 
                     <div class="form-group col-md-7">
-                        <label htmlFor="assunto">Assunto</label>
+                        <label htmlFor="assunto">Assunto *</label>
                         <input type="assunto" required class="form-control" id="assunto" name='assunto' placeholder="Assunto"  onChange={valueInput} />
                     </div>
 
@@ -155,39 +155,42 @@ const Nova = () => {
 
                     <div class="form-group col-md-7">
                         <label htmlFor="descricao">Descrição</label>
-                        <textarea name='descricao' onChange={valueInput} id="descricao"></textarea>
+                        <textarea name='descricao' placeholder="Informe os detalhes da demanda" onChange={valueInput} id="descricao"></textarea>
                     </div>
 
                 </div>
 
                 <div class="form-row">
-
-                    <Autosuggest
-                        suggestions={suggestions}
-                        onSuggestionsFetchRequested={({ value }) => getApoiadores(value)}
-                        onSuggestionsClearRequested={() => setSuggestions([])}
-                        getSuggestionValue={(apoiador) => apoiador.Nome}
-                        renderSuggestion={(apoiador) => <div>{apoiador.Nome}</div>}
-                        inputProps={{
-                            placeholder: 'Digite o nome do apoiador',
-                            className: 'form-control',
-                            value: selectedApoiador ? selectedApoiador.Nome : apoiadorInputValue,
-                            onChange: handleEntidadeInputChange,
-                        }}
-                        onSuggestionSelected={(event, { suggestion }) => {
-                            setSelectedApoiador(suggestion);
-                            setSelectedApoiadorId(suggestion.IdApoiador);
-                            
-                        }}
-                        renderSuggestionsContainer={({ containerProps, children, query }) => (
-                        <div
-                            {...containerProps}
-                            className="custom-suggestions-container"
-                        >
-                            {children}
-                        </div>
-                        )}
-                    />  
+                    <div class="form-group col-md-7">
+                        <label htmlFor="">Apoiador Solicitante</label>
+                        <Autosuggest
+                            suggestions={suggestions}
+                            onSuggestionsFetchRequested={({ value }) => getApoiadores(value)}
+                            onSuggestionsClearRequested={() => setSuggestions([])}
+                            getSuggestionValue={(apoiador) => apoiador.Nome}
+                            renderSuggestion={(apoiador) => <div>{apoiador.Nome}</div>}
+                            inputProps={{
+                                placeholder: 'Digite o nome do apoiador',
+                                className: 'form-control',
+                                value: selectedApoiador ? selectedApoiador.Nome : apoiadorInputValue,
+                                onChange: handleEntidadeInputChange,
+                            }}
+                            onSuggestionSelected={(event, { suggestion }) => {
+                                setSelectedApoiador(suggestion);
+                                setSelectedApoiadorId(suggestion.IdApoiador);
+                                
+                            }}
+                            renderSuggestionsContainer={({ containerProps, children, query }) => (
+                            <div
+                                {...containerProps}
+                                className="custom-suggestions-container"
+                            >
+                                {children}
+                            </div>
+                            )}
+                        /> 
+                    </div>
+ 
                         
 
                 </div>
@@ -195,7 +198,7 @@ const Nova = () => {
                 <div class="form-row">
 
                     <div class="form-group">
-                        <label htmlFor="categoria">Categoria</label>
+                        <label htmlFor="categoria">Categoria *</label>
                         <select id="categoria" required class="form-control" name="idCategoria" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
                             {
@@ -204,13 +207,10 @@ const Nova = () => {
                                 ))
                             }
                         </select>
-
-                     
                     </div>
-
-
+                            
                     <div class="form-group">
-                        <label htmlFor="situacao">Situação</label>
+                        <label htmlFor="situacao">Situação *</label>
                         <select id="situacao" required class="form-control" name="idSituacao" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
                             {
@@ -219,6 +219,11 @@ const Nova = () => {
                                 ))
                             }
                         </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label htmlFor="valor"> Valor Estimado</label>
+                        <input type="number" name="valor" class="form-control" id="valor"  onChange={valueInput} />
                     </div>
 
                 </div>
@@ -237,7 +242,7 @@ const Nova = () => {
                     </div>
                 </div>
 
-                <div class="form-row">
+                <div class="form-row" id='emenda-parlamentar'>
                     
                     <div class="form-group">
                         <p>Emanda Parlamentar ?</p>
@@ -251,13 +256,7 @@ const Nova = () => {
                             <label class="form-check-label" for="emendaParlamentarN">Não</label>
                         </div>
                     </div>
-
-                    
-                    <div class="form-group">
-                        <label htmlFor="valor" > Valor Estimado</label>
-                        <input type="number" name="valor" id="valor"  onChange={valueInput} />
-                    </div>
-
+                
                 </div>
 
                 <div className='btn'>
