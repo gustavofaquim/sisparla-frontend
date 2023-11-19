@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import { AuthProvider } from "./AuthProvider";
+import { AutoLogout } from './AutoLogout'; //Encerra a sessão por inativiade
 
 import './styles/main.sass';
 
@@ -30,7 +31,7 @@ const Root = () => {
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      const storedToken = localStorage.getItem('token');
+      const storedToken = sessionStorage.getItem('token');
 
       if (storedToken) {
         // Adicione lógica para verificar a validade do token se necessário
@@ -50,7 +51,7 @@ const Root = () => {
 
       if (response.status === 200) {
         const { token } = response.data;
-        localStorage.setItem('token', token);
+        sessionStorage.setItem('token', token);
         setAuthenticated(true);
         return true;
         
@@ -66,13 +67,13 @@ const Root = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     console.log('Saiu do sistema')
     setAuthenticated(false);
   };
 
   const PrivateRoute = ({ element }) => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = sessionStorage.getItem('token');
     const isAuthenticated = !!storedToken;
 
     if (!isAuthenticated) {
@@ -104,6 +105,7 @@ const Root = () => {
           </Route>
         </Routes>
       </Router>
+      <AutoLogout />
     </AuthProvider>
   );
 };

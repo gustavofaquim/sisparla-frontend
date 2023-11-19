@@ -31,7 +31,7 @@ const Aniversariantes = () => {
                 },
             })
             const data = response.data;
-
+            console.log(response.data);
             setAniversariantes(data);
 
         } catch (error) {
@@ -100,7 +100,7 @@ const Aniversariantes = () => {
                                 <td> <Link to={`/apoiador/${aniversariante.IdApoiador}`}>{aniversariante.Nome}</Link></td>
                                 <td>{formataData(aniversariante?.DataNascimento)}</td>
                                 <td>{aniversariante?.Apelido}</td>
-                                <td>{aniversariante?.Telefone}</td>
+                                <td>{aniversariante?.TelefoneApoiador?.Numero}</td>
                                 <td>{aniversariante?.Email}</td> 
                                 <td>{aniversariante?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
                                 <td><span className={aniversariante?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{aniversariante.SituacaoCadastroApoiador.Descricao}</span></td>

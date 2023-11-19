@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
   
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
   
     if (token && !user) {
       const decodedUser = jwtDecode(token);
@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
   }, [user]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     setUser(null);
     console.log('Até mais ver...')
   };
