@@ -3,6 +3,7 @@ import * as React from 'react';
 import userFetch from "../../axios/config.js";
 import { useState, useEffect } from "react";
 import Autosuggest from 'react-autosuggest';
+import { toast } from 'react-toastify';
 
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
@@ -155,12 +156,14 @@ const DemandasEdit = () => {
             
 
             if(response.status == '200'){
+                toast.success('Demanda atualizada com sucesso');
                 navigate('/');
             }
             
 
         } catch (error) {
             console.log('Erro ao cadastrar a demanda:' + error);
+            toast.error('Erro ao atualizar demanda')
         }
     }
 
