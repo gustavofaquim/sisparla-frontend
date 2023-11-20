@@ -6,9 +6,13 @@ import Autosuggest from 'react-autosuggest';
 
 import { useNavigate, useParams } from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import "../styles/components/apoiador-novo.sass"
 
 import { FaWhatsapp } from "react-icons/fa6";
+
 
 const ApoiadoresEdit = () => {
 
@@ -213,10 +217,11 @@ const ApoiadoresEdit = () => {
        try {
             
            const response = await userFetch.put(`/apoiadores/${id}`, data);
-
-            navigate('/apoiadores');
+           toast.success('Apoiador alterado com sucesso!');
+           navigate('/apoiadores');
 
         } catch (error) {
+            toast.error('Erro ao alterar informações.');
             console.log('Deu erro:' + error);
         } 
     }

@@ -1,6 +1,7 @@
 import userFetch from "../../axios/config.js";
 import { useState, useEffect } from "react";
 import Autosuggest from 'react-autosuggest';
+import { toast } from 'react-toastify';
 
 import { useNavigate } from "react-router-dom";
 
@@ -35,6 +36,7 @@ const Nova = () => {
             setCategorias(data);
 
         } catch (error) {
+            
             console.log('Erro ao recuperar as categorias de demandas');
         }
     }
@@ -97,11 +99,13 @@ const Nova = () => {
             const response = await userFetch.post("/demandas", dataToSend);
             
             if(response.status == '200'){
+                toast.success("Demanda criada com uscesso");
                 navigate('/');
             }
             
 
         } catch (error) {
+            toast.error("Houve um erro ao criar a demanda");
             console.log('Erro ao cadastrar a demanda:' + error);
         }
     }

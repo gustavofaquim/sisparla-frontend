@@ -11,7 +11,7 @@ const AutoLogout = () => {
       clearTimeout(inactivityTimeout);
 
       // Defina o tempo limite de inatividade em milissegundos (por exemplo, 15 minutos)
-      const inactivityLimit = 1 * 60 * 1000;
+      const inactivityLimit = 30 * 60 * 1000;
 
       inactivityTimeout = setTimeout(() => {
         // Chame a função de logout após o tempo limite de inatividade

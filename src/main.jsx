@@ -22,6 +22,7 @@ import Login from './login';
 import Aniversariantes from './components/Aniversariantes';
 import NovaMensagem from './components/mensagens/NovaMensagem';
 import userFetch from './axios/config';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Root = () => {
   
@@ -86,6 +87,7 @@ const Root = () => {
 
   return (
     <AuthProvider>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>

@@ -1,10 +1,16 @@
-
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
+import userFetch from "./axios/config"; 
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import "./styles/login.sass";
-import userFetch from "./axios/config";
+
+
+
 
 const Login = ({ onLogin }) => {
     
@@ -18,11 +24,11 @@ const Login = ({ onLogin }) => {
 
         if (loginStatus) {
             // Login bem-sucedido, fazer algo
-            console.log('Login bem-sucedidooo');
+            toast.success('Bem-vindo!');
             navigate('/apoiadores');
         } else {
             // Login falhou, fazer algo
-            console.log('Login falhouuuuuuu');
+            toast.error('Erro ao fazer login. Verifique suas credenciais.');
         }
     };
     
@@ -42,7 +48,6 @@ const Login = ({ onLogin }) => {
                 </div>
                 <button type="submit" class="btn btn-primary">ENTRAR</button>
             </form>
-
         </div>
     )
 }

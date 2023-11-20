@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import userFetch from '../../axios/config.js';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 
 import "../../styles/components/listagem.sass";
@@ -43,7 +44,7 @@ const DemandasList = () => {
             const data = {'situacao': 5} // 5 pois é o id da situacao concluida
             const response = await userFetch.put(`/muda-situacao-demanda/${id}`, data);
 
-            console.log('Deu certo ai zé');
+            toast.success('Situação da demanda alterada');
             
 
         } catch (error) {
@@ -55,7 +56,7 @@ const DemandasList = () => {
         try {
             
             const response = await userFetch.delete(`demandas/${id}`);
-
+            toast.success('Demanda removida com sucesso');
 
         } catch (error) {
             console.log(`Não foi possível deletar a demanda: ${error}`);

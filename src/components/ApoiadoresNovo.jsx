@@ -4,6 +4,7 @@ import userFetch from "../axios/config.js";
 import { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 import "../styles/components/apoiador-novo.sass"
 
@@ -175,16 +176,16 @@ const ApoiadoresNovo = () => {
             const response = await userFetch.post("/apoiadores", post);
 
             const msg = response.data.msg || "Usuário cadastrado com sucesso :) "; 
+            toast.success(msg);
+            setResponseMessage();
 
-            setResponseMessage(msg);
-
-            
             navigate('/apoiadores');
 
 
         } catch (error) {
             console.log(`Erro ao cadastrar o apoiador: ${error}`);
             setResponseMessage(error);
+            toast.error(error);
         }
 
     };
