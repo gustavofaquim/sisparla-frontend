@@ -20,7 +20,8 @@ import {
     FaRegCalendarAlt,
     FaChartBar,
     FaCalendarAlt,
-    FaRegWindowClose
+    FaRegWindowClose,
+    FaHouseUser 
   } from 'react-icons/fa';
 
 const Sidebars = () => {
@@ -28,7 +29,7 @@ const Sidebars = () => {
   const { handleLogout } = useAuth();
   const navigate = useNavigate();
 
-  const [activeMenuItem, setActiveMenuItem] = useState('apoiadores'); // Defina o item inicialmente ativo
+  const [activeMenuItem, setActiveMenuItem] = useState('inicio'); // Defina o item inicialmente ativo
 
   const handleMenuItemClick = (menuItem) => {
     setActiveMenuItem(menuItem);
@@ -47,6 +48,7 @@ const Sidebars = () => {
     <div className='sidebar-menu'>
         <Sidebar>
             <Menu >
+                <MenuItem component={<Link to="/" />} icon={<FaHouseUser/>} onClick={() => handleMenuItemClick('inicio')}>Início</MenuItem>
                 <SubMenu icon={<FaUserAlt/>}  label="Apoidores"  active={activeMenuItem === 'apoiadores'} >
                     <MenuItem component={<Link to="/apoiadores" />} onClick={() => handleMenuItemClick('apoiadores')}> Lista</MenuItem>
                     <MenuItem component={<Link to="/novo-apoiador" />} onClick={() => handleMenuItemClick('apoiadores')}> Novo</MenuItem>

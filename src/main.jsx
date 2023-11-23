@@ -8,6 +8,7 @@ import { AutoLogout } from './AutoLogout'; //Encerra a sessão por inativiade
 import './styles/main.sass';
 
 import App from './App';
+import Home from "./components/Home";
 import ApoiadoresList from './components/ApoiadoresList';
 import ApoiadoresNovo from './components/ApoiadoresNovo';
 import ApoiadoresFicha from './components/ApoiadoresFicha';
@@ -90,7 +91,8 @@ const Root = () => {
       <ToastContainer />
       <Router>
         <Routes>
-          <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>
+            <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>
+            <Route path="/" element={<PrivateRoute element={<Home />} />} />
             <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} />} />
             <Route path="aniversariantes" element={<PrivateRoute element={<Aniversariantes />} />} />
             <Route path="novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} />} />

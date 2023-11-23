@@ -1,0 +1,22 @@
+@use '../variables'
+@use '../mixins'
+
+.interface-dashboard
+    @include mixins.paginas
+
+    .area-cards
+        display: inline-flex
+
+    .card-dashboard
+        text-align: center
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
+
+        .cards-tipo
+            text-align: left
+            padding: 1em
+    
+    .titulo
+        width: 100%
+        background-color: red
+        padding: 1em
+        color: #FFFFFF
