@@ -21,8 +21,6 @@ const Home = () => {
             setDemandaSituacao(response.data[0].DemandasSituacao);
             setDemandaCategoria(response.data[1].DemandasCateogira)
             
-           
-            
         } catch (error) {
             console.log(`Não foi possível obter os dados: ${error}`)
         }
@@ -31,9 +29,11 @@ const Home = () => {
     const getApoiadores = async() => {
         try {
             const response = await userFetch.get("/view-apoiadores");
-
-        } catch (error) {
+            setApoiadoresClassificacao(response.data[0].ApoiadoresClassificacao)
+            setApoiadoresSituacao(response.data[1].ApoiadoresSituacao)
             
+        } catch (error) {
+            console.log(`Não foi possível obter os dados: ${error}`)
         }
     }
 
@@ -48,26 +48,74 @@ const Home = () => {
            <h1 className='title-page'>Dashboard</h1>
 
             <div className='area-cards'>
+
+
             {demandaSituacao &&
                 <>
 
-                <div className="card-dashboard">
-                   <div className="titulo"> <h2>Demandas</h2> </div>
+                <div className="card-dashboard demandas">
+                   <div className="titulo"> <p>Demandas</p> </div>
+
+                    <div className='row'>
+
+                        <div className='col cards-tipo'>
+                            Tipo
+                            {demandaSituacao.map((sit) => (
+                                <p className="card-text"><span>{sit.quantidade}</span> - {sit.tipo}</p>
+                            ))}
+                        </div>
+
+                        
+                        <div className='col cards-tipo'>
+                            Categoria
+                            {demandasCategoria.map((cat) => (
+                                <p className="card-text"> <span>{cat.quantidade}</span> - {cat.tipo}</p>
+                            ))}
+                        </div>
+
+                    </div>
+                    
+                </div>  
+                </>
+            }
+
+
+            {ApoiadoresSituacao &&
+                <>
+
+                <div className="card h-100 card-dashboard apoiadores">
+                   <div className="titulo"> <p>Apoiadores</p> </div>
+                    
                     <div className='cards-tipo'>
-                        {demandaSituacao.map((sit) => (
-                            <p className="card-text">{sit.quantidade} {sit.tipo}</p>
+                        {ApoiadoresSituacao.map((sit) => (
+                            <p className="card-text">{sit.quantidade} - {sit.tipo}</p>
                         ))}
                     </div>
 
                     <div className='cards-tipo'>
-                        {demandasCategoria.map((sit) => (
-                            <p className="card-text">{sit.quantidade} {sit.tipo}</p>
+                        {ApoiadoresClassificacao.map((cat) => (
+                            <p className="card-text">{cat.quantidade} - {cat.tipo}</p>
                         ))}
                     </div>
 
                 </div>  
                 </>
             }
+
+
+                <div className="card h-100 card-dashboard aniversariantes">
+                   <div className="titulo"> <p>Aniversariantes</p> </div>
+                    
+                    <div className='cards-tipo'>
+                       
+                    </div>
+
+                  
+
+                </div>  
+
+
+
             </div>
 
 

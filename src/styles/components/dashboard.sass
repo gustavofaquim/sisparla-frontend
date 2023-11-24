@@ -3,20 +3,57 @@
 
 .interface-dashboard
     @include mixins.paginas
+    font-family: variables.$font-poppins
 
     .area-cards
         display: inline-flex
+        margin-top: 50px
 
     .card-dashboard
-        text-align: center
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
+        margin-right: 4em
+        padding: 1em
+        background-color: variables.$fundo-card-cinza
 
-        .cards-tipo
-            text-align: left
-            padding: 1em
-    
+        span
+            font-weight: 300
+            padding: 10px
+
+
+        .card-text
+            font-size: 13pt
+            font-weight: 300
+            margin-top: 15px
+            width: 100%
+            display: block
+            
     .titulo
         width: 100%
-        background-color: red
-        padding: 1em
-        color: #FFFFFF
+        padding: 5px
+        font-size: 17pt
+        font-weight: bold
+        text-align: center
+        border-radius: 5px 5px 0px 0px
+
+
+    
+    .demandas 
+        border-left: 6px solid variables.$card-vermelho
+
+        .titulo
+            color: variables.$card-vermelho
+    
+    .apoiadores
+        border-left: 6px solid variables.$card-azul
+
+        .titulo
+            color: variables.$card-azul
+
+    .aniversariantes
+        border-left: 6px solid variables.$card-amarelo
+
+        .titulo
+            color: variables.$card-amarelo
+
+
+    
