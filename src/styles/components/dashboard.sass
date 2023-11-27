@@ -9,6 +9,7 @@
         display: inline-flex
         margin-top: 50px
 
+
     .card-dashboard
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
         margin-right: 4em
@@ -24,9 +25,39 @@
             font-size: 13pt
             font-weight: 300
             margin-top: 15px
+            padding: 5px
             width: 100%
             display: block
-            
+
+    .resumos
+        margin-top: 2em
+
+        h4
+            text-align: left
+            text-transform: uppercase
+
+        p
+            font-size: 20pt
+            width: 30px
+
+        .card
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
+            display: inline-flex
+            background-color: variables.$fundo-card-cinza
+            padding: 10px
+            margin-right: 40px
+
+            .quantidade
+                display: inline-flex
+                vertical-align: text-top
+                
+                p,svg
+                    font-size: 26pt
+                    margin-right: 15px
+                    
+                svg
+                    margin-top: 9px
+  
     .titulo
         width: 100%
         padding: 5px
@@ -38,14 +69,10 @@
 
     
     .demandas 
-        border-left: 6px solid variables.$card-vermelho
-
         .titulo
             color: variables.$card-vermelho
     
     .apoiadores
-        border-left: 6px solid variables.$card-azul
-
         .titulo
             color: variables.$card-azul
 
