@@ -37,7 +37,7 @@ const Home = () => {
             setApoiadoresClassificacao(response.data[0].ApoiadoresClassificacao);
             setApoiadoresSituacao(response.data[1].ApoiadoresSituacao);
 
-            setQuantidadeApoiadores((ApoiadoresClassificacao).length);
+            setQuantidadeApoiadores(ApoiadoresClassificacao.length);
             
         } catch (error) {
             console.log(`Não foi possível obter os dados: ${error}`)
@@ -52,7 +52,7 @@ const Home = () => {
 
     return(
         <div className="interface-dashboard">
-           <h1 className='title-page'>Dashboard</h1>
+           <h1 className='title-page'>Página Inicial</h1>
 
            <div className="resumos">
             
@@ -139,18 +139,6 @@ const Home = () => {
                 </div>  
                 </>
             }
-
-
-                <div className="card h-100 card-dashboard aniversariantes">
-                   <div className="titulo"> <p>Aniversariantes</p> </div>
-                    
-                    <div className='cards-tipo'>
-                       
-                    </div>
-
-                  
-                </div>  
-
 
 
             </div>

@@ -2,38 +2,105 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import userFetch from "../axios/config.js";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa6";
 
 import "../styles/components/apoiadores-list.sass";
 
 
-
 const ApoiadoresList = () => {
 
     const navigate = useNavigate();
     const [apoiadores, setApoiadores] = useState([]);
+    const [profissoes, setProfissoes] = useState([]);
+    const [partidos, setPartidos] = useState([]);
 
     const [termoBusca, setTermoBusca] = useState(''); // Estado para o termo de busca
+    const [filtros, setFiltros] = useState({}); // Estado para o termo de busca
+    const [filtroProfissao, setFiltroProfissao] = useState('');
+    const [filtroPartido, setFiltroPartido] = useState('');
+
+    const [linhasSelecionadas, setLinhasSelecionadas] = useState([]);
+
+    
+
+    const chamaListaContato = () => {
+        
+        // Navegue para a outra página programaticamente
+        console.log(linhasSelecionadas)
+        navigate('/lista-contatos', { state: { apoiadoresSelecionados: linhasSelecionadas } });
+    }
+
+    const getProfissoes = async() => {
+
+        try {
+            const response = await userFetch.get("/profissoes");
+
+            const data = response.data;
+            
+            setProfissoes(data);
+            
+        } catch (error) {
+            console.log(`Erro ao recuperar a profissão: ${error}`);
+        }
+    }
+
+    const getPartidos = async() => {
+        try {
+
+            const response = await userFetch.get(`/partidos/`);
+            const data = response.data;
+            
+            setPartidos(data);
+
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de partidos: ${error}`);
+        }
+    }
+
+    const handleFiltroChange = (filtroName, valor) => {
+        setFiltros(prevFiltros => {
+          const novosFiltros = { ...prevFiltros, [filtroName]: valor };
+          return novosFiltros;
+        });
+    };
+
+
+    const handleSelecionarLinha = (apoiador) => {
+        setLinhasSelecionadas((prevLinhasSelecionadas) => {
+          if (prevLinhasSelecionadas.some((linha) => linha.IdApoiador === apoiador.IdApoiador)) {
+            // Remove a linha se já estiver selecionada
+            return prevLinhasSelecionadas.filter((linha) => linha.IdApoiador !== apoiador.IdApoiador);
+          } else {
+            // Adiciona a linha se ainda não estiver selecionada
+            return [...prevLinhasSelecionadas, apoiador];
+          }
+        });
+    };
+      
+
 
     useEffect(() => {
         getApoiadores();
-    }, [termoBusca]);
+    }, [termoBusca, filtros]);
+
+    
 
     const getApoiadores = async() => {
 
 
         try {
-          
+
             const response = await userFetch.get("/apoiadores", {
                 params: {
-                    termoBusca
+                    termoBusca, ...filtros,
                 },
             });
             const data = response.data;
             setApoiadores(data);
-            console.log(response.data);
+            console.log('linha..................')
+            console.log(linhasSelecionadas)
 
         } catch (error) {
             console.log(`Ocorreu um erro ao buscar os apoiadores: ${error}`);
@@ -42,7 +109,8 @@ const ApoiadoresList = () => {
 
     useEffect(() => {
         getApoiadores();
-        
+        getProfissoes();
+        getPartidos();
     }, []);
 
     const enviarMensagem = async() => {
@@ -58,8 +126,7 @@ const ApoiadoresList = () => {
 
    
 
-  
-    
+
     return(
         <div className="listagem-apoiadores">
             <h1 className='title-page'>Listagem de Apoiadores</h1>
@@ -68,6 +135,8 @@ const ApoiadoresList = () => {
             <div className='novo-apoiador'>
              <Link to={`/novo-apoiador`}><FaCirclePlus /> Adicionar Novo Apoiador</Link>
             </div>
+
+
             <div className="filtro-busca">
                 <div>
                    
@@ -76,9 +145,47 @@ const ApoiadoresList = () => {
                 </div>
             </div>
 
+            <div className='seletor-filtros'>
+                <div>
+                    <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
+                        <option value='todas'>Todas</option>
+                        {
+                            profissoes.map((profissao) => (   
+                                <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <select name="partido" id="partido" onChange={(e) => handleFiltroChange('partido', e.target.value)}> 
+                        <option value='todos'>Todas</option>
+                        {
+                            partidos.map((partido) => (
+                                
+                                <option key={partido.IdPartido} value={partido.Nome}>{partido.Sigla}</option>
+                            ))
+                        }
+                        
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                {linhasSelecionadas.length} apoiador(es) selecionado(s)
+                </div>
+                        
+                <div>   
+                <a href="#" onClick={chamaListaContato}><FaCirclePlus /> Adicionar a Lista</a>
+                </div>
+            </div>
+                        
+            
             <table>
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nome</th>
                         <th>Apelido</th>
                         <th>Telefone</th>
@@ -94,6 +201,13 @@ const ApoiadoresList = () => {
                     {apoiadores.length === 0 ? <p>Carregando...</p> : (
                         apoiadores.map((apoiador) => (
                             <tr key={apoiador.IdApoiador}>
+                                <td>
+                                    <input
+                                    type="checkbox"
+                                    onChange={() => handleSelecionarLinha(apoiador)}
+                                    checked={linhasSelecionadas.some((linha) => linha.IdApoiador === apoiador.IdApoiador)}
+                                    />
+                                </td>
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
                                 <td>{apoiador?.Apelido}</td>
                                 <td>{apoiador?.TelefoneApoiador?.Numero}</td>

@@ -21,7 +21,8 @@ import {
     FaChartBar,
     FaCalendarAlt,
     FaRegWindowClose,
-    FaHouseUser 
+    FaHouseUser,
+    FaWhatsapp  
   } from 'react-icons/fa';
 
 const Sidebars = () => {
@@ -53,7 +54,11 @@ const Sidebars = () => {
                     <MenuItem component={<Link to="/apoiadores" />} onClick={() => handleMenuItemClick('apoiadores')}> Lista</MenuItem>
                     <MenuItem component={<Link to="/novo-apoiador" />} onClick={() => handleMenuItemClick('apoiadores')}> Novo</MenuItem>
                     <MenuItem component={<Link to="/aniversariantes" />} onClick={() => handleMenuItemClick('apoiadores')}> Aniversariantes</MenuItem>
-                    <MenuItem component={<Link to="/nova-mensagem" />} onClick={() => handleMenuItemClick('apoiadores')}> Enviar Mensagem</MenuItem>
+                </SubMenu>
+
+                <SubMenu icon={<FaWhatsapp />}  label="Mensagens"  active={activeMenuItem === 'mensagens'} >
+                    <MenuItem component={<Link to="/nova-mensagem" />} onClick={() => handleMenuItemClick('mensagens')}>Enviar Mensagem</MenuItem>
+                    <MenuItem component={<Link to="/lista-contatos" />} onClick={() => handleMenuItemClick('mensagens')}>Lista de Contatos</MenuItem>
                 </SubMenu>
 
                 <SubMenu icon={<FaChartBar/>} label="Demandas" active={activeMenuItem === 'demandas'} >
