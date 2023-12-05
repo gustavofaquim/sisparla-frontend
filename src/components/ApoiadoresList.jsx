@@ -27,8 +27,6 @@ const ApoiadoresList = () => {
 
     const chamaListaContato = () => {
         
-        // Navegue para a outra página programaticamente
-        console.log(linhasSelecionadas)
         navigate('/lista-contatos', { state: { apoiadoresSelecionados: linhasSelecionadas } });
     }
 

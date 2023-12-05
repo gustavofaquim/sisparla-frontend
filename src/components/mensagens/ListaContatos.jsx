@@ -8,6 +8,8 @@ import { useLocation } from 'react-router-dom';
 
 import { FaRegCircleXmark } from "react-icons/fa6";
 
+import ModalListaContatos from '../mensagens/ModalListaContatos.jsx';
+
 import '../../styles/components/mensagem/lista-contatos.sass';
 
 const ListaContatos = (propos) => {
@@ -23,12 +25,9 @@ const ListaContatos = (propos) => {
 
     
     const location = useLocation();
-    const apoiadoresSelecionados = location.state?.apoiadoresSelecionados || [];
+    const apoiadoresParaAdicionar = location.state?.apoiadoresSelecionados || [];
 
-    
-    console.log(apoiadoresSelecionados[0])
-
-
+    const [apoiadoresAdicionados, setApoiadoresAdicionados] = useState(false);
 
     const getApoiadores = async(filtro) => {
         try {
@@ -56,6 +55,8 @@ const ListaContatos = (propos) => {
     const [selectedApoiador, setSelectedApoiador] = useState(null);
     const [apoiadorInputValue, setApoiadorInputValue] = useState(data.apoiadorNome || '');
 
+
+    
     useEffect(() => {
         if (selectedApoiador) {
             setApoiadorInputValue(selectedApoiador.Nome);
@@ -81,6 +82,17 @@ const ListaContatos = (propos) => {
         setSelectedApoiadores(updatedApoiadores);
     };
 
+    useEffect(() => {
+        if (!apoiadoresAdicionados && apoiadoresParaAdicionar.length > 0) {
+            // Adiciona os apoiadores do arrayParaPassar aos apoiadores selecionados
+            const updatedApoiadores = [...selectedApoiadores, ...apoiadoresParaAdicionar];
+            setSelectedApoiadores(updatedApoiadores);
+            setApoiadoresAdicionados(true);
+        }
+    }, [apoiadoresParaAdicionar, apoiadoresAdicionados, selectedApoiadores]);
+
+
+
     
     return(
         <div className="lista-contatos">
@@ -89,7 +101,7 @@ const ListaContatos = (propos) => {
             <div>
 
 
-                <label htmlFor="">Busque e clique sobre o apoiador</label>
+                <label className='autosuggest' htmlFor="">Busque e clique sobre o apoiador</label>
                 <Autosuggest
                     suggestions={suggestions}
                     onSuggestionsFetchRequested={({ value }) => getApoiadores(value)}
@@ -118,11 +130,8 @@ const ListaContatos = (propos) => {
                     )}
 
                 /> 
-                    <p>Apoiadores para que a mensagem será enviada</p>
+                    <p>Apoiadores</p>
                     <div>
-
-                    
-                            
 
                         <div>
                                 
@@ -137,9 +146,15 @@ const ListaContatos = (propos) => {
                             </div>
 
                         </div>
+
+                        <div className="div-btn">
+                            <Link to={``}><button className="btn btn-add-lista" data-toggle="modal" data-target="#ExemploModalCentralizado">Salvar Lista</button></Link>
+                        </div>
                     </div> 
 
-                </div>
+                    <ModalListaContatos contatos={selectedApoiadores} />
+
+                </div>  
 
             </div>
     )
