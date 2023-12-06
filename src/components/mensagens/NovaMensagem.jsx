@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Autosuggest from 'react-autosuggest';
 
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 
 import { FaRegCircleXmark } from "react-icons/fa6";
@@ -20,6 +21,12 @@ const NovaMensagem = () => {
     const [data, setData] = useState([]);
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
 
+
+    const location = useLocation();
+    const apoiadoresParaAdicionar = location.state?.apoiadoresSelecionados || [];
+
+    const [apoiadoresAdicionados, setApoiadoresAdicionados] = useState(false);
+   
 
     const getApoiadores = async(filtro) => {
         try {
@@ -100,6 +107,16 @@ const NovaMensagem = () => {
 
         return <span>{file.name}</span>;
     };
+
+
+    useEffect(() => {
+        if (!apoiadoresAdicionados && apoiadoresParaAdicionar.length > 0) {
+            // Adiciona os apoiadores do arrayParaPassar aos apoiadores selecionados
+            const updatedApoiadores = [...selectedApoiadores, ...apoiadoresParaAdicionar];
+            setSelectedApoiadores(updatedApoiadores);
+            setApoiadoresAdicionados(true);
+        }
+    }, [apoiadoresParaAdicionar, apoiadoresAdicionados, selectedApoiadores]);
 
 
     const sendMessage = async (e) => {

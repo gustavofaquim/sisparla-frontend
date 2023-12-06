@@ -30,6 +30,11 @@ const ApoiadoresList = () => {
         navigate('/lista-contatos', { state: { apoiadoresSelecionados: linhasSelecionadas } });
     }
 
+    const chamaEnvioMensagem = () => {
+        
+        navigate('/nova-mensagem', { state: { apoiadoresSelecionados: linhasSelecionadas } });
+    }
+
     const getProfissoes = async() => {
 
         try {
@@ -97,8 +102,7 @@ const ApoiadoresList = () => {
             });
             const data = response.data;
             setApoiadores(data);
-            console.log('linha..................')
-            console.log(linhasSelecionadas)
+           
 
         } catch (error) {
             console.log(`Ocorreu um erro ao buscar os apoiadores: ${error}`);
@@ -141,23 +145,29 @@ const ApoiadoresList = () => {
                     <input type="text" placeholder="🔎 Digite um termo de busca" style={{ paddingLeft: '20px' }} value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
                     
                 </div>
+            
             </div>
 
             <div className='seletor-filtros'>
-                <div>
-                    <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
-                        <option value='todas'>Todas</option>
-                        {
-                            profissoes.map((profissao) => (   
-                                <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
-                            ))
-                        }
-                    </select>
+               
+                <div className='filtro'>
+                   <div>
+                    <p>Profissao</p>
+                        <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
+                            <option value='todas'>Todas</option>
+                            {
+                                profissoes.map((profissao) => (   
+                                    <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
+                                ))
+                            }
+                        </select>
+                   </div>
                 </div>
 
-                <div>
+                <div className='filtro'>
+                   <p>Partido</p>
                     <select name="partido" id="partido" onChange={(e) => handleFiltroChange('partido', e.target.value)}> 
-                        <option value='todos'>Todas</option>
+                        <option value='todos'>Todos</option>
                         {
                             partidos.map((partido) => (
                                 
@@ -169,13 +179,15 @@ const ApoiadoresList = () => {
                 </div>
             </div>
 
-            <div>
-                <div>
-                {linhasSelecionadas.length} apoiador(es) selecionado(s)
-                </div>
+            <div className='btn-infos'>
                         
-                <div>   
-                <a href="#" onClick={chamaListaContato}><FaCirclePlus /> Adicionar a Lista</a>
+                <div className='links'>   
+                    <a href="#" onClick={chamaListaContato}>Criar uma lista de contatos com base nos selecionados</a>
+                    <a href="#" onClick={chamaEnvioMensagem}>Enviar Mensagem para os selecionados</a>
+                </div>
+
+                <div className='quantidade-selecionados'>
+                    {linhasSelecionadas.length} apoiador(es) selecionado(s)
                 </div>
             </div>
                         

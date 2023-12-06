@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { FaRegCircleXmark } from "react-icons/fa6";
 
 const ModalListaContatos = (props) => {
     return(
