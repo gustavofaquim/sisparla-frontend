@@ -156,6 +156,7 @@ const NovaMensagem = () => {
     return(
         <div className="nova-mensagem">
              <h1 className='title-page'>Envio de Mensagens</h1>
+             <h2 className='subtitle-page'>Envie mensagens para apoiadores individuais ou listas pré-configuradas.</h2>
 
              <div className='form-mensagem'>
 
