@@ -9,7 +9,7 @@ import "../styles/components/apoiadores-list.sass";
 import "../styles/components/aniversariantes.sass";
 
 
-const Aniversariantes = () => {
+const Aniversariantes = (props) => {
 
     const [aniversariantes, setAniversariantes] = useState([]);
 

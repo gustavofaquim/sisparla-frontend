@@ -134,11 +134,6 @@ const ApoiadoresList = () => {
             <h1 className='title-page'>Listagem de Apoiadores</h1>
             <h2 className='subtitle-page'>Lista de todos os eleitores ativos, desativos e com cadastro incompleto.</h2>
 
-            <div className='novo-apoiador'>
-             <Link to={`/novo-apoiador`}><FaCirclePlus /> Adicionar Novo Apoiador</Link>
-            </div>
-
-
             <div className="filtro-busca">
                 <div>
                    
@@ -184,6 +179,7 @@ const ApoiadoresList = () => {
                 <div className='links'>   
                     <a href="#" onClick={chamaListaContato}>Criar uma lista de contatos com base nos selecionados</a>
                     <a href="#" onClick={chamaEnvioMensagem}>Enviar Mensagem para os selecionados</a>
+
                 </div>
 
                 <div className='quantidade-selecionados'>
@@ -221,7 +217,16 @@ const ApoiadoresList = () => {
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
                                 <td>{apoiador?.Apelido}</td>
                                 <td>{apoiador?.TelefoneApoiador?.Numero}</td>
-                                <td><FaWhatsapp onClick={enviarMensagem} /></td>
+
+                                {apoiador?.TelefoneApoiador?.Numero ? (
+                                    <td>
+                                        <Link to={`https://api.whatsapp.com/send?phone=55${apoiador.TelefoneApoiador.Numero}`} target="_blank">
+                                        <FaWhatsapp/>
+                                        </Link>
+                                    </td>
+                                ): <td><FaWhatsapp/></td>
+                                }
+
                                 <td>{apoiador?.Email}</td> 
                                 <td>{apoiador?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
                                 <td><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
@@ -231,6 +236,9 @@ const ApoiadoresList = () => {
                     )}
                 </tbody>
             </table>
+            <div className='novo-apoiador'>
+                <Link to={`/novo-apoiador`}><FaCirclePlus /> Adicionar Novo Apoiador</Link>
+            </div>
    
         </div>
     );

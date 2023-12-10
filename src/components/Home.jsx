@@ -16,6 +16,7 @@ const Home = () => {
     const [ApoiadoresSituacao, setApoiadoresSituacao] = useState([]);
     const [quantidadeApoiadores, setQuantidadeApoiadores] = useState([]);
 
+    const [data, setData] = useState([]);
 
     const getDemandas = async() => {
 
@@ -23,8 +24,11 @@ const Home = () => {
             const response = await userFetch.get("/view-demandas")
             setDemandaSituacao(response.data[0].DemandasSituacao);
             setDemandaCategoria(response.data[1].DemandasCateogira)
+            
+            const q1 = response.data[0].DemandasSituacao.length
+            const q2 = response.data[1].DemandasCateogira.length
 
-            setQuantidadeDemandas(demandaSituacao.length)
+            setQuantidadeDemandas(q1 + q2)
             
         } catch (error) {
             console.log(`Não foi possível obter os dados: ${error}`)
@@ -37,16 +41,54 @@ const Home = () => {
             setApoiadoresClassificacao(response.data[0].ApoiadoresClassificacao);
             setApoiadoresSituacao(response.data[1].ApoiadoresSituacao);
 
-            setQuantidadeApoiadores(ApoiadoresClassificacao.length);
+            const q1 = response.data[0].ApoiadoresClassificacao.length
+            const q2 = response.data[1].ApoiadoresSituacao.length
+
+            setQuantidadeApoiadores(q1 + q2);
             
         } catch (error) {
             console.log(`Não foi possível obter os dados: ${error}`)
         }
     }
 
+    const getEventos = async() => {
+
+        try {
+            
+            const response = await userFetch.get("/eventos", {})
+
+            const resp = response.data;
+            setData(resp);
+
+        } catch (error) {
+            console.log(`Erro ao listar os eventos ${error}`);
+        }
+    }
+
+
+    function formataDataEHora(dataString) {
+        const data = new Date(dataString);
+    
+        // Verificando se a conversão foi bem-sucedida
+        if (isNaN(data.getTime())) {
+            return '-----';
+        }
+    
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        const ano = data.getFullYear();
+    
+        const horas = String(data.getHours()).padStart(2, '0');
+        const minutos = String(data.getMinutes()).padStart(2, '0');
+    
+        return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+    }
+    
+
     useEffect(() => {
         getDemandas();
         getApoiadores();
+        getEventos();
     }, []);
 
 
@@ -58,24 +100,26 @@ const Home = () => {
             
             <div className='card apoiadores'>    
            
-                <div className='quantidade titulo'>
-                    <FaPeopleGroup /> <p> {quantidadeApoiadores} </p>
+                <div className='icone'>
+                    <FaPeopleGroup /> 
                 </div>
 
                 <div className="texto">
-                    <h4 className='titulo'>Quantidade de Apoiadores</h4>
+                    <h4>{quantidadeApoiadores}</h4>
+                    <p className='titulo'>Quantidade de Apoiadores</p>
                 </div> 
 
             </div>  
 
             <div className='card demandas'>    
            
-                <div className='quantidade'>
-                    <FaListUl /> <p> {quantidadeDemandas} </p>
+                <div className='icone'>
+                    <FaListUl /> 
                 </div>
 
                 <div className="texto">
-                    <h4 className='titulo'>Quantidade de Demandas</h4>
+                    <h4> {quantidadeDemandas} </h4>
+                    <p className='titulo'>Quantidade de Demandas</p>
                 </div> 
 
             </div>      
@@ -83,35 +127,56 @@ const Home = () => {
              </div>  
 
 
+            <div className='eventos'>
+                <p className='titulo'>Eventos do dia</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Data e Hora</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                
+                        {data.length === 0 ? <p>Carregando...</p> : (
+                            data.map((evento) => (
+                                <tr key={evento.IdEvento}>
+                                    <td> <Link to={`/eventos/${evento.IdEvento}`}>{evento.Nome}</Link></td>
+                                    <td>{formataDataEHora(evento?.DataHorario)}</td>
+                                </tr>
+                            
+                            ))
+                        )}
+                    </tbody>
+                </table>
+
+            </div>
+
 
             <div className='area-cards'>
 
             {demandaSituacao &&
                 <>
 
-                <div className="card-dashboard demandas">
-                   <div className="titulo"> <p>Demanda</p> </div>
+               
+                <div className='col cards-tipo'>
+                    Tipo
+                    {demandaSituacao.map((sit) => (
+                        <p className="card-text"><span>{sit.quantidade}</span> - {sit.tipo}</p>
+                    ))}
+                </div>
 
-                    <div className='row'>
 
-                        <div className='col cards-tipo'>
-                            Tipo
-                            {demandaSituacao.map((sit) => (
-                                <p className="card-text"><span>{sit.quantidade}</span> - {sit.tipo}</p>
-                            ))}
-                        </div>
-
+                <div className='col cards-tipo'>
+                    Categoria
+                    {demandasCategoria.map((cat) => (
+                        <p className="card-text"> <span>{cat.quantidade}</span> - {cat.tipo}</p>
+                    ))}
+                </div>         
                         
-                        <div className='col cards-tipo'>
-                            Categoria
-                            {demandasCategoria.map((cat) => (
-                                <p className="card-text"> <span>{cat.quantidade}</span> - {cat.tipo}</p>
-                            ))}
-                        </div>
 
-                    </div>
-                    
-                </div>  
+                 
                 </>
             }
 

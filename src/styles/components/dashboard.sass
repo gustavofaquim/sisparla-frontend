@@ -15,6 +15,7 @@
         margin-right: 4em
         padding: 1em
         background-color: variables.$fundo-card-cinza
+       
 
         span
             font-weight: 300
@@ -33,42 +34,32 @@
     .resumos
         margin-top: 2em
 
-        h4
-            text-align: left
-            text-transform: uppercase
-
-        p
-            font-size: 20pt
-            width: 30px
-
         .card
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
             display: inline-flex
             background-color: variables.$fundo-card-cinza
             padding: 10px
             margin-right: 40px
+            align-items: center
+            border: 0px solid
+            flex-direction: row
 
-            .quantidade
-                display: inline-flex
-                vertical-align: text-top
-                
-                p,svg
-                    font-size: 26pt
-                    margin-right: 15px
-                    
+            .icone
+
                 svg
-                    margin-top: 9px
-  
-    .titulo
-        width: 100%
-        padding: 5px
-        font-size: 17pt
-        font-weight: bold
-        text-align: center
-        border-radius: 5px 5px 0px 0px
+                    font-size: 40pt
+                   
 
+            .texto
+                margin-left: 10px
 
-    
+                h4
+                    text-transform: uppercase
+                    margin: 0
+
+                p
+                    margin: 0
+
     .demandas 
         color: variables.$card-vermelho
     
@@ -80,6 +71,55 @@
 
         .titulo
             color: variables.$card-amarelo
+    
+
+    .eventos
+        margin-top: 50px
+        background-color: variables.$fundo-card-cinza
+        width: 70%
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px
+        padding: 10px
+
+        .titulo
+            border-bottom: 1px solid rgba(97, 106, 120, 0.07)
+
+        table
+            width: 100% 
+            min-width: 300px
+            max-width: 100%
+            overflow-x: auto
+            border-collapse: collapse
+            text-align: left
+            box-shadow: 0 5px 10px #e1e5ee
+
+            thead
+                box-shadow: 0 5px 10px #e1e5ee
+                color: variables.$side-nav-link-color
+                text-transform: uppercase
+                font-weight: 100
+
+            th
+                padding: 0.5rem 1rem
+                background: variables.$cor-fundo-branco
+                height: 2.3rem
+
+            #th-acao
+                text-align: center
+
+            
+            tr
+                height: 3rem
+            
+
+            tr:nth-child(even) 
+                background-color: #f2f2f2
+
+
+            td
+                display: table-cell
+                padding: 0.5rem 1rem
+                text-overflow: ellipsis
+                overflow: hidden
 
 
     
