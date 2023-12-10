@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import userFetch from '../axios/config.js';
 import { Link } from 'react-router-dom';
-import { FaPeopleGroup, FaListUl  } from "react-icons/fa6";
+import { FaPeopleGroup, FaListUl, FaFaceLaugh, FaFaceSadCry  } from "react-icons/fa6";
 
 import "../styles/components/dashboard.sass";
 
@@ -101,7 +101,7 @@ const Home = () => {
             <div className='card apoiadores'>    
            
                 <div className='icone'>
-                    <FaPeopleGroup /> 
+                    <FaFaceLaugh /> 
                 </div>
 
                 <div className="texto">
@@ -109,7 +109,20 @@ const Home = () => {
                     <p className='titulo'>Quantidade de Apoiadores</p>
                 </div> 
 
-            </div>  
+            </div> 
+             
+            <div className='card incompletos'>    
+           
+                <div className='icone'>
+                    <FaFaceSadCry /> 
+                </div>
+
+                <div className="texto">
+                    <h4>{quantidadeApoiadores}</h4>
+                    <p className='titulo'>Cadastros Incompletos</p>
+                </div> 
+
+            </div>   
 
             <div className='card demandas'>    
            
@@ -122,7 +135,9 @@ const Home = () => {
                     <p className='titulo'>Quantidade de Demandas</p>
                 </div> 
 
-            </div>      
+            </div>
+
+                  
                 
              </div>  
 
