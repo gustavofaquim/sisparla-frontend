@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa6";
 
+
+
 import "../styles/components/apoiadores-list.sass";
 
 

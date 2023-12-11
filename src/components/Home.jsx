@@ -16,7 +16,9 @@ const Home = () => {
     const [ApoiadoresSituacao, setApoiadoresSituacao] = useState([]);
     const [quantidadeApoiadores, setQuantidadeApoiadores] = useState([]);
 
-    const [data, setData] = useState([]);
+    const [minhasDemandas, setMinhasDemandas] = useState([]);
+    const [eventosDia, setEventosDia] = useState([]);
+
 
     const getDemandas = async() => {
 
@@ -43,7 +45,6 @@ const Home = () => {
 
             const q1 = response.data[0].ApoiadoresClassificacao.length
             const q2 = response.data[1].ApoiadoresSituacao.length
-
             setQuantidadeApoiadores(q1 + q2);
             
         } catch (error) {
@@ -51,17 +52,34 @@ const Home = () => {
         }
     }
 
-    const getEventos = async() => {
-
+    const getEventosDia = async() => {
+    
         try {
             
-            const response = await userFetch.get("/eventos", {})
-
+            const response = await userFetch.get("/eventos-do-dia")
             const resp = response.data;
-            setData(resp);
+           
+            setEventosDia(resp);
 
         } catch (error) {
-            console.log(`Erro ao listar os eventos ${error}`);
+            console.log(`Erro ao listar os eventos do dia ${error}`);
+        }
+    }
+
+    const getMinhasDemandas = async() => {
+
+        const id = '1'
+        try {
+            
+            const response = await userFetch.get(`/userDemands/${id}`)
+
+            const resp = response.data;
+          
+            setMinhasDemandas(resp);
+
+
+        } catch (error) {
+            console.log(`Erro ao listar minhas demandas ${error}`);
         }
     }
 
@@ -88,7 +106,8 @@ const Home = () => {
     useEffect(() => {
         getDemandas();
         getApoiadores();
-        getEventos();
+        getEventosDia();
+        getMinhasDemandas();
     }, []);
 
 
@@ -144,27 +163,56 @@ const Home = () => {
 
             <div className='eventos'>
                 <p className='titulo'>Eventos do dia</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Data e Hora</th>
-                        </tr>
-                    </thead>
+                {eventosDia.length === 0 ? (
+                    <p className=''>Não existem eventos agendados para hoje.</p>
+                ) : (
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Data e Hora</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                
-                        {data.length === 0 ? <p>Carregando...</p> : (
-                            data.map((evento) => (
+                        <tbody>
+                            {eventosDia.map((evento) => (
                                 <tr key={evento.IdEvento}>
-                                    <td> <Link to={`/eventos/${evento.IdEvento}`}>{evento.Nome}</Link></td>
+                                    <td><Link to={`/eventos/${evento.IdEvento}`}>{evento.Nome}</Link></td>
                                     <td>{formataDataEHora(evento?.DataHorario)}</td>
                                 </tr>
-                            
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+
+
+            </div>
+
+            <div className='minhas-demandas'>
+                <p className='titulo'>Minhas Demandas Abertas</p>
+                <table>
+                <thead>
+                    <tr>
+                        <th>Assunto</th>
+                        <th>Categoria</th>
+                        <th>Data de Abertura</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+            
+                    {minhasDemandas.length === 0 ? <p>Carregando...</p> : (
+                        minhasDemandas.map((demanda) => (
+                            <tr key={demanda.IdDemanda}>
+                                <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
+                                <td>{demanda?.DemandaCategoria?.Descricao}</td>
+                                <td>{formataDataEHora(demanda?.Data)}</td>
+                            </tr>
+                        
+                        ))
+                    )}
+                </tbody>
+            </table>
 
             </div>
 
