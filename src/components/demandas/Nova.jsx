@@ -146,26 +146,26 @@ const Nova = () => {
 
                 <p className='form-session-title'></p>
                 
-                <div class="form-row">
+                <div className="form-row">
 
-                    <div class="form-group col-md-7">
+                    <div className="form-group col-md-7">
                         <label htmlFor="assunto">Assunto *</label>
-                        <input type="assunto" required class="form-control" id="assunto" name='assunto' placeholder="Assunto"  onChange={valueInput} />
+                        <input type="assunto" required className="form-control" id="assunto" name='assunto' placeholder="Assunto"  onChange={valueInput} />
                     </div>
 
                 </div>
 
-                <div class="form-row">
+                <div className="form-row">
 
-                    <div class="form-group col-md-7">
+                    <div className="form-group col-md-7">
                         <label htmlFor="descricao">Descrição</label>
-                        <textarea name='descricao' placeholder="Informe os detalhes da demanda" onChange={valueInput} id="descricao"></textarea>
+                        <textarea name='descricao' className="form-control" placeholder="Informe os detalhes da demanda" onChange={valueInput} id="descricao"></textarea>
                     </div>
 
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-7">
+                <div className="form-row">
+                    <div class="form-group">
                         <label htmlFor="">Apoiador Solicitante</label>
                         <Autosuggest
                             suggestions={suggestions}
@@ -199,11 +199,11 @@ const Nova = () => {
 
                 </div>
 
-                <div class="form-row">
+                <div className="form-row">
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="categoria">Categoria *</label>
-                        <select id="categoria" required class="form-control" name="idCategoria" onChange={valueInput}>
+                        <select id="categoria" required className="form-control" name="idCategoria" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
                             {
                                 categorias.map((cat) => (
@@ -213,9 +213,9 @@ const Nova = () => {
                         </select>
                     </div>
                             
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="situacao">Situação *</label>
-                        <select id="situacao" required class="form-control" name="idSituacao" onChange={valueInput}>
+                        <select id="situacao" required className="form-control" name="idSituacao" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
                             {
                                 situacoes.map((sit) => (
@@ -225,17 +225,17 @@ const Nova = () => {
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="valor"> Valor Estimado</label>
-                        <input type="number" name="valor" class="form-control" id="valor"  onChange={valueInput} />
+                        <input type="number" name="valor" className="form-control" id="valor"  onChange={valueInput} />
                     </div>
 
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group col-md-4">
+                    <div className="form-group">
                         <label htmlFor="responsavel">Responsável</label>
-                        <select id="responsavel" class="form-control" name="idResponsavel" onChange={valueInput}>
+                        <select id="responsavel" className="form-control" name="idResponsavel" onChange={valueInput}>
                             <option selected>Escolher...</option>
                             {
                                 responsaveis.map((resp) => (
@@ -246,18 +246,18 @@ const Nova = () => {
                     </div>
                 </div>
 
-                <div class="form-row" id='emenda-parlamentar'>
+                <div className="form-row" id='emenda-parlamentar'>
                     
-                    <div class="form-group">
+                    <div className="form-group">
                         <p>Emanda Parlamentar ?</p>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" onChange={valueInput} />
-                            <label class="form-check-label" for="emendaParlamentarS">Sim</label>
+                            <input className="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" onChange={valueInput} />
+                            <label className="form-check-label" for="emendaParlamentarS">Sim</label>
                         </div>
                         
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarN" value="N" onChange={valueInput} />
-                            <label class="form-check-label" for="emendaParlamentarN">Não</label>
+                            <input className="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarN" value="N" onChange={valueInput} />
+                            <label className="form-check-label" for="emendaParlamentarN">Não</label>
                         </div>
                     </div>
                 
@@ -267,7 +267,6 @@ const Nova = () => {
                     <button type="submit" class="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Cadastrar Demanda</button>
                 </div>
                 
-
 
                 </form>
 

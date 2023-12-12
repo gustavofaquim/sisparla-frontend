@@ -132,7 +132,7 @@ const ApoiadoresList = () => {
 
 
     return(
-        <div className="listagem-apoiadores">
+        <div className="listagem-apoiadores container">
             <h1 className='title-page'>Listagem de Apoiadores</h1>
             <h2 className='subtitle-page'>Lista de todos os eleitores ativos, desativos e com cadastro incompleto.</h2>
 
@@ -195,11 +195,11 @@ const ApoiadoresList = () => {
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
-                        <th>Apelido</th>
-                        <th>Telefone</th>
+                        <th className='ocultar-0 ocultar-1'>Apelido</th>
+                        <th className='ocultar-0'>Telefone</th>
                         <th></th>
-                        <th>E-mail</th>
-                        <th>Cidade</th>
+                        <th className='ocultar-0 ocultar-1'>E-mail</th>
+                        <th className='ocultar-0 ocultar-2'>Cidade</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -217,8 +217,8 @@ const ApoiadoresList = () => {
                                     />
                                 </td>
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
-                                <td>{apoiador?.Apelido}</td>
-                                <td>{apoiador?.TelefoneApoiador?.Numero}</td>
+                                <td className='ocultar-0 ocultar-1'>{apoiador?.Apelido}</td>
+                                <td className='ocultar-0'>{apoiador?.TelefoneApoiador?.Numero}</td>
 
                                 {apoiador?.TelefoneApoiador?.Numero ? (
                                     <td>
@@ -229,9 +229,9 @@ const ApoiadoresList = () => {
                                 ): <td><FaWhatsapp/></td>
                                 }
 
-                                <td>{apoiador?.Email}</td> 
-                                <td>{apoiador?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
-                                <td><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
+                                <td className='ocultar-0 ocultar-1' >{apoiador?.Email}</td> 
+                                <td className='ocultar-0 ocultar-2'>{apoiador?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
+                                <td className=''><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
                             </tr>
                         
                         ))

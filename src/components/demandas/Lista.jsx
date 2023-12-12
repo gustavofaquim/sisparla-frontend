@@ -104,9 +104,9 @@ const DemandasList = () => {
                     <tr>
                         <th>Assunto</th>
                         <th>Situacao</th>
-                        <th>Categoria</th>
-                        <th>Data de Abertura</th>
-                        <th colspan="2" id='th-acao'>Ações</th>
+                        <th className='ocultar-1'>Categoria</th>
+                        <th className='ocultar-0'>Data de Abertura</th>
+                        <th className='ocultar-1' colspan="2" id='th-acao'>Ações</th>
                     </tr>
                 </thead>
 
@@ -117,12 +117,12 @@ const DemandasList = () => {
                             <tr key={demanda.IdDemanda}>
                                 <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
                                 <td>{demanda?.DemandaSituaco?.Descricao}</td>
-                                <td>{demanda?.DemandaCategoria?.Descricao}</td>
-                                <td>{formataData(demanda?.Data)}</td>
-                                <td> 
+                                <td className='ocultar-1'>{demanda?.DemandaCategoria?.Descricao}</td>
+                                <td className='ocultar-0'>{formataData(demanda?.Data)}</td>
+                                <td className='ocultar-1'>  
                                     <span onClick={() => mudaSituacao(demanda?.IdDemanda)} class='btn-acao btn-concluir'>Concluir</span> 
                                 </td>
-                                <td>
+                                <td className='ocultar-1'>
                                     <span onClick={() => deletaDemanda(demanda?.IdDemanda)} class='btn-acao btn-excluir'>Excluir</span>
                                 </td>
                             </tr>

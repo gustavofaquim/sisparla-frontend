@@ -84,10 +84,10 @@ const Aniversariantes = (props) => {
                     <tr>
                         <th>Nome</th>
                         <th>Nascimento</th>
-                        <th>Apelido</th>
-                        <th>Telefone</th>
-                        <th>E-mail</th>
-                        <th>Cidade</th>
+                        <th className='ocultar-0 ocultar-1'>Apelido</th>
+                        <th className='ocultar-0'>Telefone</th>
+                        <th className='ocultar-0 ocultar-1'>E-mail</th>
+                        <th className='ocultar-0 ocultar-2'>Cidade</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -99,10 +99,10 @@ const Aniversariantes = (props) => {
                             <tr key={aniversariante.IdApoiador}>
                                 <td> <Link to={`/apoiador/${aniversariante.IdApoiador}`}>{aniversariante.Nome}</Link></td>
                                 <td>{formataData(aniversariante?.DataNascimento)}</td>
-                                <td>{aniversariante?.Apelido}</td>
-                                <td>{aniversariante?.TelefoneApoiador?.Numero}</td>
-                                <td>{aniversariante?.Email}</td> 
-                                <td>{aniversariante?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
+                                <td className='ocultar-0 ocultar-1'>{aniversariante?.Apelido}</td>
+                                <td className='ocultar-0'>{aniversariante?.TelefoneApoiador?.Numero}</td>
+                                <td className='ocultar-0 ocultar-1'>{aniversariante?.Email}</td> 
+                                <td className='ocultar-0 ocultar-2'>{aniversariante?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
                                 <td><span className={aniversariante?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{aniversariante.SituacaoCadastroApoiador.Descricao}</span></td>
                             </tr>
                         

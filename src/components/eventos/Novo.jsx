@@ -54,14 +54,14 @@ const Novo = () => {
 
                         <div className="form-group col-md-7">
                             <label htmlFor="nome">Descrição</label>
-                            <textarea name='descricao' onChange={valueInput} id="descricao"></textarea>
+                            <textarea name='descricao' className="form-control" onChange={valueInput} id="descricao"></textarea>
                         </div>
 
                     </div>
 
                     <div className="form-row">
 
-                        <div className="form-group col-md-5">
+                        <div className="form-group">
                             <label htmlFor="nome">Responsável</label>
                             <input type="text" required className="form-control" id="responsavel" name='responsavel' placeholder="Responsavel"  onChange={valueInput} />
                         </div>
@@ -70,12 +70,12 @@ const Novo = () => {
 
                     <div className="form-row">
 
-                        <div className="form-group col-md-7">
+                        <div className="form-group">
                             <label htmlFor="local">Local do Evento</label>
                             <input type="text" required className="form-control" id="local" name='local' placeholder="Endereço do evento"  onChange={valueInput} />
                         </div>
 
-                        <div className="form-group col-md-3">
+                        <div className="form-group">
                             <label htmlFor="dataHorario">Data e Horário</label>
                             <input type="datetime-local" required className="form-control" id="dataHorario" name='dataHorario' placeholder="Data e Horário do evento"  onChange={valueInput} />
                         </div>
@@ -84,7 +84,7 @@ const Novo = () => {
 
                     <div className="form-row">
 
-                        <div className="form-group col-md-5">
+                        <div className="form-group">
                             <label htmlFor="relacao">Relação</label>
                             <select name="relacao" id="relacao" onChange={valueInput} required className="form-control" >
                                 <option selected value="" disabled>Escolher...</option>

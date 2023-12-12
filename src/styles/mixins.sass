@@ -7,9 +7,13 @@
 @mixin paginas
     width: 95%
     padding: 1rem
+    margin: auto
     border-radius: 5px
     margin-bottom: 2rem
     position: relative
     background-color: variables.$cor-fundo-branco
     overflow: auto
+
+    @media (max-width: 400px)
+        width: 100%
     

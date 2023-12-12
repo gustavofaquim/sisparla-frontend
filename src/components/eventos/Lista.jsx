@@ -77,9 +77,9 @@ const Lista = () => {
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Responsável</th>
+                        <th className='ocultar-0'>Responsável</th>
                         <th>Data e Hora</th>
-                        <th>Relação</th>
+                        <th className='ocultar-1'>Relação</th>
                     </tr>
                 </thead>
 
@@ -89,9 +89,9 @@ const Lista = () => {
                         data.map((evento) => (
                             <tr key={evento.IdEvento}>
                                 <td> <Link to={`/eventos/${evento.IdEvento}`}>{evento.Nome}</Link></td>
-                                <td>{evento?.Responsavel}</td>
+                                <td className='ocultar-0'>{evento?.Responsavel}</td>
                                 <td>{formataDataEHora(evento?.DataHorario)}</td>
-                                <td>{evento?.Relacao}</td>
+                                <td className='ocultar-1'>{evento?.Relacao}</td>
                             </tr>
                         
                         ))

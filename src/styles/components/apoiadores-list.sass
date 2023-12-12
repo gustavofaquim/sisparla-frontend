@@ -14,6 +14,9 @@
         text-align: center
         border-radius: 4px
 
+        @media (max-width: 1014px)
+            width: 50%
+
         &:hover
             background: variables.$cor-destaque
 
@@ -55,6 +58,7 @@
 
         .links
             width: 100%
+            display: inline-grid
  
         a
             text-decoration: none
@@ -74,6 +78,19 @@
         border-collapse: collapse
         text-align: left
         box-shadow: 0 5px 10px #e1e5ee
+
+       
+        .ocultar-0
+             @media (max-width: 400px)
+                display: none
+
+        .ocultar-1
+             @media (max-width: 1199px)
+                display: none
+        
+        .ocultar-2
+            @media (max-width: 859px)
+                display: none
 
         svg
             font-size: 16pt
@@ -141,6 +158,9 @@
             border: 0px solid #c4c9d0
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
             font-family: variables.$font-family
+
+            @media (max-width: 500px)
+                width: 100%
                 
             &:focus
                 box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px
