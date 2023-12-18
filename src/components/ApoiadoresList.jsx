@@ -132,7 +132,7 @@ const ApoiadoresList = () => {
 
 
     return(
-        <div className="listagem-apoiadores container">
+        <div className="listagem-apoiadores">
             <h1 className='title-page'>Listagem de Apoiadores</h1>
             <h2 className='subtitle-page'>Lista de todos os eleitores ativos, desativos e com cadastro incompleto.</h2>
 

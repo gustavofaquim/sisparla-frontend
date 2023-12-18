@@ -125,11 +125,13 @@ const Edit = () =>{
                     <div className="form-row">
 
                         <div className="form-group col-md-7">
-                            <label htmlFor="nome">Descrição</label>
-                            <textarea name='Descricao' onChange={valueInput} id="Descricao" value={data.Descricao}></textarea>
+                            <label htmlFor="descricao">Descrição</label>
+                            <textarea className="form-control" name='Descricao' onChange={valueInput} id="descricao" value={data.Descricao}></textarea>
                         </div>
 
                     </div>
+
+                  
 
                     <div className="form-row">
 

@@ -15,7 +15,7 @@ const Header = ({isAuthenticated}) => {
   useEffect(() => {
     // Função para verificar a largura da tela e ocultar o menu lateral se necessário
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 930) {
         setSidebarVisible(false); // Defina aqui a largura limite para ocultar o menu
       } else {
         setSidebarVisible(true);
@@ -43,9 +43,12 @@ const Header = ({isAuthenticated}) => {
   return (
     <div className="menu">
        <div className="header-bar">
-        <FaBars onClick={toggleSidebar} /> 
-        <span>Menu</span>
+        <div className='icon-menu'>
+          <FaBars onClick={toggleSidebar} /> 
+          <span>Menu</span>
+        </div>
         <UserFront /> 
+      
        
       </div>
       {sidebarVisible && <Sidebar active={setSidebarVisible} />}

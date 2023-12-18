@@ -194,7 +194,7 @@ const DemandasEdit = () => {
                     
                     <div class="form-group col-md-7">
                         <label htmlFor="descricao">Descrição</label>
-                        <textarea name='descricao' value={data.descricao} onChange={valueInput} id="descricao"></textarea>
+                        <textarea className="form-control" name='descricao' value={data.descricao} onChange={valueInput} id="descricao"></textarea>
                     </div>
 
                     

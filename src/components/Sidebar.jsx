@@ -10,14 +10,7 @@ import "../styles/components/sidebar.sass"
 
 
 import { 
-    FaTimes, 
-    FaHome, 
-    FaEnvelope, 
-    FaRegSun, 
     FaUserAlt, 
-    FaIdCardAlt, 
-    FaRegFileAlt,
-    FaRegCalendarAlt,
     FaChartBar,
     FaCalendarAlt,
     FaRegWindowClose,
@@ -47,7 +40,10 @@ const Sidebars = () => {
   
   return (
     <div className='sidebar-menu'>
-        <Sidebar>
+        <Sidebar width='250px'>
+          <img className='logo' src="https://central.delegadaadrianaaccorsi.com.br/images/logo.png" alt="teste" />
+            <hr />
+            <p className='title-menu'>Menu</p>
             <Menu >
                 <MenuItem component={<Link to="/" />} icon={<FaHouseUser/>} onClick={() => handleMenuItemClick('inicio')}>Início</MenuItem>
                 <SubMenu icon={<FaUserAlt/>}  label="Apoidores"  active={activeMenuItem === 'apoiadores'} >
