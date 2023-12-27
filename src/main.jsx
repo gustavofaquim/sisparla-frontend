@@ -54,8 +54,12 @@ const Root = () => {
 
       if (response.status === 200) {
         const { token } = response.data;
+        console.log('Entrouuuuuuuuuuuuuuuuuuuuuuuuuuu')
+        console.log(token)
+        
         sessionStorage.setItem('token', token);
         setAuthenticated(true);
+        
         return true;
         
       } else {
@@ -69,11 +73,11 @@ const Root = () => {
     }
   };
 
-  const handleLogout = () => {
+   {/*const handleLogout = () => {
     sessionStorage.removeItem('token');
     console.log('Saiu do sistema')
     setAuthenticated(false);
-  };
+  };*/}
 
   const PrivateRoute = ({ element }) => {
     const storedToken = sessionStorage.getItem('token');
@@ -92,7 +96,8 @@ const Root = () => {
       <ToastContainer />
       <Router>
         <Routes>
-            <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>
+            {/* <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>  */}
+            <Route path="/" element={<App isAuthenticated={isAuthenticated}  />}>
             <Route path="/" element={<PrivateRoute element={<Home />} />} />
             <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} />} />
             <Route path="aniversariantes" element={<PrivateRoute element={<Aniversariantes />} />} />
