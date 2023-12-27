@@ -18,6 +18,7 @@ const AuthProvider = ({ children }) => {
   }, [user]);
 
   const handleLogout = () => {
+
     sessionStorage.removeItem('token');
     setUser(null);
     console.log('Até mais ver...')

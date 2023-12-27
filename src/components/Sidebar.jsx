@@ -41,7 +41,7 @@ const Sidebars = () => {
   return (
     <div className='sidebar-menu'>
         <Sidebar width='250px'>
-          <img className='logo' src="https://central.delegadaadrianaaccorsi.com.br/images/logo.png" alt="teste" />
+          <img className='logo' src="https://central.delegadaadrianaaccorsi.com.br/imags/logo.png" alt="teste" />
             <hr />
             <p className='title-menu'>Menu</p>
             <Menu >

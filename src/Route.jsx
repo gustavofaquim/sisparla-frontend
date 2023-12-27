@@ -37,7 +37,7 @@ const AppRoutes  = () => {
             
             <AppRoutes path="/novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} />}/>
             
-            <AppRoutes path="/login" element={<Login />} />
+            <AppRoutes path="/login"  />
           
           </AppRoutes>
   

@@ -23,6 +23,7 @@ const Login = ({ onLogin }) => {
         const loginStatus = await onLogin(data);
 
         if (loginStatus) {
+            console.log(loginStatus)
             // Login bem-sucedido, fazer algo
             navigate('/');
             window.location.reload(); 

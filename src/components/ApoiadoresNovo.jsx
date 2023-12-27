@@ -128,9 +128,7 @@ const ApoiadoresNovo = () => {
         try {
 
             const response = await userFetch.get(`/partidos/`);
-            const data = response.data;
-            console.log(response.data)
-            
+            const data = response.data;            
             setPartidos(data);
 
         } catch (error) {
@@ -170,8 +168,6 @@ const ApoiadoresNovo = () => {
                 partidoId, partidoCargo, partidoLideranca,
                 informacoesAdicionais };
 
-            console.log('Dados do FORM');
-            console.log(post);
                 
             const response = await userFetch.post("/apoiadores", post);
 
