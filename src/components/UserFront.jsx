@@ -11,7 +11,7 @@ const UserFront = () =>{
 
     console.log(user)
     return(
-        <div class='user-front'>
+        <div className='user-front'>
         {user ? (
         <>
             <p>{user.nome}</p>

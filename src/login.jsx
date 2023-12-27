@@ -24,8 +24,8 @@ const Login = ({ onLogin }) => {
 
         if (loginStatus) {
             // Login bem-sucedido, fazer algo
-            toast.success('Bem-vindo!');
-            navigate('/apoiadores');
+            navigate('/');
+            window.location.reload(); 
         } else {
             // Login falhou, fazer algo
             toast.error('Erro ao fazer login. Verifique suas credenciais.');
@@ -40,13 +40,13 @@ const Login = ({ onLogin }) => {
             <h3>SisParla</h3>
             <h5>Faça login para acessar o sistema</h5>
             <form onSubmit={handleSubmit}>
-                <div class="form-group">
-                    <input type="text" class="form-control" id="user" name='nomeUsuario' aria-describedby="user"  onChange={valueInput} placeholder="Usuário" />
+                <div className="form-group">
+                    <input type="text" className="form-control" id="user" name='nomeUsuario' aria-describedby="user"  onChange={valueInput} placeholder="Usuário" />
                 </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" id="senha" name='senha' onChange={valueInput} placeholder="Senha" />
+                <div className="form-group">
+                    <input type="password" className="form-control" id="senha" name='senha' onChange={valueInput} placeholder="Senha" />
                 </div>
-                <button type="submit" class="btn btn-primary">ENTRAR</button>
+                <button type="submit" className="btn btn-primary">ENTRAR</button>
             </form>
         </div>
     )
