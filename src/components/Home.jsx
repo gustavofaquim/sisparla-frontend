@@ -219,55 +219,6 @@ const Home = () => {
 
             <div className='area-cards'>
 
-            {demandaSituacao &&
-                <>
-
-               
-                <div className='col cards-tipo'>
-                    Tipo
-                    {demandaSituacao.map((sit) => (
-                        <p className="card-text"><span>{sit.quantidade}</span> - {sit.tipo}</p>
-                    ))}
-                </div>
-
-
-                <div className='col cards-tipo'>
-                    Categoria
-                    {demandasCategoria.map((cat) => (
-                        <p className="card-text"> <span>{cat.quantidade}</span> - {cat.tipo}</p>
-                    ))}
-                </div>         
-                        
-
-                 
-                </>
-            }
-
-            
-
-
-            {ApoiadoresSituacao &&
-                <>
-
-                <div className="card h-100 card-dashboard apoiadores">
-                   <div className="titulo"> <p>Apoiadores</p> </div>
-                    
-                    <div className='cards-tipo'>
-                        {ApoiadoresSituacao.map((sit) => (
-                            <p className="card-text">{sit.quantidade} - {sit.tipo}</p>
-                        ))}
-                    </div>
-
-                    <div className='cards-tipo'>
-                        {ApoiadoresClassificacao.map((cat) => (
-                            <p className="card-text">{cat.quantidade} - {cat.tipo}</p>
-                        ))}
-                    </div>
-
-                </div>  
-                </>
-            }
-
 
             </div>
 
