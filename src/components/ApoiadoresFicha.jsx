@@ -27,6 +27,7 @@ const ApoiadoresFicha = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
+                console.log(response.data);
             })
             .catch((error) => {
 
@@ -89,7 +90,7 @@ const ApoiadoresFicha = () => {
                         <p className='session-title'>Endereço</p>
                         <span>{data.lagradouro} nº {data.numeroEndereco || '0'} - {data.bairro} Qd. {data.quadra}</span>
                         <span>Completo: {data.pontoReferencia}</span>
-                        <span>{data.cidade} CEP: {data.CEP}</span>
+                        <span>{data.cidade} CEP: {data.cep}</span>
                     </div>
                 </>
             }
