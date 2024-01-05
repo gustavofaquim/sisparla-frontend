@@ -143,10 +143,10 @@ const ApoiadoresNovo = () => {
             const data = response.data;
     
             const entidadesFiltradas = data.filter(entidade =>
-                entidade.Nome.toLowerCase().includes(filtro.toLowerCase())
+                entidade?.Nome?.toLowerCase().includes(filtro.toLowerCase())
             );
     
-            setEntidades(entidadesFiltradas);  // Atualizar o estado 'entidades'
+            setEntidades(entidade);  // Atualizar o estado 'entidades'
     
             const nomesEntidades = entidadesFiltradas.map(entidade => entidade.Nome);
     
@@ -239,6 +239,27 @@ const ApoiadoresNovo = () => {
         }
     };
     
+
+    const consultaCEP = async(e) => {
+        const cep = e.target.value;
+        setCep(cep);
+
+        if (cep.length === 8) {
+           await userFetch.get(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => {
+                const { logradouro, localidade, uf, bairro } = response.data;
+                setLagradouro(logradouro);
+                setCidade(localidade);
+                setBairro(bairro);
+                setEstado(uf);
+                
+              })
+              .catch(error => {
+                console.error('Erro ao buscar informações do CEP:', error);
+              });
+        }
+
+    }
     
     
     return(
@@ -251,21 +272,34 @@ const ApoiadoresNovo = () => {
                 <form onSubmit={createApoiador}>
 
                 <p className='form-session-title'>Informações Pessoais</p>
-                <div class="form-row">
+                <div className="form-row">
 
-                    <div class="form-group col-md-5">
-                        <label htmlFor="nome">Nome *</label>
-                        <input type="nome" required class="form-control" id="nome" name='nome' placeholder="Nome" value={nome|| ''} onChange={(e) => setNome(e.target.value)} />
+                    <div className="form-group col-md-8">
+                        <label htmlFor="nome">Nome*</label>
+                        <input type="nome" required className="form-control" id="nome" name='nome' value={nome|| ''} onChange={(e) => setNome(e.target.value)} />
                     </div>
 
-                    <div class="form-group">
-                        <label htmlFor="apelido">Apelido</label>
-                        <input type="text" class="form-control" id="apelido" placeholder="Apelido" value={apelido|| ''} onChange={(e) => setApelido(e.target.value)} />
+                    <div className="form-group">
+                        <label htmlFor="nascimento">Data de Nascimento *</label>
+                        <input type="date" required className="form-control" id="nascimento" value={nascimento|| ''} onChange={(e) => setNascimento(e.target.value)}  />
+                    </div>  
+
+                    <div className="form-group">
+                        <label htmlFor="telefone">Telefone *
+                        <span> <input type="checkbox" id='whatsapp' name='whatsapp' /> <FaWhatsapp /> </span>
+                        </label>
+                        <input type="text" required className="form-control" id="telefone" value={telefone|| ''} onChange={(e) => setTelefone(e.target.value)} />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group col-md-5">
+                        <label htmlFor="email">E-mail</label>
+                        <input type="email" className="form-control" id="email" value={email|| ''} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+
+
+                    <div className="form-group">
                         <label htmlFor="inputEstado">Profissão</label>
-                        <select id="inputEstado" class="form-control" value={profissao|| ''} onChange={(e) => setProfissao(e.target.value)}>
+                        <select id="inputEstado" className="form-control" value={profissao|| ''} onChange={(e) => setProfissao(e.target.value)}>
                             <option selected>Escolher...</option>
                             {
                                 profissoes.map((profissao) => (
@@ -276,15 +310,11 @@ const ApoiadoresNovo = () => {
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label htmlFor="nascimento">Data de Nascimento *</label>
-                        <input type="date" required class="form-control" id="nascimento" value={nascimento|| ''} onChange={(e) => setNascimento(e.target.value)}  />
-                    </div>
+                
 
-
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="classificacao">Classificação *</label>
-                        <select id="classificacao" class="form-control" required onChange={(e) => setClassificacao(e.target.value)}>
+                        <select id="classificacao" className="form-control" required onChange={(e) => setClassificacao(e.target.value)}>
                             <option selected  value="" disabled>Escolher...</option>
                             {
                                 classificacoes.map((classificacao) => (
@@ -295,9 +325,9 @@ const ApoiadoresNovo = () => {
                     </div>
 
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="situacao">Situação *</label>
-                        <select id="situacao" required class="form-control" onChange={(e) => setSituacao(e.target.value)} >
+                        <select id="situacao" required className="form-control" onChange={(e) => setSituacao(e.target.value)} >
                             <option selected value="" disabled>Escolher...</option>
                             {
                                 situacoes.map((situacao) => (
@@ -310,38 +340,25 @@ const ApoiadoresNovo = () => {
                 </div>
 
 
-                <div class="form-row">
+                <div className="form-row">
 
-                    <div class="form-group">
-                        <label htmlFor="email">E-mail</label>
-                        <input type="email" class="form-control" id="email" placeholder="E-mail" value={email|| ''} onChange={(e) => setEmail(e.target.value)} />
-                    </div>
+                  
 
-                    <div class="form-group">
-                        <label htmlFor="telefone">Telefone *
-                        <span> <input  type="checkbox" id='whatsapp' name='whatsapp' /> <FaWhatsapp /> </span>
-                        </label>
-                        <input type="text" required class="form-control" id="telefone" placeholder="Telefone" value={telefone|| ''} onChange={(e) => setTelefone(e.target.value)} />
-                    </div>
+                    
                
                 </div>
 
                 <p className='form-session-title'>Endereço</p>
-                <div class="form-row">
+                <div className="form-row">
 
-                    <div class="form-group">
+                    <div className="form-group col-md-2">
                         <label htmlFor="cep">CEP</label>
-                        <input type="text" class="form-control" id="cep" name="cep" value={cep|| ''} onChange={(e) => setCep(e.target.value)}  />
+                        <input type="text" className="form-control" id="cep" name="cep" value={cep|| ''} onChange={consultaCEP}  />
                     </div>
 
-                    <div class="form-group">
-                        <label htmlFor="cidade">Cidade</label>
-                        <input type="text" class="form-control" id="cidade" placeholder='Cidade' value={cidade|| ''} onChange={(e) => setCidade(e.target.value)}  />
-                    </div>
-                    
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" class="form-control" name='estado' value={estado|| ''} onChange={(e) => setEstado(e.target.value)} >
+                        <select id="estado" className="form-control" name='estado' value={estado|| ''} onChange={(e) => setEstado(e.target.value)} >
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
@@ -351,55 +368,62 @@ const ApoiadoresNovo = () => {
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label htmlFor="endereco">Lagradouro</label>
-                        <input type="text" class="form-control" id="endereco" value={lagradouro|| ''} onChange={(e) => setLagradouro(e.target.value)}  />
+                    <div className="form-group col-md-5">
+                        <label htmlFor="cidade">Cidade</label>
+                        <input type="text" className="form-control" id="cidade"  value={cidade|| ''} onChange={(e) => setCidade(e.target.value)}  />
                     </div>
                     
-                    <div class="form-group">
+                    
+
+                    <div className="form-group">
+                        <label htmlFor="endereco">Lagradouro</label>
+                        <input type="text" className="form-control" id="endereco" value={lagradouro|| ''} onChange={(e) => setLagradouro(e.target.value)}  />
+                    </div>
+                    
+                    <div className="form-group">
                         <label htmlFor="bairro">Bairro</label>
-                        <input type="text" class="form-control" id="bairro" value={bairro|| ''} onChange={(e) => setBairro(e.target.value)}  />
+                        <input type="text" className="form-control" id="bairro" value={bairro|| ''} onChange={(e) => setBairro(e.target.value)}  />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="bairro">Quadra</label>
-                        <input type="text" class="form-control" id="bairro" value={quadra|| ''} onChange={(e) => setQuadra(e.target.value)}  />
+                        <input type="text" className="form-control" id="bairro" value={quadra|| ''} onChange={(e) => setQuadra(e.target.value)}  />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="numero">Numero</label>
-                        <input type="text" class="form-control" id="numero" value={numero|| ''} onChange={(e) => setNumero(e.target.value)}  />
+                        <input type="text" className="form-control" id="numero" value={numero|| ''} onChange={(e) => setNumero(e.target.value)}  />
                     </div>
 
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="complemento">Ponto Referencia</label>
-                        <input type="text" class="form-control" id="complemento" value={pontoReferencia|| ''} onChange={(e) => setPontoReferencia(e.target.value)}  />
+                        <input type="text" className="form-control" id="complemento" value={pontoReferencia|| ''} onChange={(e) => setPontoReferencia(e.target.value)}  />
                     </div>
 
                 </div>
 
                 <p className='form-session-title'>Movimento Social/Sindical/Entidade</p>
 
-                <div class="form-row">
+                <div className="form-row">
 
-                   <div class="form-group">
+                   <div className="form-group">
                     <p>Movimento ou Entidade ?</p>
-                    <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="entidade" id="entidade" value="s" onChange={(e) => setEntidade(e.target.value)} />
-                            <label class="form-check-label" for="entidade">Sim</label>
+                    <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="entidade" id="entidade" value="s" onChange={(e) => setEntidade(e.target.value)} />
+                            <label className="form-check-label" for="entidade">Sim</label>
                         </div>
                         
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="entidade" id="entidade2" value="n" onChange={(e) => setEntidade(e.target.value)}  />
-                            <label class="form-check-label" for="entidade2">Não</label>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="entidade" id="entidade2" value="n" onChange={(e) => setEntidade(e.target.value)}  />
+                            <label className="form-check-label" for="entidade2">Não</label>
                         </div>
                    </div>
 
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="entidadeTipo">Tipo</label>
-                        <select id="entidadeTipo" class="form-control"  value={entidadeTipo|| ''} onChange={(e) => setEntidadeTipo(e.target.value)}>
+                        <select id="entidadeTipo" className="form-control"  value={entidadeTipo|| ''} onChange={(e) => setEntidadeTipo(e.target.value)}>
                             <option selected >Escolher...</option>
                            {
                                 tiposEntidade.map((tipos) => (
@@ -409,9 +433,9 @@ const ApoiadoresNovo = () => {
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="entidadeNome">Nome</label>
-                        <input type="text" class="form-control" id="entidadeNome" placeholder='Nome do Movimento Social ou Sindicato' value={inputValue}  onChange={handleInputChange} />
+                        <input type="text" className="form-control" id="entidadeNome"  value={inputValue}  onChange={handleInputChange} />
                         {suggestions.length > 0 && (
                             <ul>
                             {suggestions.map((suggestion, index) => (
@@ -423,33 +447,33 @@ const ApoiadoresNovo = () => {
                         )}
                         </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="entidadeSigla">Sigla</label>
-                        <input type="text" class="form-control" id="entidadeSigla"  value={entidadeSigla|| ''} onChange={(e) => setEntidadeSigla(e.target.value)} />
+                        <input type="text" className="form-control" id="entidadeSigla"  value={entidadeSigla|| ''} onChange={(e) => setEntidadeSigla(e.target.value)} />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="entidadeCargo">Cargo</label>
-                        <input type="text" class="form-control" id="entidadeCargo" value={entidadeCargo|| ''} onChange={(e) => setEntidadeCargo(e.target.value)} />
+                        <input type="text" className="form-control" id="entidadeCargo" value={entidadeCargo|| ''} onChange={(e) => setEntidadeCargo(e.target.value)} />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <p>Liderança ?</p>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="lideranca" id="lideranca1" value="s" onChange={(e) => setEntidadeLideranca(e.target.value)}  />
-                            <label class="form-check-label" for="lideranca1">Sim</label>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="lideranca" id="lideranca1" value="s" onChange={(e) => setEntidadeLideranca(e.target.value)}  />
+                            <label className="form-check-label" for="lideranca1">Sim</label>
                         </div>
                         
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="lideranca" id="lideranca2" value="n"  onChange={(e) => setEntidadeLideranca(e.target.value)} />
-                            <label class="form-check-label" for="lideranca2">Não</label>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="lideranca" id="lideranca2" value="n"  onChange={(e) => setEntidadeLideranca(e.target.value)} />
+                            <label className="form-check-label" for="lideranca2">Não</label>
                         </div>
                    </div>
 
                 </div>
 
                 <p className='form-session-title'>Partido Político</p>
-                <div class="form-row">
+                <div className="form-row">
                     
                 <div className="form-group">
                     <label htmlFor="partidoId">Agremiação partidária</label>
@@ -463,38 +487,38 @@ const ApoiadoresNovo = () => {
                     </select>
                 </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="partidoCargo">Cargo</label>
-                        <input type="text" class="form-control" id="partidoCargo" value={partidoCargo|| ''} onChange={(e) => setPartidoCargo(e.target.value)} />
+                        <input type="text" className="form-control" id="partidoCargo" value={partidoCargo|| ''} onChange={(e) => setPartidoCargo(e.target.value)} />
                     </div>
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <p>Liderança ?</p>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca1" value="s" onChange={(e) => setPartidoLideranca(e.target.value)} />
-                            <label class="form-check-label" for="partidoLideranca1">Sim</label>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca1" value="s" onChange={(e) => setPartidoLideranca(e.target.value)} />
+                            <label className="form-check-label" for="partidoLideranca1">Sim</label>
                         </div>
                         
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca2" value="n" onChange={(e) => setPartidoLideranca(e.target.value)} />
-                            <label class="form-check-label" for="partidoLideranca2">Não</label>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca2" value="n" onChange={(e) => setPartidoLideranca(e.target.value)} />
+                            <label className="form-check-label" for="partidoLideranca2">Não</label>
                         </div>
                    </div>
 
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="infoAdicional">Anotações Internas</label>
-                        <textarea class="form-control" id="infoAdicional" name='infoAdicional'  value={informacoesAdicionais || ''} onChange={(e) => setInformacoesAdicionais(e.target.value)}></textarea>
+                <div className="form-row">
+                    <p className='form-session-title'>Anotações Internas</p>
+                    <div className="form-group group-infoAdicional">
+                        <label for="infoAdicional"></label>
+                        <textarea className="form-control" id="infoAdicional" name='infoAdicional'  value={informacoesAdicionais || ''} onChange={(e) => setInformacoesAdicionais(e.target.value)}></textarea>
                     </div> 
                 </div>
 
                 <div className='btn'>
-                    <button type="submit" class="btn btn-primary btn-cadastrar" >Cadastrar Apoiador</button>
+                    <button type="submit" className="btn btn-primary btn-cadastrar" >Cadastrar Apoiador</button>
                 </div>
-                
-
+            
                 </form>
             </div>
         </div>
