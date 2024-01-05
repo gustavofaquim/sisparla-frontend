@@ -34,8 +34,7 @@ const ApoiadoresNovo = () => {
     const [estados, setEstados] = useState([]);
     const [estado, setEstado] = useState();
     const [lagradouro, setLagradouro] = useState();
-    const [quadra, setQuadra] = useState();
-    const [numero, setNumero] = useState();
+    const [complemento, setComplemento] = useState();
     const [bairro, setBairro] = useState();
     const [pontoReferencia, setPontoReferencia] = useState();
 
@@ -385,14 +384,10 @@ const ApoiadoresNovo = () => {
                         <input type="text" className="form-control" id="bairro" value={bairro|| ''} onChange={(e) => setBairro(e.target.value)}  />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="bairro">Quadra</label>
-                        <input type="text" className="form-control" id="bairro" value={quadra|| ''} onChange={(e) => setQuadra(e.target.value)}  />
-                    </div>
 
                     <div className="form-group">
-                        <label htmlFor="numero">Numero</label>
-                        <input type="text" className="form-control" id="numero" value={numero|| ''} onChange={(e) => setNumero(e.target.value)}  />
+                        <label htmlFor="complemento">Complemento</label>
+                        <input type="text" className="form-control" id="complmento" value={complemento|| ''} onChange={(e) => setComplemento(e.target.value)}  />
                     </div>
 
 

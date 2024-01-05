@@ -363,13 +363,8 @@ const ApoiadoresEdit = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="bairro">Quadra</label>
-                        <input type="text" className="form-control" id="bairro" name="quadra" value={data.quadra} onChange={valueInput}  />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="numero">Numero</label>
-                        <input type="text" className="form-control" id="numero" name="numeroEndereco" value={data.numeroEndereco} onChange={valueInput}  />
+                        <label htmlFor="complemento">Complemento</label>
+                        <input type="text" className="form-control" id="complmento" value={data.complemento} onChange={valueInput}  />
                     </div>
 
 
