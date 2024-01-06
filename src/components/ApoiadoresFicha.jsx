@@ -79,7 +79,6 @@ const ApoiadoresFicha = () => {
                 <p className='session-title'>Informações Pessoais</p>
                 <span>Data de Nascimento: {dataNascimento || 'Não informado'} </span>
                 <span>E-mail: {data.email || 'Não informado'}</span>
-                <span>Religião: {data.religiao || 'Não informado'}</span>
                 <span>Profissão: {data.profissao || 'Não informado'}</span>
             </div>
 
@@ -88,8 +87,8 @@ const ApoiadoresFicha = () => {
                 <>
                     <div className="dados-endereco">
                         <p className='session-title'>Endereço</p>
-                        <span>{data.lagradouro} nº {data.numeroEndereco || '0'} - {data.bairro} Qd. {data.quadra}</span>
-                        <span>Completo: {data.pontoReferencia}</span>
+                        <span>{data.lagradouro} - {data.bairro}  {data.complemento}</span>
+                        <span>Ponto de Referencia: {data.pontoReferencia}</span>
                         <span>{data.cidade} CEP: {data.cep}</span>
                     </div>
                 </>

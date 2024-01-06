@@ -195,7 +195,6 @@ const ApoiadoresList = () => {
                     <tr>
                         <th>#</th>
                         <th>Nome</th>
-                        <th className='ocultar-0 ocultar-1'>Apelido</th>
                         <th className='ocultar-0'>Telefone</th>
                         <th></th>
                         <th className='ocultar-0 ocultar-1'>E-mail</th>
@@ -217,7 +216,6 @@ const ApoiadoresList = () => {
                                     />
                                 </td>
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
-                                <td className='ocultar-0 ocultar-1'>{apoiador?.Apelido}</td>
                                 <td className='ocultar-0'>{apoiador?.TelefoneApoiador?.Numero}</td>
 
                                 {apoiador?.TelefoneApoiador?.Numero ? (

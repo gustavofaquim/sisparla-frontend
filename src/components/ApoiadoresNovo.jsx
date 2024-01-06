@@ -162,7 +162,7 @@ const ApoiadoresNovo = () => {
             
             const post = {
                 nome, apelido, profissao, cpf, religiao, nascimento, classificacao, email, telefone, situacao, 
-                cep, cidade, estado, lagradouro, numero, bairro, quadra, pontoReferencia,  
+                cep, cidade, estado, lagradouro, complemento, bairro, pontoReferencia,  
                 entidadeNome: entidadeNome || inputValue, entidadeTipo, entidadeSigla, entidadeCargo, entidadeLideranca,
                 partidoId, partidoCargo, partidoLideranca,
                 informacoesAdicionais };

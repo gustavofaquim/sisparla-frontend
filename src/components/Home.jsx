@@ -190,29 +190,33 @@ const Home = () => {
 
             <div className='minhas-demandas'>
                 <p className='titulo'>Minhas Demandas Abertas</p>
-                <table>
-                <thead>
-                    <tr>
-                        <th>Assunto</th>
-                        <th>Categoria</th>
-                        <th>Data de Abertura</th>
-                    </tr>
-                </thead>
+                {minhasDemandas.length === 0 ? (
+                    <p className=''>Não existem demandas abertas.</p>
+                ) : (
 
-                <tbody>
-            
-                    {minhasDemandas.length === 0 ? <p>Carregando...</p> : (
-                        minhasDemandas.map((demanda) => (
-                            <tr key={demanda.IdDemanda}>
-                                <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
-                                <td>{demanda?.DemandaCategoria?.Descricao}</td>
-                                <td>{formataDataEHora(demanda?.Data)}</td>
-                            </tr>
-                        
-                        ))
-                    )}
-                </tbody>
-            </table>
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>Assunto</th>
+                            <th>Categoria</th>
+                            <th>Data de Abertura</th>
+                        </tr>
+                    </thead>
+
+                        <tbody>
+                           { minhasDemandas.map((demanda) => (
+                                <tr key={demanda.IdDemanda}>
+                                    <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
+                                    <td>{demanda?.DemandaCategoria?.Descricao}</td>
+                                    <td>{formataDataEHora(demanda?.Data)}</td>
+                                </tr>
+                            
+                            ))}
+                        </tbody>
+                    </table>
+                
+                )}
+                
 
             </div>
 
