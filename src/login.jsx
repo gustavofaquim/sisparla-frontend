@@ -42,12 +42,14 @@ const Login = ({ onLogin }) => {
             <h5>Faça login para acessar o sistema</h5>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <input type="text" className="form-control" id="user" name='nomeUsuario' aria-describedby="user"  onChange={valueInput} placeholder="Usuário" />
+                    <input type="text" className="form-control" required id="user" name='nomeUsuario' aria-describedby="user"  onChange={valueInput} placeholder="Usuário" />
                 </div>
                 <div className="form-group">
-                    <input type="password" className="form-control" id="senha" name='senha' onChange={valueInput} placeholder="Senha" />
+                    <input type="password" className="form-control" required id="senha" name='senha' onChange={valueInput} placeholder="Senha" />
                 </div>
                 <button type="submit" className="btn btn-primary">ENTRAR</button>
+
+                <p> <a href="#">Problemas em acessar o sistema? Entre em contato</a></p>
             </form>
         </div>
     )

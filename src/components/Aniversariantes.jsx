@@ -66,6 +66,7 @@ const Aniversariantes = (props) => {
             <h1 className='title-page'>Aniversariantes</h1>
             <h2 className='subtitle-page'></h2>
 
+            <span>Período</span>
             <div className='seletor-periodo'>
                 <div>
                     <select name="periodo" id="periodo" onChange={(e) => setPeriodo(e.target.value)}>
@@ -76,7 +77,7 @@ const Aniversariantes = (props) => {
                 </div>
             </div>
 
-
+            {aniversariantes.length === 0 ? <p className='aviso-sem-dados'>Sem aniversáriantes no período selecionado</p> : (
             <table>
                 <thead>
                     <tr>
@@ -90,22 +91,20 @@ const Aniversariantes = (props) => {
                 </thead>
 
                 <tbody>
-            
-                    {aniversariantes.length === 0 ? <p>Carregando...</p> : (
-                        aniversariantes.map((aniversariante) => (
-                            <tr key={aniversariante.IdApoiador}>
-                                <td> <Link to={`/apoiador/${aniversariante.IdApoiador}`}>{aniversariante.Nome}</Link></td>
-                                <td>{formataData(aniversariante?.DataNascimento)}</td>
-                                <td className='ocultar-0'>{aniversariante?.TelefoneApoiador?.Numero}</td>
-                                <td className='ocultar-0 ocultar-1'>{aniversariante?.Email}</td> 
-                                <td className='ocultar-0 ocultar-2'>{aniversariante?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
-                                <td><span className={aniversariante?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{aniversariante.SituacaoCadastroApoiador.Descricao}</span></td>
-                            </tr>
-                        
-                        ))
-                    )}
+                    {aniversariantes.map((aniversariante) => (
+                        <tr key={aniversariante.IdApoiador}>
+                            <td> <Link to={`/apoiador/${aniversariante.IdApoiador}`}>{aniversariante.Nome}</Link></td>
+                            <td>{formataData(aniversariante?.DataNascimento)}</td>
+                            <td className='ocultar-0'>{aniversariante?.TelefoneApoiador?.Numero}</td>
+                            <td className='ocultar-0 ocultar-1'>{aniversariante?.Email}</td> 
+                            <td className='ocultar-0 ocultar-2'>{aniversariante?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
+                            <td><span className={aniversariante?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{aniversariante.SituacaoCadastroApoiador.Descricao}</span></td>
+                        </tr>
+                    
+                    ))}
                 </tbody>
             </table>
+            )}
 
         </div>
     )

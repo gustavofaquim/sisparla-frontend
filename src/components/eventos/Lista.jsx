@@ -72,7 +72,7 @@ const Lista = () => {
                 </div>
             </div>
 
-
+            {data.length === 0 ? <p className='aviso-sem-dados'>Sem eventos para exibir.</p> : (
             <table>
                 <thead>
                     <tr>
@@ -84,20 +84,18 @@ const Lista = () => {
                 </thead>
 
                 <tbody>
-            
-                    {data.length === 0 ? <p>Carregando...</p> : (
-                        data.map((evento) => (
-                            <tr key={evento.IdEvento}>
-                                <td> <Link to={`/eventos/${evento.IdEvento}`}>{evento.Nome}</Link></td>
-                                <td className='ocultar-0'>{evento?.Responsavel}</td>
-                                <td>{formataDataEHora(evento?.DataHorario)}</td>
-                                <td className='ocultar-1'>{evento?.Relacao}</td>
-                            </tr>
-                        
-                        ))
-                    )}
+                    {data.map((evento) => (
+                        <tr key={evento.IdEvento}>
+                            <td> <Link to={`/eventos/${evento.IdEvento}`}>{evento.Nome}</Link></td>
+                            <td className='ocultar-0'>{evento?.Responsavel}</td>
+                            <td>{formataDataEHora(evento?.DataHorario)}</td>
+                            <td className='ocultar-1'>{evento?.Relacao}</td>
+                        </tr>
+                    
+                    ))}  
                 </tbody>
             </table>
+            )}
 
         </div>
     )

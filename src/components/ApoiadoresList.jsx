@@ -176,20 +176,27 @@ const ApoiadoresList = () => {
                 </div>
             </div>
 
+            { /*
             <div className='btn-infos'>
                         
+             
                 <div className='links'>   
                     <a href="#" onClick={chamaListaContato}>Criar uma lista de contatos com base nos selecionados</a>
                     <a href="#" onClick={chamaEnvioMensagem}>Enviar Mensagem para os selecionados</a>
 
-                </div>
+                </div> 
+            
 
                 <div className='quantidade-selecionados'>
                     {linhasSelecionadas.length} apoiador(es) selecionado(s)
                 </div>
             </div>
+            */ }
                         
-            
+            { /* <div className='novo-apoiador'>
+                <Link to={`/novo-apoiador`}><FaCirclePlus /> Adicionar Novo Apoiador</Link>
+            </div> */ }
+
             <table>
                 <thead>
                     <tr>
@@ -236,9 +243,7 @@ const ApoiadoresList = () => {
                     )}
                 </tbody>
             </table>
-            <div className='novo-apoiador'>
-                <Link to={`/novo-apoiador`}><FaCirclePlus /> Adicionar Novo Apoiador</Link>
-            </div>
+            
    
         </div>
     );

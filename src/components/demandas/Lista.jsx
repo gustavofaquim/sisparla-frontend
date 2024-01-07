@@ -4,6 +4,7 @@ import userFetch from '../../axios/config.js';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
 
 
 import "../../styles/components/listagem.sass";
@@ -98,7 +99,7 @@ const DemandasList = () => {
                 </div>
             </div>
 
-
+            {data.length === 0 ? <p className='aviso-sem-dados'>Sem demandas para exibir.</p> : (
             <table>
                 <thead>
                     <tr>
@@ -106,31 +107,40 @@ const DemandasList = () => {
                         <th>Situacao</th>
                         <th className='ocultar-1'>Categoria</th>
                         <th className='ocultar-0'>Data de Abertura</th>
-                        <th className='ocultar-1' colspan="2" id='th-acao'>Ações</th>
+                        <th className='ocultar-1' id='th-acao'>Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
-            
-                    {data.length === 0 ? <p>Carregando...</p> : (
-                        data.map((demanda) => (
+                        
+                        {data.map((demanda) => (
                             <tr key={demanda.IdDemanda}>
                                 <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
                                 <td>{demanda?.DemandaSituaco?.Descricao}</td>
                                 <td className='ocultar-1'>{demanda?.DemandaCategoria?.Descricao}</td>
                                 <td className='ocultar-0'>{formataData(demanda?.Data)}</td>
-                                <td className='ocultar-1'>  
-                                    <span onClick={() => mudaSituacao(demanda?.IdDemanda)} class='btn-acao btn-concluir'>Concluir</span> 
+                                <td>
+
+                                    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <FaChevronDown />
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a className="dropdown-item btn-acao btn-concluir" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Concluir</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item btn-acao btn-excluir" href="#" onClick={() => deletaDemanda(demanda?.IdDemanda)}><FaTrashCan /> Excluir</a>
+                                       
+                                    </div>
+
+                                   
                                 </td>
-                                <td className='ocultar-1'>
-                                    <span onClick={() => deletaDemanda(demanda?.IdDemanda)} class='btn-acao btn-excluir'>Excluir</span>
-                                </td>
+                               
                             </tr>
                         
-                        ))
-                    )}
+                        ))}       
                 </tbody>
             </table>
+            )}
 
         </div>
 
