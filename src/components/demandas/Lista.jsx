@@ -106,8 +106,9 @@ const DemandasList = () => {
                         <th>Assunto</th>
                         <th>Situacao</th>
                         <th className='ocultar-1'>Categoria</th>
+                        <th>Apoiador</th>
                         <th className='ocultar-0'>Data de Abertura</th>
-                        <th className='ocultar-1' id='th-acao'>Ações</th>
+                        <th className='ocultar-1'>Ações</th>
                     </tr>
                 </thead>
 
@@ -118,17 +119,23 @@ const DemandasList = () => {
                                 <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
                                 <td>{demanda?.DemandaSituaco?.Descricao}</td>
                                 <td className='ocultar-1'>{demanda?.DemandaCategoria?.Descricao}</td>
+                                <td>{demanda?.Apoiador}</td>
                                 <td className='ocultar-0'>{formataData(demanda?.Data)}</td>
                                 <td>
 
-                                    <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a class="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <FaChevronDown />
                                     </a>
 
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a className="dropdown-item btn-acao btn-concluir" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Concluir</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item btn-acao btn-excluir" href="#" onClick={() => deletaDemanda(demanda?.IdDemanda)}><FaTrashCan /> Excluir</a>
+                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    
+                                        <p className='titulo-dropdown'>Troca de Status</p>
+                                        <a className="dropdown-item btn-acao btn-atendimento" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Aberta</a>
+                                        <a className="dropdown-item btn-acao btn-atendimento" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Aguardando Parecer</a>
+                                        <a className="dropdown-item btn-acao btn-atendimento" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Em atendimento</a>
+                                        <a className="dropdown-item btn-acao btn-concluir" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Concluida</a>
+                                        <div className="dropdown-divider"></div>
+                                        <a className="dropdown-item btn-acao btn-excluir" href="#" onClick={() => deletaDemanda(demanda?.IdDemanda)}><FaTrashCan /> Excluir</a>
                                        
                                     </div>
 
