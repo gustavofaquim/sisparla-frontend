@@ -13,6 +13,7 @@ const DemandasList = () => {
 
     const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
+    const [situacoes, setSituacoes] = useState([]); 
 
     
 
@@ -39,13 +40,35 @@ const DemandasList = () => {
         }
     }
 
-    const mudaSituacao = async(id) => {
+    const situacaoDemanda = async() => {
+
         try {
             
-            const data = {'situacao': 5} // 5 pois é o id da situacao concluida
-            const response = await userFetch.put(`/muda-situacao-demanda/${id}`, data);
+            const response = await userFetch.get('/situacao-demandas');
+            const data = response.data;
+           
+            setSituacoes(data);
+
+        } catch (error) {
+            
+        }
+    }
+
+    const mudaSituacao = async(id, idStatus, status) => {
+        try {
+            
+           
+            const data = {'situacao': idStatus} // 5 pois é o id da situacao concluida
+            await userFetch.put(`/muda-situacao-demanda/${id}`, data);
 
             toast.success('Situação da demanda alterada');
+
+            setData((prevDemandas) => {
+                const updatedDemandas = prevDemandas.map((demanda) =>
+                  demanda.IdDemanda === id ? { ...demanda, DemandaSituaco: { Descricao: status } } : demanda
+                );
+                return updatedDemandas;
+              });
             
 
         } catch (error) {
@@ -81,6 +104,10 @@ const DemandasList = () => {
         return `${dia}/${mes}/${ano}`;
     }
 
+
+    useEffect(() => {
+        situacaoDemanda();
+    }, []);
 
 
     return(
@@ -128,12 +155,11 @@ const DemandasList = () => {
                                     </a>
 
                                     <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    
-                                        <p className='titulo-dropdown'>Troca de Status</p>
-                                        <a className="dropdown-item btn-acao btn-atendimento" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Aberta</a>
-                                        <a className="dropdown-item btn-acao btn-atendimento" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Aguardando Parecer</a>
-                                        <a className="dropdown-item btn-acao btn-atendimento" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Em atendimento</a>
-                                        <a className="dropdown-item btn-acao btn-concluir" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda)}>Concluida</a>
+                                    <p className='titulo-dropdown'>Troca de Status</p>
+                                    {situacoes.map((sit) => (
+                                        <a className="dropdown-item btn-acao btn-atendimento" href="#" onClick={() => mudaSituacao(demanda?.IdDemanda, sit.IdSituacao, sit.Descricao)}>{sit.Descricao}</a>
+                                    ))}
+                                        
                                         <div className="dropdown-divider"></div>
                                         <a className="dropdown-item btn-acao btn-excluir" href="#" onClick={() => deletaDemanda(demanda?.IdDemanda)}><FaTrashCan /> Excluir</a>
                                        
