@@ -14,11 +14,14 @@ const DemandasList = () => {
     const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
     const [situacoes, setSituacoes] = useState([]); 
+    const [apoiadoresData, setApoiadoresData] = useState([]);
 
     
 
     useEffect(() => {
         getDemandas();
+        situacaoDemanda();
+        getApoiador();
     }, [termoBusca]);
 
     const getDemandas = async() => {
@@ -31,7 +34,9 @@ const DemandasList = () => {
                 },
             })
 
+            
             const resp = response.data;
+            
             setData(resp);
 
 
@@ -39,6 +44,35 @@ const DemandasList = () => {
             console.log(`Erro ao listar as demandas ${error}`);
         }
     }
+
+    const getApoiador = async () => {
+        try {
+          const apoiadoresIds = data.map((demanda) => demanda.Apoiador);
+          const uniqueApoiadoresIds = [...new Set(apoiadoresIds)]; // Remove IDs duplicados
+      
+      
+          const response = await userFetch.get(`/apoiadores`, {
+            params: {
+              ids: uniqueApoiadoresIds.join(','), // Envie os IDs como uma string separada por vírgulas
+            },
+          });
+      
+          const apoiadoresData = response.data;
+        
+          setApoiadoresData(apoiadoresData);
+        } catch (error) {
+          console.log(`Erro ao buscar dados dos apoiadores: ${error}`);
+        }
+    };
+      
+
+    const getApoiadorName = (apoiadorId) => {
+       
+        const apoiador = apoiadoresData.find((ap) => ap.IdApoiador === apoiadorId);
+        return apoiador ? apoiador.Nome : 'Apoiador Desconhecido';
+    };
+      
+
 
     const situacaoDemanda = async() => {
 
@@ -105,10 +139,6 @@ const DemandasList = () => {
     }
 
 
-    useEffect(() => {
-        situacaoDemanda();
-    }, []);
-
 
     return(
 
@@ -142,11 +172,12 @@ const DemandasList = () => {
                 <tbody>
                         
                         {data.map((demanda) => (
+                            
                             <tr key={demanda.IdDemanda}>
                                 <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
                                 <td>{demanda?.DemandaSituaco?.Descricao}</td>
                                 <td className='ocultar-1'>{demanda?.DemandaCategoria?.Descricao}</td>
-                                <td>{demanda?.Apoiador}</td>
+                                {apoiadoresData.length > 0 && <td>{getApoiadorName(demanda?.Apoiador)}</td>}
                                 <td className='ocultar-0'>{formataData(demanda?.Data)}</td>
                                 <td>
 
