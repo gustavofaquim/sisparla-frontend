@@ -39,7 +39,8 @@ const Login = ({ onLogin }) => {
     return(
         <div className="login">
             <h3>SisParla</h3>
-            <h5>Faça login para acessar o sistema</h5>
+            <h5>Sistema de Apoio à Atividade Parlamentar</h5>
+            <p>Faça login para acessar o sistema</p>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <input type="text" className="form-control" required id="user" name='nomeUsuario' aria-describedby="user"  onChange={valueInput} placeholder="Usuário" />

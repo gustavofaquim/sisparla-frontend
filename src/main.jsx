@@ -19,6 +19,7 @@ import DemandasEdit from "./components/demandas/Edit";
 import NovoEvento from "./components/eventos/Novo";
 import ListaEvento from "./components/eventos/Lista";
 import EditEvento from "./components/eventos/Edit";
+import ListaDespesa from "./components/despesas/Lista";
 import Login from './login';
 import Aniversariantes from './components/Aniversariantes';
 import NovaMensagem from './components/mensagens/NovaMensagem';
@@ -110,6 +111,7 @@ const Root = () => {
             <Route path="novo-evento" element={<PrivateRoute element={<NovoEvento />} />} />
             <Route path="eventos" element={<PrivateRoute element={<ListaEvento />} />} />
             <Route path="eventos/:id" element={<PrivateRoute element={<EditEvento />} />} />
+            <Route path="despesas" element={<PrivateRoute element={<ListaDespesa />} />} />
             <Route path="nova-mensagem" element={<PrivateRoute element={<NovaMensagem />} />} />
             <Route path="lista-contatos" element={<PrivateRoute element={<ListaContatos />} />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />
