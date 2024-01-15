@@ -33,7 +33,42 @@ const DespesasList = () => {
     },[]);
 
     return(
-        <div>Olá</div>
+        <div className='listagem-demandas'>
+
+        <h1 className='title-page'>Lista de Despesas</h1>
+        <h2 className='subtitle-page'>Lista de todas as despesas.</h2>
+
+
+       
+
+        {data.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Descrição</th>
+                    <th>Beneficiário</th>
+                   
+                </tr>
+            </thead>
+
+            <tbody>
+                    
+                    {data.map((despesa) => (
+                        
+                        <tr key={despesa.IdDespesa}>
+                            <td> <Link to={`/despesas/${despesa.IdDespesa}`}>{despesa.IdDespesa}</Link></td>
+                            <td>{despesa.Descricao}</td>
+                            <td>{despesa.PessoaFisicaJuridica.Nome} </td>
+                        </tr>
+                    
+                    ))}       
+            </tbody>
+        </table>
+        )}
+
+    </div>
+
     );
 };
 
