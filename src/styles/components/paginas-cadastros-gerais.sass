@@ -1,10 +1,11 @@
-@use "../../variables"
-@use "../../mixins"    
+@use "../variables"
+@use "../mixins"    
 
-.cadastar-evento
+.pag-cadastro
     @include mixins.paginas
-
-    .form-evento
+    
+    
+    .form-cadastro
         margin: auto
         width: 100%
 
@@ -15,33 +16,42 @@
             padding: 0.5rem
             text-transform: uppercase
             color: variables.$cor-destaque
+        
+        .form-row
+            margin-top: 10px
 
         .form-group
             padding-right: 2rem
 
             label 
                 span
-                  
                     font-size: 1.1rem
                     margin-left: 80px
+            
             
         
 
         input,option, select, textarea
-            border: 0px solid #c4c9d0
-            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
+            border: 1px solid #c4c9d0
+            //box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
             
-
+            &:hover
+                border: 1px solid #a1a4aa
             &:focus
                 box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, variables.$cor-destaque 0px 1px 3px -1px
                 outline: none
 
     
-
         textarea
             width: 100%
             min-width: 300px
             height: 200px
+            padding: .375rem .75rem
+            border-radius: 5px
+        
+        .custom-pessoa
+            input
+                box-shadow: none
 
         .btn
             width: 100%
@@ -50,4 +60,4 @@
             .btn-cadastrar
                 width: 200px
                 text-align: center
-    
+

@@ -5,8 +5,6 @@ import Autosuggest from 'react-autosuggest';
 import { useNavigate } from "react-router-dom";
 
 
-import "../../styles/components/eventos/novo.sass";
-
 
 const Novo = () => {
 
@@ -33,11 +31,11 @@ const Novo = () => {
     }   
 
     return(
-        <div className="cadastar-evento">
+        <div className="pag-cadastro">
             <h1 className='title-page'>Novo Evento</h1>
             <h2 className='subtitle-page'>Cadastre um novo evento.</h2>
 
-            <div className='form-evento'>
+            <div className='form-cadastro'>
                 <form  onSubmit={createEvento}>
 
 

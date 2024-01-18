@@ -21,6 +21,7 @@ import ListaEvento from "./components/eventos/Lista";
 import EditEvento from "./components/eventos/Edit";
 import ListaDespesa from "./components/despesas/Lista";
 import EditDespesa from "./components/despesas/Edit";
+import NovaDespesa from "./components/despesas/Nova";
 import Login from './login';
 import Aniversariantes from './components/Aniversariantes';
 import NovaMensagem from './components/mensagens/NovaMensagem';
@@ -56,8 +57,6 @@ const Root = () => {
 
       if (response.status === 200) {
         const { token } = response.data;
-        console.log('Entrouuuuuuuuuuuuuuuuuuuuuuuuuuu')
-        console.log(token)
         
         sessionStorage.setItem('token', token);
         setAuthenticated(true);
@@ -114,6 +113,7 @@ const Root = () => {
             <Route path="eventos/:id" element={<PrivateRoute element={<EditEvento />} />} />
             <Route path="despesas" element={<PrivateRoute element={<ListaDespesa />} />} />
             <Route path="despesas/:id" element={<PrivateRoute element={<EditDespesa />} />} />
+            <Route path="nova-despesa" element={<PrivateRoute element={<NovaDespesa />} />} />
             <Route path="nova-mensagem" element={<PrivateRoute element={<NovaMensagem />} />} />
             <Route path="lista-contatos" element={<PrivateRoute element={<ListaContatos />} />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />

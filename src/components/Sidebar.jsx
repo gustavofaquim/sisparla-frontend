@@ -64,15 +64,16 @@ const Sidebars = () => {
                 </SubMenu>
 
                 <SubMenu icon={<FaDollarSign/>} label="Despesas" active={activeMenuItem === 'despesas'} >
-                <MenuItem component={<Link to="/despesas" />} onClick={() => handleMenuItemClick('despesas')}>Depesas</MenuItem>
+                    <MenuItem component={<Link to="/despesas" />} onClick={() => handleMenuItemClick('despesas')}>Depesas</MenuItem>
+                    <MenuItem component={<Link to="/nova-despesa" />} onClick={() => handleMenuItemClick('despesas')}>Nova Despesa</MenuItem>
                     <MenuItem component={<Link to="/" />} onClick={() => handleMenuItemClick('despesas')}>Nova pessoa</MenuItem>
-                </SubMenu>
+                </SubMenu> 
 
                 <SubMenu disabled icon={<FaWhatsapp />}  label="Mensagens"  active={activeMenuItem === 'mensagens'} > 
                     <MenuItem component={<Link to="/nova-mensagem" />} onClick={() => handleMenuItemClick('mensagens')}>Enviar Mensagem</MenuItem>
                     <MenuItem component={<Link to="/lista-contatos" />} onClick={() => handleMenuItemClick('mensagens')}>Lista de Contatos</MenuItem>
                 </SubMenu>
-
+                
                 <MenuItem icon={<FaRegWindowClose/>} onClick={logoutAndRedirect} >Sair</MenuItem>
 
                 

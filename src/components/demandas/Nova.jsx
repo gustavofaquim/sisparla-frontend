@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
-import "../../styles/components/nova-demanda.sass";
+import "../../styles/components/paginas-cadastros-gerais.sass";
 
 const Nova = () => {
 
@@ -135,12 +135,12 @@ const Nova = () => {
    
 
     return(
-        <div className="cadastar-demanda">
+        <div className="pag-cadastro">
              <h1 className='title-page'>Nova Demanda</h1>
              <h2 className='subtitle-page'>Cadastre uma nova demanda.</h2>
 
 
-             <div className='form-demanda'>
+             <div className='form-cadastro'>
 
                 <form  onSubmit={createDemanda}>
 
