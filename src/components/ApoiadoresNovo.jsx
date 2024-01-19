@@ -267,7 +267,7 @@ const ApoiadoresNovo = () => {
            <h1 className='title-page'>Novo Apoiador</h1>
            <h2 className='subtitle-page'>Cadastre um novo apoiador.</h2>
 
-            <div className='form-apoiador'>
+            <div className='form-cadastro'>
                 <form onSubmit={createApoiador}>
 
                 <p className='form-session-title'>Informações Pessoais</p>

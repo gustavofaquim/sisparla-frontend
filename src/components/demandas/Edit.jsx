@@ -13,7 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 const DemandasEdit = () => {
     
     const params = useParams();
-    const id = params.id;
+    const id = params?.id;
+    
     const navigate = useNavigate();
 
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});

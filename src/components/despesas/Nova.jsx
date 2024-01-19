@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
-
 const Nova = () => {
+
+    const params = useParams();
+    const id = params?.id;
 
     const navigate = useNavigate();
 
@@ -35,6 +37,30 @@ const Nova = () => {
         return `${year}-${month}-${day}`;
     }
 
+    const getDespesa = async() => {
+
+        try {
+
+            if(id === undefined){
+                return;
+            }
+            
+            await userFetch(`/despesas/${id}`)
+                .then((response) => {
+                    setData(response.data)
+                })
+                .catch((error) => {
+                    if(error.response){
+                        console.log(error.response.data.msg);
+                    }else{
+                        console.log("API não respondeu");
+                    }
+                })
+
+        } catch (error) {
+            console.log('Erro ao buscar a despesa')
+        }
+    }
 
     const getOrigem = async() => {
         try {
@@ -93,6 +119,7 @@ const Nova = () => {
         getOrigem();
         getTipo();
         getPessoaDespesa();
+        getDespesa();
     },[]);
 
     const createDespesa = async(e) => {
@@ -217,9 +244,7 @@ const Nova = () => {
 
                 </div>
 
-               
-
-
+    
                 <div className='btn'>
                     <button type="submit" className="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Cadastrar Despesa</button>
                 </div>

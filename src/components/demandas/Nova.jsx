@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
+
 import "../../styles/components/paginas-cadastros-gerais.sass";
 
 const Nova = () => {
