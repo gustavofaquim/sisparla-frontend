@@ -263,7 +263,7 @@ const ApoiadoresNovo = () => {
     
     return(
 
-        <div className="cadastrar-apoiador">
+        <div className="pag-cadastro">
            <h1 className='title-page'>Novo Apoiador</h1>
            <h2 className='subtitle-page'>Cadastre um novo apoiador.</h2>
 

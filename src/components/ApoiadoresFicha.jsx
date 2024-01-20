@@ -27,7 +27,6 @@ const ApoiadoresFicha = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
-                console.log(response.data);
             })
             .catch((error) => {
 
@@ -84,41 +83,40 @@ const ApoiadoresFicha = () => {
 
            
             {data.cidade &&
-                <>
-                    <div className="dados-endereco">
-                        <p className='session-title'>Endereço</p>
-                        <span>{data.lagradouro} - {data.bairro}  {data.complemento}</span>
-                        <span>Ponto de Referencia: {data.pontoReferencia}</span>
-                        <span>{data.cidade} CEP: {data.cep}</span>
-                    </div>
-                </>
+                
+                <div className="dados-endereco">
+                    <p className='session-title'>Endereço</p>
+                    <span>{data.lagradouro} - {data.bairro}  {data.complemento}</span>
+                    <span>Ponto de Referencia: {data.pontoReferencia}</span>
+                    <span>{data.cidade} | CEP: {data.cep}</span>
+                </div>
+               
             }
             
             
             {data.entidadeNome &&
-                <>
+                
                 <div className="dados-entidade">
                     <p className='session-title'>Movimento Social/Sindical/Entidade</p>
                     <span>{data.entidadeNome}</span>
                     <span> Liderança: {data.entidadeLideranca}</span>
                     <span>Cargo: {data.entidadeCargo}</span>
                 </div>
-                </>
+                
             }
 
             {data.partidoId &&
-                <>
+                
                 <div className="dados-partido">
                     <p className='session-title'>Informações Pardidárias</p>
                     <span>{data.partidoNome}</span>
                     <span> Liderança: {data.partidoLideranca}</span>
                     <span>Cargo: {data.partidoCargo}</span>
                 </div>
-                </>
+                
             }
 
             {data.demandas &&
-                <>
                 <div className="dados-demandas">
                     <p className='session-title'>Demandas</p>
                     {data?.demandas?.map((demanda, index) => (
@@ -127,7 +125,6 @@ const ApoiadoresFicha = () => {
                         </div>
                     ))}
                 </div>
-                </>
             }
 
             <div className="div-btn">

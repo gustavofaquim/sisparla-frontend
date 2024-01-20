@@ -105,11 +105,11 @@ const Edit = () =>{
     }
 
     return(
-        <div className="cadastar-evento">
+        <div className="pag-cadastro">
             <h1 className='title-page'>Novo Evento</h1>
             <h2 className='subtitle-page'>Cadastre um novo evento.</h2>
 
-            <div className='form-evento'>
+            <div className='form-cadasstro'>
                 <form  onSubmit={editEvento}>
 
 

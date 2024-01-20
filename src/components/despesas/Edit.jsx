@@ -59,75 +59,75 @@ const DespesasEdit = () => {
              <h2 className='subtitle-page'>Altere informações da despesa.</h2>
 
 
-             <div className='form-cadastro'>
+            <div className='form-cadastro'>
 
-                <form >
+                <form>
 
-                <p className='form-session-title'></p>
-                
-                <div className="form-row">
-
-                    <div className="form-group col-md-7">
-                        <label htmlFor="descricao">Descricao</label>
-                        <input type="text" required className="form-control" id="descricao" name='descricao'  value={data.descricao} onChange={valueInput} />
-                    </div>
-
-                </div>
-
-                <div className="form-row">
-
-                    <div className="form-group col-md-7">
-                        <label htmlFor="detalhamento">Detalhamento</label>
-                        <textarea className="form-control" name='detalhamento' value={data.detalhamento} onChange={valueInput} id="detalhamento"></textarea>
-                    </div>
-
-                </div>
-
-
-                <div className="form-row">
-                   
-                    <div className="form-group">
-                        <label htmlFor="valor">Valor*</label>
-                        <input type="number" name="valor" className="form-control" id="valor" value={data.valor} onChange={valueInput} />
-                    </div>
-                </div>
-
-                <div className="form-row">
+                    <p className='form-session-title'></p>
                     
-                    <div className="form-group  col-md-5">
-                        <label htmlFor="valor">Pessoa Fisica ou Juridica*</label>
-                        <Select
-                            value={selectedOption}
-                            onInputChange={(value) => {
-                                setInputValue(value);
-                                getPessoaDespesa(value);
-                            }}
-                            onChange={handleChange}
-                            options={options}
-                            isSearchable={true}
-                            placeholder="Selecione uma opção..."
-                            className="custom-pessoa"
-                            noOptionsMessage={() => "Nenhuma opção encontrada"}
-                     
-                        />
+                    <div className="form-row">
+
+                        <div className="form-group col-md-7">
+                            <label htmlFor="descricao">Descricao</label>
+                            <input type="text" required className="form-control" id="descricao" name='descricao'  value={data.descricao} onChange={valueInput} />
+                        </div>
+
                     </div>
 
-                </div> 
+                    <div className="form-row">
 
-             
+                        <div className="form-group col-md-7">
+                            <label htmlFor="detalhamento">Detalhamento</label>
+                            <textarea className="form-control" name='detalhamento' value={data.detalhamento} onChange={valueInput} id="detalhamento"></textarea>
+                        </div>
 
-               
-                </div>
+                    </div>
 
-                <div className='btn'>
-                    <button type="submit" className="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Atualizar Despesas</button>
-                </div>
+
+                    <div className="form-row">
+                    
+                        <div className="form-group">
+                            <label htmlFor="valor">Valor*</label>
+                            <input type="number" name="valor" className="form-control" id="valor" value={data.valor} onChange={valueInput} />
+                        </div>
+                    </div>
+
+                    <div className="form-row">
+                        
+                        <div className="form-group  col-md-5">
+                            <label htmlFor="valor">Pessoa Fisica ou Juridica*</label>
+                            <Select
+                                value={selectedOption}
+                                onInputChange={(value) => {
+                                    setInputValue(value);
+                                    getPessoaDespesa(value);
+                                }}
+                                onChange={handleChange}
+                                options={options}
+                                isSearchable={true}
+                                placeholder="Selecione uma opção..."
+                                className="custom-pessoa"
+                                noOptionsMessage={() => "Nenhuma opção encontrada"}
+                        
+                            />
+                        </div>
+
+                    </div> 
+
                 
+
+                
+                    
+
+                    <div className='btn'>
+                        <button type="submit" className="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Atualizar Despesas</button>
+                    </div>
+                    
 
 
                 </form>
 
-             </div>
+            </div>
         </div>
     )
 }

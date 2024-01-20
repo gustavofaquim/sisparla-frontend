@@ -56,8 +56,6 @@ const ApoiadoresEdit = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
-                console.log(response.data);
-                 
             })
             .catch((error) => {
 
@@ -203,6 +201,7 @@ const ApoiadoresEdit = () => {
         }
     }, [data.entidadeNome, selectedEntidade]);
 
+
     const handleEntidadeInputChange = (event, { newValue }) => {
         setEntidadeInputValue(newValue);
         setSelectedEntidade(null);
@@ -213,10 +212,9 @@ const ApoiadoresEdit = () => {
     const apoiadorEdit = async (e) => {
         e.preventDefault();
 
-
        try {
             
-           const response = await userFetch.put(`/apoiadores/${id}`, data);
+           await userFetch.put(`/apoiadores/${id}`, data);
            toast.success('Apoiador alterado com sucesso!');
            navigate('/apoiadores');
 
@@ -229,11 +227,11 @@ const ApoiadoresEdit = () => {
     
     return(
 
-        <div className="cadastrar-apoiador">
+        <div className="pag-cadastro">
            <h1 className='title-page'>Atualizar Dados Cadastrais</h1>
            <h2 className='subtitle-page'>Atualize as informações cadastrais.</h2>
 
-            <div className='form-apoiador'>
+            <div className='form-cadastro'>
                 <form onSubmit={(e) => apoiadorEdit(e)}>
 
                 <p className='form-session-title'>Informações Pessoais</p>
@@ -364,13 +362,13 @@ const ApoiadoresEdit = () => {
 
                     <div className="form-group">
                         <label htmlFor="complemento">Complemento</label>
-                        <input type="text" className="form-control" id="complmento" value={data.complemento} onChange={valueInput}  />
+                        <input type="text" className="form-control" id="complemento" name='complemento' value={data.complemento} onChange={valueInput}  />
                     </div>
 
 
                     <div className="form-group">
-                        <label htmlFor="complemento">Ponto Referencia</label>
-                        <input type="text" className="form-control" id="complemento" name="pontoReferencia" value={data.pontoReferencia} onChange={valueInput} />
+                        <label htmlFor="pontoReferencia">Ponto Referencia</label>
+                        <input type="text" className="form-control" id="pontoReferencia" name="pontoReferencia" value={data.pontoReferencia} onChange={valueInput} />
                     </div>
 
                 </div>
