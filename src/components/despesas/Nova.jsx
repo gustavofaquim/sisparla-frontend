@@ -188,7 +188,7 @@ const Nova = () => {
                 <div className="form-row">
                     
                     <div className="form-group  col-md-5">
-                        <label htmlFor="valor">Pessoa Fisica ou Juridica*</label>
+                        <label htmlFor="valor">Credor*</label>
                         <Select
                             value={selectedOption}
                             onInputChange={(value) => {

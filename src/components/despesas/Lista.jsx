@@ -21,7 +21,7 @@ const DespesasList = () => {
             const resp = response.data;
 
             setData(resp);
-            console.log(response.data);
+          
 
         } catch (error) {
             console.log(`Erro ao listar despesas: ${error.message}`);
@@ -59,7 +59,7 @@ const DespesasList = () => {
                         <tr key={despesa.IdDespesa}>
                             <td> <Link to={`/despesas/${despesa.IdDespesa}`}>{despesa.IdDespesa}</Link></td>
                             <td>{despesa.Descricao}</td>
-                            <td>{despesa.PessoaFisicaJuridica.Nome} </td>
+                            <td>{despesa.Credor.Nome} </td>
                         </tr>
                     
                     ))}       

@@ -181,28 +181,28 @@ const DemandasEdit = () => {
 
                 <p className='form-session-title'></p>
                 
-                <div class="form-row">
+                <div className="form-row">
 
-                    <div class="form-group col-md-7">
+                    <div className="form-group col-md-7">
                         <label htmlFor="assunto">Assunto</label>
-                        <input type="assunto" required class="form-control" id="assunto" name='assunto' placeholder="Assunto" value={data.assunto} onChange={valueInput} />
+                        <input type="assunto" required className="form-control" id="assunto" name='assunto' placeholder="Assunto" value={data.assunto} onChange={valueInput} />
                     </div>
 
                 </div>
 
-                <div class="form-row">
+                <div className="form-row">
 
                     
-                    <div class="form-group col-md-7">
+                    <div className="form-group col-md-7">
                         <label htmlFor="descricao">Descrição</label>
-                        <textarea className="form-control" name='descricao' value={data.descricao} onChange={valueInput} id="descricao"></textarea>
+                        <textarea className="form-control" spellCheck="true" lang='pt-br' name='descricao' value={data.descricao} onChange={valueInput} id="descricao"></textarea>
                     </div>
 
                     
                 </div>
 
 
-                <div class="form-row">
+                <div className="form-row">
 
                     <Autosuggest
                         suggestions={suggestions}
@@ -235,12 +235,12 @@ const DemandasEdit = () => {
                 </div>
 
 
-                <div class="form-row">
+                <div className="form-row">
 
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="categoria">Categoria</label>
-                        <select id="categoria" required class="form-control" name="idCategoria" onChange={valueInput}>
+                        <select id="categoria" required className="form-control" name="idCategoria" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
                             {
                                 categorias.map((cat) => (
@@ -253,9 +253,9 @@ const DemandasEdit = () => {
                     </div>
 
 
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="situacao">Situação</label>
-                        <select id="situacao" required class="form-control" name="idSituacao" onChange={valueInput}>
+                        <select id="situacao" required className="form-control" name="idSituacao" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
                             {
                                 situacoes.map((sit) => (
@@ -267,10 +267,10 @@ const DemandasEdit = () => {
 
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-4">
+                <div className="form-row">
+                    <div className="form-group col-md-4">
                         <label htmlFor="responsavel">Responsável</label>
-                        <select id="responsavel" class="form-control" name="idResponsavel" onChange={valueInput}>
+                        <select id="responsavel" className="form-control" name="idResponsavel" onChange={valueInput}>
                             <option selected>Escolher...</option>
                             {
                                 responsaveis.map((resp) => (
@@ -281,31 +281,31 @@ const DemandasEdit = () => {
                     </div>
                 </div>
 
-                <div class="form-row">
+                <div className="form-row">
                     
-                    <div class="form-group">
+                    <div className="form-group">
                         <p>Emanda Parlamentar ?</p>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" checked={data.emendaParlamentar == "S"} onChange={valueInput} />
-                            <label class="form-check-label" for="emendaParlamentarS">Sim</label>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" checked={data.emendaParlamentar == "S"} onChange={valueInput} />
+                            <label className="form-check-label" for="emendaParlamentarS">Sim</label>
                         </div>
                         
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarN" value="N" checked={data.emendaParlamentar != "S"} onChange={(e) => setEmendaParlamentar(e.target.value)} />
-                            <label class="form-check-label" for="emendaParlamentarN">Não</label>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarN" value="N" checked={data.emendaParlamentar != "S"} onChange={(e) => setEmendaParlamentar(e.target.value)} />
+                            <label className="form-check-label" for="emendaParlamentarN">Não</label>
                         </div>
                     </div>
 
                     
-                    <div class="form-group">
+                    <div className="form-group">
                         <label htmlFor="valor">Valor Estimado</label>
-                        <input type="number" name="valor" id="valor" value={data.valor} onChange={valueInput} />
+                        <input type="number"  className="form-control" name="valor" id="valor" value={data.valor} onChange={valueInput} />
                     </div>
 
                 </div>
 
                 <div className='btn'>
-                    <button type="submit" class="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Cadastrar Demanda</button>
+                    <button type="submit" className="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Cadastrar Demanda</button>
                 </div>
                 
 
