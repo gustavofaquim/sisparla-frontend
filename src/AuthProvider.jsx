@@ -2,6 +2,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {jwtDecode} from 'jwt-decode';
 
+import userFetch from './axios/config.js';
+
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -17,11 +19,25 @@ const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
+   
+    const response = await userFetch.delete(`/logout`)
+    
+    console.log(response)
 
-    sessionStorage.removeItem('token');
-    setUser(null);
-    console.log('Até mais ver...')
+    if(response.status === 200){
+      console.log('Até mais ver...')
+      sessionStorage.removeItem('token');
+      setUser(null);
+      window.location.reload();
+      navigate('/login');
+      
+    }
+    else if(response.status === 401){
+      console.log('deu erooo aquiiii')
+    }
+   
+
   };
 
   return (

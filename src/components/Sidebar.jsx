@@ -33,8 +33,7 @@ const Sidebars = () => {
 
   const logoutAndRedirect = () => {
     handleLogout();
-    window.location.reload();
-    navigate('/login');
+    
   };
 
   
