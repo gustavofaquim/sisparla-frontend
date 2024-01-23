@@ -1,25 +1,22 @@
 import userFetch from "../axios/config.js";
 
-const consultaCEP = async(e) => {
-    const cep = e.target.value;
-    setCep(cep);
+const consultaCEP = (cep) => {
+  return userFetch.get(`https://viacep.com.br/ws/${cep}/json/`)
+    .then(response => {
+      const { logradouro, localidade, uf, bairro } = response.data;
 
-    if (cep.length === 8) {
-       await userFetch.get(`https://viacep.com.br/ws/${cep}/json/`)
-        .then(response => {
-            const { logradouro, localidade, uf, bairro } = response.data;
-            setLagradouro(logradouro);
-            setCidade(localidade);
-            setBairro(bairro);
-            setEstado(uf);
-            
-          })
-          .catch(error => {
-            console.error('Erro ao buscar informações do CEP:', error);
-          });
-    }
-
-}
-
+      return {
+        cep,
+        logradouro,
+        cidade: localidade,
+        bairro,
+        estado: uf,
+      };
+    })
+    .catch(error => {
+      console.error('Erro ao buscar informações do CEP:', error);
+      throw error;
+    });
+};
 export default consultaCEP;
 

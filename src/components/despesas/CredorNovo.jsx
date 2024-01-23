@@ -17,8 +17,16 @@ const CredorNovo = () =>{
         {id: 2, descricao: 'Pessoa Juridica'}
     ]
 
+    const [cep, setCep] = useState('');
     const [estados, setEstados] = useState([]);
-    const [estado, setEstado] = useState();
+    const [estado, setEstado] = useState('');
+    const [endereco, setEndereco] = useState(null);
+    const [cidade, setCidade] = useState(null);
+    const [logradouro, setLogradouro] = useState(null);
+    const [bairro, setBairro] = useState(null);
+    const [complemento, setComplemento] = useState(null);
+    const [pontoReferencia, setPontoReferencia] = useState(null);
+    
 
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
 
@@ -33,11 +41,48 @@ const CredorNovo = () =>{
         }
     }
 
+    const handleInputChangeCPF = (e) => {
+        setCep(e.target.value);
+    };
 
+    const handleConsultaCEP = async () => {
+        try {
+
+            setEndereco(null);
+        
+            const resultadoConsulta  = await consultaCEP(cep);
+            
+            setEstado(resultadoConsulta.estado || null);
+            setCidade(resultadoConsulta?.cidade || null);
+            setBairro(resultadoConsulta.bairro || null);
+            setLogradouro(resultadoConsulta.logradouro || null);
+            
+
+  
+        } catch (error) {
+            // Lidar com erros, se necessário
+            console.error('Erro na consulta do CEP:', error);
+        }
+    };
 
 
     const createCredor = async(e) => {
         e.preventDefault();
+
+        try {
+            
+            const dataToSend = {...data, estado, cidade,  bairro, logradouro, complemento, pontoReferencia};
+            
+            const response = await userFetch.post("/credor", dataToSend);
+
+            if(response.status === '200'){
+                toast.success("Demanda criada com sucesso");
+                navigate('/lista-credores');
+            }
+
+        } catch (error) {
+            console.log('Erro ao cadastrar o credor' + error);
+        }
 
     }
 
@@ -70,16 +115,17 @@ const CredorNovo = () =>{
 
                     <div className="form-group col-md-2">
                         <label htmlFor="cep">CEP</label>
-                        <input type="text" className="form-control" id="cep" name="cep"  onChange={consultaCEP}  />
+                        <input type="text" className="form-control" id="cep" name="cep"  onChange={handleInputChangeCPF}  onBlur={handleConsultaCEP}  />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" className="form-control" name='estado'  onChange={(e) => setEstado(e.target.value)} >
-                            <option selected>Escolher...</option>
+                        <select id="estado" className="form-control" name='estado' onChange={(e) => setData(e.target.value)} >
+                            <option selected={estado === null}>Escolher...</option>
+                            <option >Teste</option>
                             {
-                                estados.map((estado) => (
-                                    <option key={estado.IdEstado} value={estado.IdEstado}>{estado.UF}</option>
+                                estados.map((uf) => (
+                                    <option key={uf.IdEstado} selected={uf.UF === estado}  value={uf.IdEstado}>{uf.UF}</option>
                                 ))
                             }
                         </select>
@@ -87,31 +133,30 @@ const CredorNovo = () =>{
 
                     <div className="form-group col-md-5">
                         <label htmlFor="cidade">Cidade</label>
-                        <input type="text" className="form-control" id="cidade"   onChange={(e) => setCidade(e.target.value)}  />
+                        <input type="text" className="form-control" id="cidade" name="cidade"  value={cidade}   onChange={(e) => setCidade(e.target.value)}  />
                     </div>
                     
                     
-
                     <div className="form-group">
                         <label htmlFor="endereco">Lagradouro</label>
-                        <input type="text" className="form-control" id="endereco"  onChange={(e) => setLagradouro(e.target.value)}  />
+                        <input type="text" className="form-control" id="endereco" name="endereco"  value={logradouro} onChange={(e) => setLagradouro(e.target.value)} />
                     </div>
                     
                     <div className="form-group">
                         <label htmlFor="bairro">Bairro</label>
-                        <input type="text" className="form-control" id="bairro"  onChange={(e) => setBairro(e.target.value)}  />
+                        <input type="text" className="form-control" id="bairro" name='bairro' value={bairro}  onChange={(e) => setBairro(e.target.value)}  />
                     </div>
 
 
                     <div className="form-group">
                         <label htmlFor="complemento">Complemento</label>
-                        <input type="text" className="form-control" id="complmento"  onChange={(e) => setComplemento(e.target.value)}  />
+                        <input type="text" className="form-control" id="complemento" name='complemento' value={complemento}  onChange={(e) => setComplemento(e.target.value)}  />
                     </div>
 
 
                     <div className="form-group">
                         <label htmlFor="complemento">Ponto Referencia</label>
-                        <input type="text" className="form-control" id="complemento"  onChange={(e) => setPontoReferencia(e.target.value)}  />
+                        <input type="text" className="form-control" id="ponto" name="ponto"  onChange={(e) => setPontoReferencia(e.target.value)}  />
                     </div>
 
                 </div>
