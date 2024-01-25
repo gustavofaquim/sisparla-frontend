@@ -6,7 +6,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
 import consultaCEP from "../ConsultaCEP.jsx";
-const CredorNovo = () =>{
+const CredirEdit = () =>{
+
+    const params = useParams();
+    const id = params?.id;
 
     const navigate = useNavigate();
 
@@ -17,8 +20,10 @@ const CredorNovo = () =>{
         {id: 2, descricao: 'Pessoa Juridica'}
     ]
 
+
     const [cep, setCep] = useState('');
     const [estados, setEstados] = useState([]);
+    const [cidades, setCidades] = useState([]);
     const [estado, setEstado] = useState('');
     const [endereco, setEndereco] = useState(null);
     const [cidade, setCidade] = useState(null);
@@ -41,6 +46,42 @@ const CredorNovo = () =>{
         }
     }
 
+
+    const getCredor = async() => {
+        try {
+
+            if(id === undefined){
+                console.log('Credor não encontrada');
+                return;
+            }
+            
+            const response = await userFetch(`/credor/${id}`);
+           
+            
+            if(response.status == 200){
+                
+                setData(response.data.credor);
+
+                const { Documento, Endereco, EnderecoPessoa, IdCredor, Nome, Telefone, Tipo } = response.data.credor;
+                
+                setCep(EnderecoPessoa.CEP)
+                setCidade(EnderecoPessoa?.CidadeEndereco?.Nome);
+                setEstado(EnderecoPessoa?.CidadeEndereco?.Estado);
+                setBairro(EnderecoPessoa.Bairro);
+                setComplemento(EnderecoPessoa.Complemento);
+                setLogradouro(EnderecoPessoa.Lagradouro);
+                setPontoReferencia(EnderecoPessoa.PontoReferencia);
+
+
+            }else{
+                console.log(error.response.data.msg);
+            }
+
+        } catch (error) {
+            console.log('Erro ao buscar o credor' + error);
+        }
+    }
+
     const handleInputChangeCPF = (e) => {
         setCep(e.target.value);
     };
@@ -51,9 +92,10 @@ const CredorNovo = () =>{
             setEndereco(null);
         
             const resultadoConsulta  = await consultaCEP(cep);
-            
-            setCep(cep);
+            console.log('Entrou na consulta de CEP');
+            console.log(resultadoConsulta);
 
+            setCep(cep);
             setCidade(resultadoConsulta?.cidade || null);
             setBairro(resultadoConsulta.bairro || null);
             setLogradouro(resultadoConsulta.logradouro || null);
@@ -72,22 +114,21 @@ const CredorNovo = () =>{
     };
 
 
-    const createCredor = async(e) => {
+    const updateCredor = async(e) => {
         e.preventDefault();
 
         try {
             
-            
             const dataToSend = {...data, cep, estado, cidade,  bairro, logradouro, complemento, pontoReferencia};
             
-            const response = await userFetch.post("/credor", dataToSend);
+            const response = await userFetch.put(`/credor/${id}`, dataToSend);
 
-            if(response.status === '200'){
-                toast.success("Demanda criada com sucesso");
+            if(response.status === 200){
+                toast.success("Credor atualizado com sucesso");
                 navigate('/lista-credores');
             }
 
-        } catch (error) {
+        }catch (error) {
             console.log('Erro ao cadastrar o credor' + error);
         }
 
@@ -95,6 +136,7 @@ const CredorNovo = () =>{
 
     useEffect(() => {
         getEstados();
+        getCredor();
     }, []);
 
     return(
@@ -105,13 +147,13 @@ const CredorNovo = () =>{
 
             <div className='form-cadastro'>
             
-                <form  onSubmit={createCredor}>
+                <form  onSubmit={updateCredor}>
 
                 <div className="form-row">
 
                     <div className="form-group col-md-7">
                         <label htmlFor="nome">Nome*</label>
-                        <input type="text" required className="form-control" id="nome" name='nome' onChange={valueInput} />
+                        <input type="text" required className="form-control" id="nome" name='Nome' value={data.Nome} onChange={valueInput} />
                     </div>
 
                 </div>
@@ -122,7 +164,7 @@ const CredorNovo = () =>{
 
                     <div className="form-group col-md-2">
                         <label htmlFor="cep">CEP</label>
-                        <input type="text" className="form-control" id="cep" name="cep"  onChange={handleInputChangeCPF}  onBlur={handleConsultaCEP}  />
+                        <input type="text" className="form-control" id="cep" name="cep" value={cep}  onChange={handleInputChangeCPF}  onBlur={handleConsultaCEP}  />
                     </div>
 
                     <div className="form-group">
@@ -162,7 +204,7 @@ const CredorNovo = () =>{
 
                     <div className="form-group">
                         <label htmlFor="complemento">Ponto Referencia</label>
-                        <input type="text" className="form-control" id="ponto" name="ponto"  onChange={(e) => setPontoReferencia(e.target.value)}  />
+                        <input type="text" className="form-control" id="ponto" name="ponto" value={pontoReferencia} onChange={(e) => setPontoReferencia(e.target.value)}  />
                     </div>
 
                 </div>
@@ -171,7 +213,7 @@ const CredorNovo = () =>{
 
                     <div className="form-group col-md-7">
                         <label htmlFor="telefone">Telefone*</label>
-                        <input type="text" required className="form-control" id="telefone" name='telefone' onChange={valueInput} />
+                        <input type="text" required className="form-control" id="telefone" name='Telefone' value={data.Telefone} onChange={valueInput} />
                     </div>
 
                 </div>
@@ -182,11 +224,11 @@ const CredorNovo = () =>{
                     <div className="form-group">
                             
                         <label htmlFor="tipo">Tipo*</label>
-                        <select id="tipo" required className="form-control" name="tipo" onChange={valueInput}>
-                            <option selected value="" disabled>Escolher...</option>
+                        <select id="tipo" required className="form-control" name="Tipo" onChange={valueInput}>
+                            <option selected={data.Top === null} disabled>Escolher...</option>
                             {
                                 tipos.map((tipo) => (
-                                    <option key={tipo.id} value={tipo.descricao}> {tipo.descricao} </option>
+                                    <option key={tipo.id} selected={data.Tipo === tipo.descricao}   value={tipo.descricao}> {tipo.descricao} </option>
                                 ))
                             }
                         </select>
@@ -195,16 +237,14 @@ const CredorNovo = () =>{
 
                     <div className="form-group col-md-7">
                         <label htmlFor="documento">CPF ou CNPJ*</label>
-                        <input type="text" required className="form-control" id="documento" name='documento' onChange={valueInput} />
+                        <input type="text" required className="form-control" id="documento" value={data.Documento} name='Documento' onChange={valueInput} />
                     </div>
-
-
 
                 </div>
 
 
                 <div className='btn'>
-                    <button type="submit" className="btn btn-primary btn-cadastrar" >Cadastrar Credor</button>
+                    <button type="submit" className="btn btn-primary btn-cadastrar" >Atualizar Credor</button>
                 </div>
 
 
@@ -216,4 +256,4 @@ const CredorNovo = () =>{
     )
 };
 
-export default CredorNovo;
+export default CredirEdit;

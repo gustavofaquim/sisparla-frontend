@@ -14,7 +14,6 @@ const Nova = () => {
 
     const navigate = useNavigate();
 
-
     const [origens, setOrigens] =  useState([]);
     const [tipos, setTipos] = useState([]);
   
@@ -94,12 +93,17 @@ const Nova = () => {
         try {
             
             if(inputValue?.length >= 4){
-                const response = await userFetch.get("/pessoas-despesas");
+                const response = await userFetch.get("/credores", {
+                    params: {
+                        inputValue
+                    },
+                });
+
                 const data = response.data;
                 
                 const formattedOptions = data.map(option => ({
-                    value: option.IdPessoaJuridicaFisica, // Substitua com a propriedade correta do seu objeto
-                    label: option.Nome, // Substitua com a propriedade correta do seu objeto
+                    value: option.IdCredor, 
+                    label: option.Nome, 
                 }));
 
                 setOptions(formattedOptions);
@@ -120,7 +124,7 @@ const Nova = () => {
         getTipo();
         getPessoaDespesa();
         getDespesa();
-    },[]);
+    },[inputValue]);
 
     const createDespesa = async(e) => {
         e.preventDefault();

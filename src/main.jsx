@@ -21,6 +21,7 @@ import ListaEvento from "./components/eventos/Lista";
 import EditEvento from "./components/eventos/Edit";
 import ListaDespesa from "./components/despesas/Lista";
 import ListaCredor from "./components/despesas/ListaCredor";
+import CredorEdit from "./components/despesas/EditCredor";
 import NovoCredor from "./components/despesas/CredorNovo";
 import EditDespesa from "./components/despesas/Edit";
 import NovaDespesa from "./components/despesas/Nova";
@@ -118,6 +119,7 @@ const Root = () => {
             <Route path="nova-despesa" element={<PrivateRoute element={<NovaDespesa />} />} />
             <Route path="lista-credores" element={<PrivateRoute element={<ListaCredor />} />} />
             <Route path="novo-credor" element={<PrivateRoute element={<NovoCredor />} />} />
+            <Route path="credor/:id" element={<PrivateRoute element={<CredorEdit />} />} />
             <Route path="nova-mensagem" element={<PrivateRoute element={<NovaMensagem />} />} /> 
             <Route path="lista-contatos" element={<PrivateRoute element={<ListaContatos />} />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />

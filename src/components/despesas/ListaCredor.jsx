@@ -16,7 +16,7 @@ const ListaCredor = () => {
             
             const response = await userFetch.get('/credores');
 
-            const resp = response.data();
+            const resp = response.data;
             setData(resp);
 
 
