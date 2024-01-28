@@ -7,6 +7,7 @@ import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa6";
 
 
+import InsereMascara from './InsereMascara.jsx';
 
 import "../styles/components/apoiadores-list.sass";
 
@@ -136,6 +137,12 @@ const ApoiadoresList = () => {
             <h1 className='title-page'>Listagem de Apoiadores</h1>
             <h2 className='subtitle-page'>Lista de todos os eleitores ativos, desativos e com cadastro incompleto.</h2>
 
+            
+            <div className='btn-add'>
+                <Link to={"/novo-apoiador"}> <button>Novo Apoiador</button></Link>
+            </div>
+
+            
             <div className="filtro-busca">
                 <div>
                    
@@ -200,7 +207,7 @@ const ApoiadoresList = () => {
             <table>
                 <thead>
                     <tr>
-                        <th>#</th>
+                       <th>#</th>
                         <th>Nome</th>
                         <th className='ocultar-0'>Telefone</th>
                         <th></th>
@@ -223,8 +230,7 @@ const ApoiadoresList = () => {
                                     />
                                 </td>
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
-                                <td className='ocultar-0'>{apoiador?.TelefoneApoiador?.Numero}</td>
-
+                                <InsereMascara className='ocultar-0' tipo='telefone' valor={apoiador?.TelefoneApoiador?.Numero} ></InsereMascara>
                                 {apoiador?.TelefoneApoiador?.Numero ? (
                                     <td>
                                         <Link to={`https://api.whatsapp.com/send?phone=55${apoiador.TelefoneApoiador.Numero}`} target="_blank">

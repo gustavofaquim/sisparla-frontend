@@ -5,10 +5,14 @@ import { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import InputMask from 'react-input-mask';
 
 import "../styles/components/apoiador-novo.sass"
 
 import { FaWhatsapp } from "react-icons/fa6";
+
+import ConsultaCEP from "./ConsultaCEP.jsx";
+import RemoveMascara from "./RemoveMascara.jsx";
 
 const ApoiadoresNovo = () => {
 
@@ -33,7 +37,7 @@ const ApoiadoresNovo = () => {
     const [cidade, setCidade] = useState();
     const [estados, setEstados] = useState([]);
     const [estado, setEstado] = useState();
-    const [lagradouro, setLagradouro] = useState();
+    const [logradouro, setLogradouro] = useState();
     const [complemento, setComplemento] = useState();
     const [bairro, setBairro] = useState();
     const [pontoReferencia, setPontoReferencia] = useState();
@@ -158,29 +162,35 @@ const ApoiadoresNovo = () => {
     const createApoiador = async(e) => {
         e.preventDefault();
 
+
         try {
             
+            const cepSemMascara = RemoveMascara(cep);
+            const telefoneSemMascara = RemoveMascara(telefone);
+            let cpfSemMascara = null;
+    
+            if(cpf){
+                cpfSemMascara = RemoveMascara(cpf);
+            }
+
+
             const post = {
-                nome, apelido, profissao, cpf, religiao, nascimento, classificacao, email, telefone, situacao, 
-                cep, cidade, estado, lagradouro, complemento, bairro, pontoReferencia,  
+                nome, apelido, profissao, cpfSemMascara, religiao, nascimento, classificacao, email, telefoneSemMascara, situacao, 
+                cepSemMascara, cidade, estado, logradouro, complemento, bairro, pontoReferencia,  
                 entidadeNome: entidadeNome || inputValue, entidadeTipo, entidadeSigla, entidadeCargo, entidadeLideranca,
                 partidoId, partidoCargo, partidoLideranca,
                 informacoesAdicionais };
-
                 
             const response = await userFetch.post("/apoiadores", post);
 
-            const msg = response.data.msg || "Usuário cadastrado com sucesso :) "; 
+            const msg = response.data.msg || "Apoiador cadastrado com sucesso :) "; 
             toast.success(msg);
-            setResponseMessage();
-
             navigate('/apoiadores');
 
 
         } catch (error) {
             console.log(`Erro ao cadastrar o apoiador: ${error}`);
-            setResponseMessage(error);
-            toast.error(error);
+            toast.error('Erro ao cadastrar o apoiador');
         }
 
     };
@@ -237,25 +247,34 @@ const ApoiadoresNovo = () => {
             setSelectedEntidade(selectedEntity);
         }
     };
+
+    const handleInputChangeCEP = (e) => {
+        setCep(e.target.value);
+    };
     
+    const handleConsultaCEP = async() => {
 
-    const consultaCEP = async(e) => {
-        const cep = e.target.value;
-        setCep(cep);
-
-        if (cep.length === 8) {
-           await userFetch.get(`https://viacep.com.br/ws/${cep}/json/`)
-            .then(response => {
-                const { logradouro, localidade, uf, bairro } = response.data;
-                setLagradouro(logradouro);
-                setCidade(localidade);
-                setBairro(bairro);
-                setEstado(uf);
+        try {
+            
+            if(cep?.length >= 8){
+                const resultadoConsulta  = await ConsultaCEP(cep);
+                setLogradouro(resultadoConsulta?.logradouro || null);
+                setCidade(resultadoConsulta?.cidade || null);
+                setBairro(resultadoConsulta?.bairro || null);
+                setEstado(resultadoConsulta?.uf || null);
                 
-              })
-              .catch(error => {
-                console.error('Erro ao buscar informações do CEP:', error);
-              });
+               
+                if(resultadoConsulta.estado){
+                
+                    const estadoEncontrado = estados.find(e => e.UF === resultadoConsulta.estado);
+                    const idEstado = estadoEncontrado ? estadoEncontrado.IdEstado : null;
+                    setEstado(idEstado || null);
+                }
+            }
+            
+        
+        } catch (error) {
+            console.log(error)
         }
 
     }
@@ -284,10 +303,15 @@ const ApoiadoresNovo = () => {
                     </div>  
 
                     <div className="form-group">
-                        <label htmlFor="telefone">Telefone *
+                        <label htmlFor="telefone">Telefone*</label>
                         <span> <input type="checkbox" id='whatsapp' name='whatsapp' /> <FaWhatsapp /> </span>
-                        </label>
-                        <input type="text" required className="form-control" id="telefone" value={telefone|| ''} onChange={(e) => setTelefone(e.target.value)} />
+                        <InputMask required
+                            id="telefone" name='telefone' onChange={(e) => setTelefone(e.target.value)}
+                            mask="(99) 99999-9999"
+                            maskChar="_"
+                            className="form-control"  
+                        />
+                    
                     </div>
 
                     <div className="form-group col-md-5">
@@ -325,7 +349,7 @@ const ApoiadoresNovo = () => {
 
 
                     <div className="form-group">
-                        <label htmlFor="situacao">Situação *</label>
+                        <label htmlFor="situacao">Situação*</label>
                         <select id="situacao" required className="form-control" onChange={(e) => setSituacao(e.target.value)} >
                             <option selected value="" disabled>Escolher...</option>
                             {
@@ -352,12 +376,18 @@ const ApoiadoresNovo = () => {
 
                     <div className="form-group col-md-2">
                         <label htmlFor="cep">CEP</label>
-                        <input type="text" className="form-control" id="cep" name="cep" value={cep|| ''} onChange={consultaCEP}  />
+                        <InputMask
+                            className="form-control" id="cep" name="cep" 
+                            mask="99999-999"
+                            maskChar="_"
+                            onChange={handleInputChangeCEP}  
+                            onBlur={handleConsultaCEP}
+                        />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" className="form-control" name='estado' value={estado|| ''} onChange={(e) => setEstado(e.target.value)} >
+                        <select id="estado" className="form-control" name='estado'  onChange={(e) => setEstado(e.target.value)} >
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
@@ -369,31 +399,31 @@ const ApoiadoresNovo = () => {
 
                     <div className="form-group col-md-5">
                         <label htmlFor="cidade">Cidade</label>
-                        <input type="text" className="form-control" id="cidade"  value={cidade|| ''} onChange={(e) => setCidade(e.target.value)}  />
+                        <input type="text" className="form-control" id="cidade"  value={cidade} onChange={(e) => setCidade(e.target.value)}  />
                     </div>
                     
                     
 
                     <div className="form-group">
                         <label htmlFor="endereco">Lagradouro</label>
-                        <input type="text" className="form-control" id="endereco" value={lagradouro|| ''} onChange={(e) => setLagradouro(e.target.value)}  />
+                        <input type="text" className="form-control" id="endereco" value={logradouro} onChange={(e) => setLogradouro(e.target.value)}  />
                     </div>
                     
                     <div className="form-group">
                         <label htmlFor="bairro">Bairro</label>
-                        <input type="text" className="form-control" id="bairro" value={bairro|| ''} onChange={(e) => setBairro(e.target.value)}  />
+                        <input type="text" className="form-control" id="bairro" value={bairro} onChange={(e) => setBairro(e.target.value)}  />
                     </div>
 
 
                     <div className="form-group">
                         <label htmlFor="complemento">Complemento</label>
-                        <input type="text" className="form-control" id="complmento" value={complemento|| ''} onChange={(e) => setComplemento(e.target.value)}  />
+                        <input type="text" className="form-control" id="complmento" value={complemento} onChange={(e) => setComplemento(e.target.value)}  />
                     </div>
 
 
                     <div className="form-group">
                         <label htmlFor="complemento">Ponto Referencia</label>
-                        <input type="text" className="form-control" id="complemento" value={pontoReferencia|| ''} onChange={(e) => setPontoReferencia(e.target.value)}  />
+                        <input type="text" className="form-control" id="complemento" value={pontoReferencia} onChange={(e) => setPontoReferencia(e.target.value)}  />
                     </div>
 
                 </div>

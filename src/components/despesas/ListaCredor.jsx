@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import userFetch from '../../axios/config.js';
 import { Link } from "react-router-dom";
 
+import InsereMascara from '../InsereMascara.jsx';
 
 import "../../styles/components/listagem.sass";
 
@@ -34,12 +35,11 @@ const ListaCredor = () => {
         <div className='listagem-demandas'>
             
             <h1 className='title-page'>Lista de Credores</h1>
-            <h2 className='subtitle-page'></h2>
-
-
-            <div>
-                <button><a href="/novo-credor">Novo Credor</a></button>
+           
+            <div  className='btn-add'>
+                <Link to={"/novo-credor"}> <button >Novo Credor</button></Link>
             </div>
+
             {data.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
             <table>
                 <thead>
@@ -56,9 +56,9 @@ const ListaCredor = () => {
                             
                         <tr key={credor.IdCredor}>
                             <td> <Link to={`/credor/${credor.IdCredor}`}>{credor.Nome}</Link></td>
-                            <td>{credor.Telefone}</td>
+                            <td> <InsereMascara tipo='telefone' valor={credor.Telefone}></InsereMascara> </td>
                             <td>{credor.Tipo} </td>
-                            <td>{credor.Documento} </td>
+                            <td> <InsereMascara tipo={credor.Tipo === 'Pessoa Física' ? 'cpf' : 'cnpj'} valor={credor.Documento}></InsereMascara> </td>
                         </tr>
                         
                     ))}

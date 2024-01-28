@@ -2,10 +2,13 @@ import userFetch from "../../axios/config.js";
 import { useState, useEffect } from "react";
 import Select from 'react-select';
 import { toast } from 'react-toastify';
+import InputMask from 'react-input-mask';
 import { useNavigate, useParams } from "react-router-dom";
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
-import consultaCEP from "../ConsultaCEP.jsx";
+import ConsultaCEP from "../ConsultaCEP.jsx";
+import RemoveMascara from "../RemoveMascara.jsx";
+
 const CredorNovo = () =>{
 
     const navigate = useNavigate();
@@ -41,7 +44,7 @@ const CredorNovo = () =>{
         }
     }
 
-    const handleInputChangeCPF = (e) => {
+    const handleInputChangeCEP = (e) => {
         setCep(e.target.value);
     };
 
@@ -50,7 +53,7 @@ const CredorNovo = () =>{
 
             setEndereco(null);
         
-            const resultadoConsulta  = await consultaCEP(cep);
+            const resultadoConsulta  = await ConsultaCEP(cep);
             
             setCep(cep);
 
@@ -77,12 +80,16 @@ const CredorNovo = () =>{
 
         try {
             
-            
-            const dataToSend = {...data, cep, estado, cidade,  bairro, logradouro, complemento, pontoReferencia};
+            const cepSemMascara = RemoveMascara(cep);
+            data.telefone = RemoveMascara(data.telefone);
+            data.documento = RemoveMascara(data.documento);
+
+        
+            const dataToSend = {...data, cepSemMascara, estado, cidade,  bairro, logradouro, complemento, pontoReferencia};
             
             const response = await userFetch.post("/credor", dataToSend);
 
-            if(response.status === '200'){
+            if(response.status === 200){
                 toast.success("Demanda criada com sucesso");
                 navigate('/lista-credores');
             }
@@ -92,6 +99,9 @@ const CredorNovo = () =>{
         }
 
     }
+
+    
+
 
     useEffect(() => {
         getEstados();
@@ -122,7 +132,14 @@ const CredorNovo = () =>{
 
                     <div className="form-group col-md-2">
                         <label htmlFor="cep">CEP</label>
-                        <input type="text" className="form-control" id="cep" name="cep"  onChange={handleInputChangeCPF}  onBlur={handleConsultaCEP}  />
+                        <InputMask
+                            className="form-control" id="cep" name="cep" 
+                            mask="99999-999"
+                            maskChar="_"
+                            onChange={handleInputChangeCEP}  
+                            onBlur={handleConsultaCEP}
+                        />
+                        
                     </div>
 
                     <div className="form-group">
@@ -171,7 +188,13 @@ const CredorNovo = () =>{
 
                     <div className="form-group col-md-7">
                         <label htmlFor="telefone">Telefone*</label>
-                        <input type="text" required className="form-control" id="telefone" name='telefone' onChange={valueInput} />
+                        <InputMask required
+                            id="telefone" name='telefone' onChange={valueInput}
+                            mask="(99) 99999-9999"
+                            maskChar="_"
+                            className="form-control"  
+                        />
+                        
                     </div>
 
                 </div>
@@ -194,8 +217,15 @@ const CredorNovo = () =>{
                     </div>
 
                     <div className="form-group col-md-7">
-                        <label htmlFor="documento">CPF ou CNPJ*</label>
-                        <input type="text" required className="form-control" id="documento" name='documento' onChange={valueInput} />
+                        <label htmlFor="documento">{data.tipo === 'Pessoa Física' ? 'CPF' : 'CNPJ'}*</label>
+                        <InputMask required
+                            name="documento"
+                            mask={data.tipo === 'Pessoa Física' ? '999.999.999-99' : '99.999.999/9999-99'}
+                            maskChar="_"
+                            className="form-control" id="documento" onChange={valueInput}
+                            
+                        />
+                       
                     </div>
 
 

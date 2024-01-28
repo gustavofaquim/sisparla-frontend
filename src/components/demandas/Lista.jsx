@@ -9,6 +9,9 @@ import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
 
 import "../../styles/components/listagem.sass";
 
+import DeleteClick from '../DeleteClick.jsx';
+
+
 const DemandasList = () => {
 
     const [termoBusca, setTermoBusca] = useState('');
@@ -114,7 +117,10 @@ const DemandasList = () => {
         try {
             
             const response = await userFetch.delete(`demandas/${id}`);
-            toast.success('Demanda removida com sucesso');
+            if(response.status === 200){
+                navigate('/demandas');
+                toast.success('Demanda removida com sucesso');
+            }
 
         } catch (error) {
             console.log(`Não foi possível deletar a demanda: ${error}`);
@@ -147,6 +153,9 @@ const DemandasList = () => {
             <h1 className='title-page'>Lista de Demandas</h1>
             <h2 className='subtitle-page'>Lista de todas as demandas, com status e data de abertura.</h2>
 
+            <div className='btn-add'>
+                <Link to={"/nova-demanda"}> <button>Nova Demanda</button></Link>
+            </div>
 
             <div className="filtro-busca">
                 <div>
@@ -192,7 +201,7 @@ const DemandasList = () => {
                                     ))}
                                         
                                         <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item btn-acao btn-excluir" href="#" onClick={() => deletaDemanda(demanda?.IdDemanda)}><FaTrashCan /> Excluir</a>
+                                        <a className="dropdown-item btn-acao btn-excluir" href="#" onClick={(e) => DeleteClick(e,deletaDemanda(demanda?.IdDemanda))}><FaTrashCan /> Excluir</a>
                                        
                                     </div>
 

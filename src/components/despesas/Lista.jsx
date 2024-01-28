@@ -21,6 +21,8 @@ const DespesasList = () => {
             const resp = response.data;
 
             setData(resp);
+
+            console.log(resp);
           
 
         } catch (error) {
@@ -39,15 +41,19 @@ const DespesasList = () => {
         <h2 className='subtitle-page'>Lista de todas as despesas.</h2>
 
 
+        
+        <div className='btn-add'> 
+            <Link to={"/nova-despesa"}> <button >Nova Despesa</button></Link>
+        </div>
        
 
         {data.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Descrição</th>
                     <th>Beneficiário</th>
+                    <th>Valor</th>
                    
                 </tr>
             </thead>
@@ -57,9 +63,9 @@ const DespesasList = () => {
                     {data.map((despesa) => (
                         
                         <tr key={despesa.IdDespesa}>
-                            <td> <Link to={`/despesas/${despesa.IdDespesa}`}>{despesa.IdDespesa}</Link></td>
-                            <td>{despesa.Descricao}</td>
-                            <td>{despesa.Credor.Nome} </td>
+                            <td> <Link to={`/despesas/${despesa.IdDespesa}`}> {despesa.Descricao} </Link> </td>
+                            <td>{despesa?.CredorDespesa?.Nome} </td>
+                            <td> R$ {despesa?.Valor} </td>
                         </tr>
                     
                     ))}       

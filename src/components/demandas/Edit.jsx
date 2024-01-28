@@ -9,6 +9,8 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 
 import { useNavigate, useParams } from "react-router-dom";
 
+import DeleteClick from '../DeleteClick.jsx';
+
 
 const DemandasEdit = () => {
     
@@ -168,6 +170,21 @@ const DemandasEdit = () => {
         }
     }
 
+    const deletaDemanda = async() => {
+        try {
+            
+            const response = await userFetch.delete(`demandas/${id}`);
+            if(response.status === 200){
+                navigate('/demandas');
+                toast.success('Demanda removida com sucesso');
+            }
+           
+
+        } catch (error) {
+            console.log(`Não foi possível deletar a demanda: ${error}`);
+        }
+    }
+
 
     return(
         <div className="pag-cadastro">
@@ -306,6 +323,10 @@ const DemandasEdit = () => {
 
                 <div className='btn'>
                     <button type="submit" className="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Cadastrar Demanda</button>
+                </div>
+
+                <div className='btn'>
+                    <button onClick={(e) => DeleteClick(e,deletaDemanda)} className="btn btn-danger btn-cadastrar">Excluir Credor</button>
                 </div>
                 
 

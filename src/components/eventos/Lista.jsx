@@ -63,6 +63,10 @@ const Lista = () => {
             <h1 className='title-page'>Lista de Eventos</h1>
             <h2 className='subtitle-page'></h2>
 
+            
+            <div className='btn-add'>
+                <Link to={"/novo-evento"}> <button>Novo Evento</button></Link>
+            </div>
 
             <div className="filtro-busca">
                 <div>

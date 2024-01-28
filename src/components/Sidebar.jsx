@@ -46,25 +46,18 @@ const Sidebars = () => {
             <p className='title-menu'>Menu</p>
             <Menu >
                 <MenuItem component={<Link to="/" />} icon={<FaHouseUser/>} active={activeMenuItem === 'inicio'} onClick={() => handleMenuItemClick('inicio')}>Início</MenuItem>
+                
                 <SubMenu icon={<FaUserAlt/>}  label="Apoidores"  active={activeMenuItem === 'apoiadores'} >
                     <MenuItem component={<Link to="/apoiadores" />} onClick={() => handleMenuItemClick('apoiadores')}> Lista</MenuItem>
-                    <MenuItem component={<Link to="/novo-apoiador" />} onClick={() => handleMenuItemClick('apoiadores')}> Novo</MenuItem>
                     <MenuItem component={<Link to="/aniversariantes" />} onClick={() => handleMenuItemClick('apoiadores')}> Aniversariantes</MenuItem>
                 </SubMenu>
 
-                <SubMenu icon={<FaChartBar/>} label="Demandas" active={activeMenuItem === 'demandas'} >
-                    <MenuItem component={<Link to="/nova-demanda" />} onClick={() => handleMenuItemClick('demandas')}> Cadastrar Nova</MenuItem>
-                    <MenuItem component={<Link to="/demandas " />} onClick={() => handleMenuItemClick('demandas')}> Demandas</MenuItem>
-                </SubMenu>
+                <MenuItem icon={<FaChartBar/>} component={<Link to="/demandas " />} active={activeMenuItem === 'demandas'} onClick={() => handleMenuItemClick('demandas')}> Demandas</MenuItem>
 
-                <SubMenu icon={<FaCalendarAlt/>} label="Eventos" active={activeMenuItem === 'eventos'} >
-                    <MenuItem component={<Link to="/novo-evento" />} onClick={() => handleMenuItemClick('eventos')}> Cadastrar Evento</MenuItem>
-                    <MenuItem component={<Link to="/eventos " />} onClick={() => handleMenuItemClick('eventos')}> Eventos</MenuItem>
-                </SubMenu>
+                <MenuItem component={<Link to="/eventos " />} icon={<FaCalendarAlt/>} active={activeMenuItem === 'eventos'} onClick={() => handleMenuItemClick('eventos')}> Eventos</MenuItem>
 
                 <SubMenu icon={<FaDollarSign/>} label="Despesas" active={activeMenuItem === 'despesas'} >
                     <MenuItem component={<Link to="/despesas" />} onClick={() => handleMenuItemClick('despesas')}>Depesas</MenuItem>
-                    <MenuItem component={<Link to="/nova-despesa" />} onClick={() => handleMenuItemClick('despesas')}>Nova Despesa</MenuItem>
                     <MenuItem component={<Link to="/lista-credores" />} onClick={() => handleMenuItemClick('despesas')}>Credores</MenuItem>
                 </SubMenu> 
 

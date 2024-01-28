@@ -131,13 +131,15 @@ const Nova = () => {
 
         try {
             
-            const dataToSend = { ...data, idPessoa: selectedOption.value, dataDespesa: dataAtual };
-            console.log(dataToSend);
+            const dataToSend = { ...data, Credor: selectedOption.value, dataDespesa: dataAtual };
+            
+            console.log(dataToSend)
+            
             const response = await userFetch.post("/despesa", dataToSend);
             
             if(response.status == '200'){
                 toast.success("Despesa criada com sucesso");
-                navigate('/');
+                navigate('/despesas');
             }
             
 
@@ -185,6 +187,7 @@ const Nova = () => {
                    
                     <div className="form-group">
                         <label htmlFor="valor">Valor*</label>
+                        
                         <input type="number" name="valor" className="form-control" id="valor" onChange={valueInput} />
                     </div>
                 </div>

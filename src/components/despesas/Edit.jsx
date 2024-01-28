@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import userFetch from "../../axios/config.js";
 import { useState, useEffect } from "react";
-import Autosuggest from 'react-autosuggest';
+import { Link } from "react-router-dom";
+import Select from 'react-select';
 import { toast } from 'react-toastify';
 
-import { FaRegFloppyDisk } from "react-icons/fa6";
+import DeleteClick from '../DeleteClick.jsx';
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -18,39 +19,164 @@ const DespesasEdit = () => {
     const navigate = useNavigate();
 
 
+    const [origens, setOrigens] =  useState([]);
+    const [tipos, setTipos] = useState([]);
+
     const [data, setData] = useState([]); 
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
 
+    const [inputValue, setInputValue] = useState('');
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [options, setOptions] = useState([]);
+    const [dataAtual, setDataAtual] = useState(getFormattedDate());
 
-    const getDespesas = async() => {
+    function getFormattedDate() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
+
+    const getDespesa = async() => {
+       
         try {
             
             if(id === undefined){
                 console.log('Despesa não encontrada');
                 return;
             }
+            
 
-            await userFetch(`/despesas/${id}`)
-                .then((response) => {
-                    setData(response.data)
-                })
-                .catch((error) => {
-                    if(error.response){
-                        console.log(error.response.data.msg);
-                    }else{
-                        console.log('API não respondeu');
-                    }
-                })
+            const response =  await userFetch.get(`/despesas/${id}`)
+            console.log(response.data);
+
+            setData(response.data)
+
+            setSelectedOption({
+                label: response.data?.CredorDespesa.Nome,
+                value: response.data?.CredorDespesa.IdCredor
+            });
+           
 
         } catch (error) {
             console.log('Erro ao recuperar a despesa.')
         }
     }
 
+
+    const getOrigem = async() => {
+        try {
+            
+            const response = await userFetch.get('/origens-despesas');
+            const data = response.data;
+            setOrigens(data);
+
+        } catch (error) {
+            console.log('Erro ao listar as origens');
+        }
+    }
+
+    const getTipo = async() => {
+        try {
+            
+            const response = await userFetch.get("/tipos-despesas");
+            const data = response.data;
+            setTipos(data);
+
+        } catch (error) {
+            console.log('Erro ao listar os tipos');
+            toast.error("Houve um erro listar os tipos");
+        }3000
+    }
+
+
+    const getCredor = async(inputValue) => {
+        
+
+        try {
+            
+            if(inputValue?.length >= 4){
+                const response = await userFetch.get("/credores", {
+                    params: {
+                        inputValue
+                    },
+                });
+
+                const data = response.data;
+                
+                const formattedOptions = data.map(option => ({
+                    value: option.IdCredor, 
+                    label: option.Nome, 
+                }));
+
+                setOptions(formattedOptions);
+                
+            }else{
+                
+                setOptions([]);
+            }
+            
+        } catch (error) {
+            console.log(`Erro ao listar as pessoas: ` + error);
+        }
+    }
+
+
+    const upateDespesa = async(e) => {
+        e.preventDefault();
+
+        try {
+            
+            const dataToSend = { ...data, Credor: selectedOption.value, dataDespesa: dataAtual };
+            console.log(dataToSend)
+            const respose = await userFetch.put(`despesa/${id}`, dataToSend)
+
+            if(respose.status === 200){
+                toast.success('Despesa atualizada com sucesso');
+                navigate('/despesas');
+
+            }
+        } catch (error) {
+            console.log(`Erro ao atualizar : ` + error);
+        }
+    }
+
+
     useEffect(() => {
-        getDespesas();
+        getCredor();
+    },[inputValue]);
+
+    useEffect(() => {
+        getOrigem();
+        getTipo();
+        getDespesa();
     },[]);
+
+
+    const handleChange = (selectedOption) => {
+        setSelectedOption(selectedOption);
+    };
+
+
+    const deleteDespesa = async(e) => {
+        e.preventDefault();
+
+        try {
+            
+            const response = await userFetch.delete(`/despesa/${id}`)
+            
+            
+            if(response.status === 200){
+                navigate('/despesas');
+            }
+        } catch (error) {
+            console.log(`Erro: ` + error);
+        }
+
+    }
+
 
 
     return(
@@ -61,7 +187,7 @@ const DespesasEdit = () => {
 
             <div className='form-cadastro'>
 
-                <form>
+                <form onSubmit={upateDespesa}>
 
                     <p className='form-session-title'></p>
                     
@@ -69,7 +195,7 @@ const DespesasEdit = () => {
 
                         <div className="form-group col-md-7">
                             <label htmlFor="descricao">Descricao</label>
-                            <input type="text" required className="form-control" id="descricao" name='descricao'  value={data.descricao} onChange={valueInput} />
+                            <input type="text" required className="form-control" id="descricao" name='Descricao'  value={data.Descricao} onChange={valueInput} />
                         </div>
 
                     </div>
@@ -78,7 +204,7 @@ const DespesasEdit = () => {
 
                         <div className="form-group col-md-7">
                             <label htmlFor="detalhamento">Detalhamento</label>
-                            <textarea className="form-control" name='detalhamento' value={data.detalhamento} onChange={valueInput} id="detalhamento"></textarea>
+                            <textarea className="form-control" name='Detalhamento' value={data.Detalhamento} onChange={valueInput} id="detalhamento"></textarea>
                         </div>
 
                     </div>
@@ -88,19 +214,19 @@ const DespesasEdit = () => {
                     
                         <div className="form-group">
                             <label htmlFor="valor">Valor*</label>
-                            <input type="number" name="valor" className="form-control" id="valor" value={data.valor} onChange={valueInput} />
+                            <input type="number" name="Valor" className="form-control" id="valor" value={data.Valor} onChange={valueInput} />
                         </div>
                     </div>
 
                     <div className="form-row">
                         
                         <div className="form-group  col-md-5">
-                            <label htmlFor="valor">Pessoa Fisica ou Juridica*</label>
+                            <label htmlFor="valor">Credor*</label>
                             <Select
                                 value={selectedOption}
                                 onInputChange={(value) => {
                                     setInputValue(value);
-                                    getPessoaDespesa(value);
+                                    getCredor(value);
                                 }}
                                 onChange={handleChange}
                                 options={options}
@@ -116,16 +242,55 @@ const DespesasEdit = () => {
 
                 
 
-                
+                    <div className="form-row">
+
+                        <div className="form-group">
+                            
+                            <label htmlFor="categoria">Origem*</label>
+                            <select id="origem" required className="form-control" name="Origem" onChange={valueInput}>
+                                <option selected value="" disabled>Escolher...</option>
+                                {
+                                    origens.map((ori) => (
+                                        <option key={ori.IdOrigem} selected={data.Origem == ori.IdOrigem} value={ori.IdOrigem}> {ori.Descricao} </option>
+                                    ))
+                                }
+                            </select>
+
+                        </div>
+
+                        <div className="form-group">
+                            
+                            <label htmlFor="categoria">Tipos*</label>
+                            <select id="tipo" required className="form-control" name="Tipo" onChange={valueInput}>
+                                <option selected value="" disabled>Escolher...</option>
+                                {
+                                    tipos.map((tip) => (
+                                        <option key={tip.IdTipo} selected={data.Tipo == tip.IdTipo} value={tip.IdTipo}> {tip.Descricao} </option>
+                                    ))
+                                }
+                            </select>
+
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="data">Data</label>
+                            <input type="date" required id='dataDespesa' className="form-control" name='Data' onChange={valueInput} value={data.Data} />
+                        </div>
+
+                        </div>
                     
 
                     <div className='btn'>
-                        <button type="submit" className="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Atualizar Despesas</button>
+                        <button type="submit" className="btn btn-primary btn-cadastrar">Salvar Alterações</button>
+                    </div>
+
+                    <div className='btn'>
+                        <button onClick={(e) => DeleteClick(e,deleteDespesa)}  className="btn btn-danger btn-cadastrar">Excluir Despesa</button>
                     </div>
                     
-
-
                 </form>
+
+                
 
             </div>
         </div>

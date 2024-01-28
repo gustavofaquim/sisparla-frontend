@@ -1,6 +1,7 @@
 import userFetch from "../axios/config.js";
 
-const consultaCEP = (cep) => {
+const ConsultaCEP = (cep) => {
+ 
   return userFetch.get(`https://viacep.com.br/ws/${cep}/json/`)
     .then(response => {
       const { logradouro, localidade, uf, bairro } = response.data;
@@ -18,5 +19,5 @@ const consultaCEP = (cep) => {
       throw error;
     });
 };
-export default consultaCEP;
+export default ConsultaCEP;
 

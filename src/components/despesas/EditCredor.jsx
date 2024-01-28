@@ -5,7 +5,11 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
-import consultaCEP from "../ConsultaCEP.jsx";
+
+import DeleteClick from '../DeleteClick.jsx';
+
+import ConsultaCEP from "../ConsultaCEP.jsx";
+
 const CredirEdit = () =>{
 
     const params = useParams();
@@ -91,9 +95,7 @@ const CredirEdit = () =>{
 
             setEndereco(null);
         
-            const resultadoConsulta  = await consultaCEP(cep);
-            console.log('Entrou na consulta de CEP');
-            console.log(resultadoConsulta);
+            const resultadoConsulta  = await ConsultaCEP(cep);
 
             setCep(cep);
             setCidade(resultadoConsulta?.cidade || null);
@@ -138,6 +140,23 @@ const CredirEdit = () =>{
         getEstados();
         getCredor();
     }, []);
+
+
+    const deleteCredor = async() => {
+        try {
+            
+            const response = await userFetch.delete(`/credor/${id}`)
+            
+            if(response.status === 200){
+                navigate('/lista-credores');
+            }
+        } catch (error) {
+            console.log(`Erro: ` + error);
+        }
+    }
+
+
+   
 
     return(
         <div className="pag-cadastro">
@@ -246,6 +265,11 @@ const CredirEdit = () =>{
                 <div className='btn'>
                     <button type="submit" className="btn btn-primary btn-cadastrar" >Atualizar Credor</button>
                 </div>
+
+                <div className='btn'>
+                    <button onClick={(e) => DeleteClick(e,deleteCredor)} className="btn btn-danger btn-cadastrar">Excluir Credor</button>
+                </div>
+                    
 
 
                 </form>

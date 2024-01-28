@@ -99,9 +99,9 @@ const Nova = () => {
 
             const response = await userFetch.post("/demandas", dataToSend);
             
-            if(response.status == '200'){
+            if(response.status === 200){
                 toast.success("Demanda criada com sucesso");
-                navigate('/');
+                navigate('/demandas');
             }
             
 
