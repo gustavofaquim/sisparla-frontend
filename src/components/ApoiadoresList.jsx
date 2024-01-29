@@ -144,45 +144,69 @@ const ApoiadoresList = () => {
                 <Link to={"/novo-apoiador"}> <button><IoAddSharp /> Novo Apoiador</button></Link>
             </div>
 
-            
-            <div className="filtro-busca">
-                <div>
-                   
-                    <input type="text" placeholder="🔎 Digite um termo de busca" style={{ paddingLeft: '20px' }} value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
-                    
-                </div>
-            
-            </div>
+        
 
-            <div className='seletor-filtros'>
+            <div id="accordion">
+                <div className="card">
+                    <div className="card-header" id="headingOne">
+                    <h5 className="mb-0">
+                        <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Filtros
+                        </button>
+                    </h5>
+                    </div>
+
+                    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div className="card-body">
+                       
+
+
+                    <div className='seletor-filtros'>
                
-                <div className='filtro'>
-                   <div>
-                    <p>Profissao</p>
-                        <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
-                            <option value='todas'>Todas</option>
-                            {
-                                profissoes.map((profissao) => (   
-                                    <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
-                                ))
-                            }
-                        </select>
-                   </div>
-                </div>
+                        <div className='filtro'>
+                                <div>
+                                <p>Profissao</p>
+                                    <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
+                                        <option value='todas'>Todas</option>
+                                        {
+                                            profissoes.map((profissao) => (   
+                                                <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
+                                            ))
+                                        }
+                                    </select>
+                                </div>
+                            </div>
 
-                <div className='filtro'>
-                   <p>Partido</p>
-                    <select name="partido" id="partido" onChange={(e) => handleFiltroChange('partido', e.target.value)}> 
-                        <option value='todos'>Todos</option>
-                        {
-                            partidos.map((partido) => (
-                                
-                                <option key={partido.IdPartido} value={partido.Nome}>{partido.Sigla}</option>
-                            ))
-                        }
+                            <div className='filtro'>
+                                <p>Partido</p>
+                                <select name="partido" id="partido" onChange={(e) => handleFiltroChange('partido', e.target.value)}> 
+                                    <option value='todos'>Todos</option>
+                                    {
+                                        partidos.map((partido) => (
+                                            
+                                            <option key={partido.IdPartido} value={partido.Nome}>{partido.Sigla}</option>
+                                        ))
+                                    }
+                                    
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div className="filtro-busca">
+                        <div>
                         
-                    </select>
+                            <input type="text" placeholder="🔎 Digite um termo de busca" style={{ paddingLeft: '20px' }} value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                            
+                        </div>
+                    
+                    </div>
+                    
+                    </div>
                 </div>
+               
             </div>
 
             { /*
