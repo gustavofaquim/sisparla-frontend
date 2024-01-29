@@ -8,6 +8,9 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 
 import { useNavigate, useParams } from "react-router-dom";
 
+import "../../styles/components/paginas-cadastros-gerais.sass";
+
+import DeleteClick from '../DeleteClick.jsx';
 
 const relacoes = [
     {"descricao": "Participante"},
@@ -38,7 +41,6 @@ const Edit = () =>{
             await userFetch(`/eventos/${id}`)
                 .then((response) => {
                     setData(response.data)
-                    console.log(response.data);
                     
                 })
                 .catch((error) => {
@@ -78,7 +80,7 @@ const Edit = () =>{
         if (e.target.name === "DataHorario") {
           setDataDoBanco(formatarData(e.target.value));
         }
-      };
+    };
 
 
 
@@ -104,12 +106,25 @@ const Edit = () =>{
        }
     }
 
+    const deleteEvento = async() => {
+        try {
+            
+            const response = await userFetch.delete(`/evento/${id}`);
+
+            if(response.status === 200){
+                navigate('/eventos');
+            }
+        } catch (error) {
+            console.log(`Error: ` + error)
+        }
+    }
+
     return(
         <div className="pag-cadastro">
             <h1 className='title-page'>Novo Evento</h1>
             <h2 className='subtitle-page'>Cadastre um novo evento.</h2>
 
-            <div className='form-cadasstro'>
+            <div className='form-cadastro'>
                 <form  onSubmit={editEvento}>
 
 
@@ -172,9 +187,10 @@ const Edit = () =>{
                         </div>
 
                     </div>
-
-                    <div className='btn'>
-                        <button type="submit" class="btn btn-primary btn-cadastrar">Atualizar Evento</button>
+                    
+                    <div className='div-buttons'>
+                        <button type="submit" className="btn btn-cadastrar" >Salvar</button>
+                        <button onClick={(e) => DeleteClick(e,deleteEvento)} className="btn btn-excluir">Excluir</button>
                     </div>
 
 

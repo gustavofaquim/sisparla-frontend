@@ -48,8 +48,8 @@ const Sidebars = () => {
                 <MenuItem component={<Link to="/" />} icon={<FaHouseUser/>} active={activeMenuItem === 'inicio'} onClick={() => handleMenuItemClick('inicio')}>Início</MenuItem>
                 
                 <SubMenu icon={<FaUserAlt/>}  label="Apoidores"  active={activeMenuItem === 'apoiadores'} >
-                    <MenuItem component={<Link to="/apoiadores" />} onClick={() => handleMenuItemClick('apoiadores')}> Lista</MenuItem>
-                    <MenuItem component={<Link to="/aniversariantes" />} onClick={() => handleMenuItemClick('apoiadores')}> Aniversariantes</MenuItem>
+                    <MenuItem component={<Link to="/apoiadores" />} onClick={() => handleMenuItemClick('apoiadores')}>Apoiadores</MenuItem>
+                    <MenuItem component={<Link to="/aniversariantes" />} onClick={() => handleMenuItemClick('apoiadores')}>Aniversariantes</MenuItem>
                 </SubMenu>
 
                 <MenuItem icon={<FaChartBar/>} component={<Link to="/demandas " />} active={activeMenuItem === 'demandas'} onClick={() => handleMenuItemClick('demandas')}> Demandas</MenuItem>

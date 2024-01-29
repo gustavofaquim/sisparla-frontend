@@ -229,12 +229,11 @@ const CredorNovo = () =>{
                     </div>
 
 
-
                 </div>
 
 
-                <div className='btn'>
-                    <button type="submit" className="btn btn-primary btn-cadastrar" >Cadastrar Credor</button>
+                <div>
+                    <button type="submit" className="btn btn-cadastrar" >Cadastrar Credor</button>
                 </div>
 
 

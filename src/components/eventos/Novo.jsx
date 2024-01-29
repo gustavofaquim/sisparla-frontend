@@ -95,12 +95,9 @@ const Novo = () => {
 
                     </div>
 
-                    <div className='btn'>
-                        <button type="submit" class="btn btn-primary btn-cadastrar">Criar Evento</button>
+                    <div>
+                        <button type="submit" class="btn btn-cadastrar">Salvar</button>
                     </div>
-
-
-
 
                 </form>
             </div>

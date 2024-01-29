@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 import InsereMascara from '../InsereMascara.jsx';
 
+import { IoAddSharp } from "react-icons/io5";
+
 import "../../styles/components/listagem.sass";
 
 const ListaCredor = () => {
@@ -37,7 +39,7 @@ const ListaCredor = () => {
             <h1 className='title-page'>Lista de Credores</h1>
            
             <div  className='btn-add'>
-                <Link to={"/novo-credor"}> <button >Novo Credor</button></Link>
+                <Link to={"/novo-credor"}> <button><IoAddSharp /> Novo Credor</button></Link>
             </div>
 
             {data.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (

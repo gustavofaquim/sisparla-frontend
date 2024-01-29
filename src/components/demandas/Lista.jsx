@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
 
+import { IoAddSharp } from "react-icons/io5";
 
 import "../../styles/components/listagem.sass";
 
@@ -154,7 +155,7 @@ const DemandasList = () => {
             <h2 className='subtitle-page'>Lista de todas as demandas, com status e data de abertura.</h2>
 
             <div className='btn-add'>
-                <Link to={"/nova-demanda"}> <button>Nova Demanda</button></Link>
+                <Link to={"/nova-demanda"}> <button><IoAddSharp /> Nova Demanda</button></Link>
             </div>
 
             <div className="filtro-busca">

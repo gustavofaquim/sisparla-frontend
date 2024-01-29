@@ -50,5 +50,12 @@
         color: variables.$cor-fundo-branco
     
     .btn-editar
-         background-color: variables.$cor-editar
+        background-color: variables.$cor-editar
+
+        &:hover
+            background-color: variables.$cor-editar-hover
+
+    .btn-excluir
+        @include mixins.btn-excluir
+        margin-left: 20px
         

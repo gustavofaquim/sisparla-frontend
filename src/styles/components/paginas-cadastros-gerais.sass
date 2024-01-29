@@ -52,12 +52,15 @@
             input
                 box-shadow: none
 
-        .btn
-            display: inline
-            margin: auto
-            margin-top: 3rem
+        .div-buttons
+            display: inline-block
 
-            .btn-cadastrar
-                width: 200px
-                text-align: center
+        .btn-cadastrar
+            @include mixins.btn-cadastrar
+        
+        .btn-excluir
+            @include mixins.btn-excluir
+            margin-left: 60px !important
+             
+               
 

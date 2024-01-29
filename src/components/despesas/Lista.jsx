@@ -4,6 +4,7 @@ import userFetch from '../../axios/config.js';
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
+import { IoAddSharp } from "react-icons/io5";
 
 
 import "../../styles/components/listagem.sass";
@@ -43,7 +44,7 @@ const DespesasList = () => {
 
         
         <div className='btn-add'> 
-            <Link to={"/nova-despesa"}> <button >Nova Despesa</button></Link>
+            <Link to={"/nova-despesa"}><button ><IoAddSharp /> Nova Despesa</button></Link>
         </div>
        
 

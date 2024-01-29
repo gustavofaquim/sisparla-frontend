@@ -19,6 +19,8 @@ const ApoiadoresNovo = () => {
 
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
+
     const [nome, setNome] = useState();
     const [apelido, setApelido] = useState();
     const [profissoes, setProfissoes] = useState([]);
@@ -162,15 +164,20 @@ const ApoiadoresNovo = () => {
     const createApoiador = async(e) => {
         e.preventDefault();
 
-
+        
         try {
-            
-            const cepSemMascara = RemoveMascara(cep);
+            setLoading(true);
+
+            let cepSemMascara = null;
             const telefoneSemMascara = RemoveMascara(telefone);
             let cpfSemMascara = null;
     
             if(cpf){
                 cpfSemMascara = RemoveMascara(cpf);
+            }
+
+            if(cep){
+                cepSemMascara = RemoveMascara(cep);
             }
 
 
@@ -185,11 +192,13 @@ const ApoiadoresNovo = () => {
 
             const msg = response.data.msg || "Apoiador cadastrado com sucesso :) "; 
             toast.success(msg);
+            setLoading(false);
             navigate('/apoiadores');
 
 
         } catch (error) {
             console.log(`Erro ao cadastrar o apoiador: ${error}`);
+            setLoading(false);
             toast.error('Erro ao cadastrar o apoiador');
         }
 
@@ -540,8 +549,8 @@ const ApoiadoresNovo = () => {
                     </div> 
                 </div>
 
-                <div className='btn'>
-                    <button type="submit" className="btn btn-primary btn-cadastrar" >Cadastrar Apoiador</button>
+                <div>
+                    <button type="submit"  className={loading ? 'btn-cadastrar button-loading' : 'btn-cadastrar'} disabled={loading}>{loading ? 'Salvando Aguarde...' : 'Salvar'}</button>
                 </div>
             
                 </form>

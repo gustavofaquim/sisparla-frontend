@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 
+import { IoAddSharp } from "react-icons/io5";
+
 import "../../styles/components/listagem.sass";
 
 const Lista = () => {
@@ -65,7 +67,7 @@ const Lista = () => {
 
             
             <div className='btn-add'>
-                <Link to={"/novo-evento"}> <button>Novo Evento</button></Link>
+                <Link to={"/novo-evento"}><button><IoAddSharp /> Novo Evento</button></Link>
             </div>
 
             <div className="filtro-busca">

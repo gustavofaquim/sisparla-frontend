@@ -122,18 +122,29 @@
 
     .ativo
         @include mixins.status
-        background: variables.$cor-ativo
-        color: variables.$cor-fundo-branco
+        background: transparent
+        color: variables.$cor-ativo
+        border: 1px solid variables.$cor-ativo
 
     .desativado
         @include mixins.status
-        background: variables.$cor-desativado
-        color: variables.$cor-fundo-branco
+        background: transparent
+        color: variables.$cor-desativado
+        border: 1px solid variables.$cor-desativado
     
     .incompleto
         @include mixins.status
-        background: variables.$cor-incompleto
-        color: variables.$cor-fundo-branco
+        background: transparent
+        color: variables.$cor-incompleto
+        border: 1px solid variables.$cor-incompleto
+
+    .icon-whatsapp
+        color: variables.$whatsapp
+        margin-right: 5px
+
+        &:hover
+            color: variables.$whatsapp-hover
+        
 
 
 
@@ -168,6 +179,11 @@
 
         button
             margin-left: 20px
+
+
+    
+    
+
 
 
        

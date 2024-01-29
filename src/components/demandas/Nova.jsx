@@ -264,8 +264,8 @@ const Nova = () => {
                 
                 </div>
 
-                <div className='btn'>
-                    <button type="submit" class="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Cadastrar Demanda</button>
+                <div>
+                    <button type="submit" class="btn btn-primary btn-cadastrar">Salvar</button>
                 </div>
                 
 

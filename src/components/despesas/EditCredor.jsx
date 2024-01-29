@@ -262,12 +262,9 @@ const CredirEdit = () =>{
                 </div>
 
 
-                <div className='btn'>
-                    <button type="submit" className="btn btn-primary btn-cadastrar" >Atualizar Credor</button>
-                </div>
-
-                <div className='btn'>
-                    <button onClick={(e) => DeleteClick(e,deleteCredor)} className="btn btn-danger btn-cadastrar">Excluir Credor</button>
+                <div className='div-buttons'>
+                    <button type="submit" className="btn btn-cadastrar" >Salvar</button>
+                    <button onClick={(e) => DeleteClick(e,deleteCredor)} className="btn btn-excluir">Excluir</button>
                 </div>
                     
 

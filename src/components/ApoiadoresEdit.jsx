@@ -11,6 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import "../styles/components/apoiador-novo.sass"
 
+
+import DeleteClick from '../components/DeleteClick.jsx';
+
 import { FaWhatsapp } from "react-icons/fa6";
 
 
@@ -20,6 +23,9 @@ const ApoiadoresEdit = () => {
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
+
+
+    const [loading, setLoading] = useState(false);
 
     
     const [profissoes, setProfissoes] = useState([]);
@@ -214,14 +220,33 @@ const ApoiadoresEdit = () => {
 
        try {
             
-           await userFetch.put(`/apoiadores/${id}`, data);
-           toast.success('Apoiador alterado com sucesso!');
-           navigate('/apoiadores');
+            setLoading(true);
+            await userFetch.put(`/apoiadores/${id}`, data);
+            toast.success('Apoiador alterado com sucesso!');
+            navigate('/apoiadores');
+            setLoading(false);
 
         } catch (error) {
             toast.error('Erro ao alterar informações.');
             console.log('Deu erro:' + error);
+            setLoading(false);
         } 
+    }
+
+    const deleteApoiador = async() => {
+        
+        try {
+            
+            const response = await userFetch.delete(`/apoiador/${id}`);
+            
+            if(response.status === 200){
+                navigate('/apoiadores');
+            }
+
+        } catch (error) {
+            toast.error('Erro ao excluir o apoiador.');
+            console.log(`Error: ` + error)
+        }
     }
 
     
@@ -435,12 +460,12 @@ const ApoiadoresEdit = () => {
                         <p>Liderança ?</p>
                         <div className="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="entidadeLideranca" id="lideranca1" value="s" checked={data.entidadeLideranca == "s"} onChange={valueInput} />
-                            <label className="form-check-label" for="lideranca1">Sim</label>
+                            <label className="form-check-label" htmlFor="lideranca1">Sim</label>
                         </div>
                         
                         <div className="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="entidadeLideranca" id="lideranca2" value="n" checked={data.entidadeLideranca == "n"}  onChange={valueInput} />
-                            <label className="form-check-label" for="lideranca2">Não</label>
+                            <label className="form-check-label" htmlFor="lideranca2">Não</label>
                         </div>
                    </div>
 
@@ -470,12 +495,12 @@ const ApoiadoresEdit = () => {
                         <p>Liderança ?</p>
                         <div className="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca1" value="s" checked={data.partidoLideranca == "s"} onChange={valueInput} />
-                            <label className="form-check-label" for="partidoLideranca1">Sim</label>
+                            <label className="form-check-label" htmlFor="partidoLideranca1">Sim</label>
                         </div>
                         
                         <div className="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca2" value="n" checked={data.partidoLideranca== "n"} onChange={valueInput} />
-                            <label className="form-check-label" for="partidoLideranca2">Não</label>
+                            <label className="form-check-label" htmlFor="partidoLideranca2">Não</label>
                         </div>
                    </div>
 
@@ -484,13 +509,14 @@ const ApoiadoresEdit = () => {
                 <div className="form-row">
                     <p className='form-session-title'>Anotações Internas</p>
                     <div className="form-group group-infoAdicional">
-                        <label for="infoAdicional"></label>
+                        <label htmlFor="infoAdicional"></label>
                         <textarea className="form-control" id="infoAdicional" name='informacaoAdicional'  value={data.informacaoAdicional} onChange={valueInput} ></textarea>
                     </div> 
                 </div>
 
-                <div className='btn'>
-                    <button type="submit" className="btn btn-primary btn-cadastrar" >Atualizar Dados</button>
+                <div className='div-buttons'>
+                    <button type="submit" className={loading ? 'btn btn-cadastrar button-loading' : 'btn btn-cadastrar'} disabled={loading}>{loading ? 'Salvando Aguarde...' : 'Salvar'}</button>
+                    <button onClick={(e) => DeleteClick(e, deleteApoiador)}  className="btn btn-excluir">Excluir</button>
                 </div>
                 
 

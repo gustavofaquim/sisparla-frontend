@@ -9,6 +9,8 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 
 import { useNavigate, useParams } from "react-router-dom";
 
+import "../../styles/components/paginas-cadastros-gerais.sass";
+
 import DeleteClick from '../DeleteClick.jsx';
 
 
@@ -321,12 +323,11 @@ const DemandasEdit = () => {
 
                 </div>
 
-                <div className='btn'>
-                    <button type="submit" className="btn btn-primary btn-cadastrar"> {<FaRegFloppyDisk />} Cadastrar Demanda</button>
-                </div>
 
-                <div className='btn'>
-                    <button onClick={(e) => DeleteClick(e,deletaDemanda)} className="btn btn-danger btn-cadastrar">Excluir Credor</button>
+
+                <div className='div-buttons'>
+                    <button type="submit" className="btn btn-cadastrar">Salvar</button>
+                    <button onClick={(e) => DeleteClick(e,deletaDemanda)} className="btn btn-excluir">Excluir </button>
                 </div>
                 
 

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa6";
+import { IoAddSharp } from "react-icons/io5";
 
 
 import InsereMascara from './InsereMascara.jsx';
@@ -105,6 +106,7 @@ const ApoiadoresList = () => {
             });
             const data = response.data;
             setApoiadores(data);
+            console.log(data);
            
 
         } catch (error) {
@@ -139,7 +141,7 @@ const ApoiadoresList = () => {
 
             
             <div className='btn-add'>
-                <Link to={"/novo-apoiador"}> <button>Novo Apoiador</button></Link>
+                <Link to={"/novo-apoiador"}> <button><IoAddSharp /> Novo Apoiador</button></Link>
             </div>
 
             
@@ -210,7 +212,6 @@ const ApoiadoresList = () => {
                        <th>#</th>
                         <th>Nome</th>
                         <th className='ocultar-0'>Telefone</th>
-                        <th></th>
                         <th className='ocultar-0 ocultar-1'>E-mail</th>
                         <th className='ocultar-0 ocultar-2'>Cidade</th>
                         <th>Status</th>
@@ -230,18 +231,16 @@ const ApoiadoresList = () => {
                                     />
                                 </td>
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
-                                <InsereMascara className='ocultar-0' tipo='telefone' valor={apoiador?.TelefoneApoiador?.Numero} ></InsereMascara>
-                                {apoiador?.TelefoneApoiador?.Numero ? (
-                                    <td>
-                                        <Link to={`https://api.whatsapp.com/send?phone=55${apoiador.TelefoneApoiador.Numero}`} target="_blank">
-                                        <FaWhatsapp/>
-                                        </Link>
-                                    </td>
-                                ): <td><FaWhatsapp/></td>
-                                }
+                                <td>
+                                    <Link to={`https://api.whatsapp.com/send?phone=55${apoiador.TelefoneApoiador.Numero}`} target="_blank">
+                                        <FaWhatsapp className='icon-whatsapp'/>
+                                    </Link> 
+                                    <InsereMascara className='ocultar-0' tipo='telefone' valor={apoiador?.TelefoneApoiador?.Numero} ></InsereMascara>
+                                </td>
+
 
                                 <td className='ocultar-0 ocultar-1' >{apoiador?.Email}</td> 
-                                <td className='ocultar-0 ocultar-2'>{apoiador?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
+                                <td className='ocultar-0 ocultar-2'>{apoiador?.EnderecoApoiador?.CidadeEndereco?.Nome}</td> 
                                 <td className=''><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
                             </tr>
                         

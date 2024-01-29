@@ -3,6 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import userFetch from "../axios/config.js";
 import { Link } from "react-router-dom";
 
+
+import DeleteClick from '../components/DeleteClick.jsx';
+
 import "../styles/components/apoiador-ficha.sass";
 
 
@@ -27,6 +30,7 @@ const ApoiadoresFicha = () => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data); 
+                console.log(response.data);
             })
             .catch((error) => {
 
@@ -62,6 +66,23 @@ const ApoiadoresFicha = () => {
     }
 
 
+    const deleteApoiador = async(id) => {
+
+        try {
+            
+            const response = await userFetch.delete(`/apoiador/${id}`);
+            
+            if(response.status === 200){
+                navigate('/apoiadores');
+            }
+
+        } catch (error) {
+            toast.error('Erro ao excluir o apoiador.');
+            console.log(`Error: ` + error)
+        }
+    }
+
+
     const dataNascimento = formataData(data.dataNascimento);
 
     return(
@@ -86,7 +107,7 @@ const ApoiadoresFicha = () => {
                 
                 <div className="dados-endereco">
                     <p className='session-title'>Endereço</p>
-                    <span>{data.lagradouro} - {data.bairro}  {data.complemento}</span>
+                    <span>{data.lgradouro} {data.bairro}  {data.complemento}</span>
                     <span>Ponto de Referencia: {data.pontoReferencia}</span>
                     <span>{data.cidade} | CEP: {data.cep}</span>
                 </div>
@@ -129,6 +150,7 @@ const ApoiadoresFicha = () => {
 
             <div className="div-btn">
                 <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn btn-editar" >Editar Dados</button></Link>
+                <Link to={``}><button onClick={ (e) => DeleteClick(e, deleteApoiador(data.idApoiador)) } className="btn btn-excluir" >Excluir Apoiador</button></Link>
                 <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
                 <Link to={``}><button className="btn btn-add-demanda" >Nova Demanda</button></Link>
             </div>
