@@ -26,7 +26,7 @@ const DemandasList = () => {
         getDemandas();
         situacaoDemanda();
         getApoiador();
-    }, [termoBusca]);
+    }, []);
 
     const getDemandas = async() => {
         
@@ -48,6 +48,15 @@ const DemandasList = () => {
             console.log(`Erro ao listar as demandas ${error}`);
         }
     }
+
+    useEffect(() => {
+        if (termoBusca.length >= 3) {
+            getDemandas();
+
+        } else if(termoBusca === ''){
+            getDemandas();
+        }
+    }, [termoBusca]);
 
     const getApoiador = async () => {
         try {
@@ -145,6 +154,8 @@ const DemandasList = () => {
         return `${dia}/${mes}/${ano}`;
     }
 
+    
+
 
 
     return(
@@ -154,17 +165,41 @@ const DemandasList = () => {
             <h1 className='title-page'>Lista de Demandas</h1>
             <h2 className='subtitle-page'>Lista de todas as demandas, com status e data de abertura.</h2>
 
+            
+            
+            <div id="accordion">
+                <div className="card">
+                    <div className="card-header" id="headingOne">
+                    <h5 className="mb-0">
+                        <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            🔎 Filtrar Informações
+                        </button>
+                    </h5>
+                    </div>
+
+                    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div className="card-body">
+                       
+                    <div className="filtro-busca">
+                        <div>
+                            <label htmlFor="busca">Digite um termo para buscar</label>
+                            <input type="text" id='busca' placeholder="Pesquise por nome, e-mail, telefone, cidade ou qualquer outro dado disponível." value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                        </div>
+                    </div>
+
+                    </div>
+
+                    
+                    </div>
+                </div>
+               
+            </div>
+            
+                    
             <div className='btn-add'>
                 <Link to={"/nova-demanda"}> <button><IoAddSharp /> Nova Demanda</button></Link>
             </div>
 
-            <div className="filtro-busca">
-                <div>
-                   
-                    <input type="text" name="termoBusca" placeholder="🔎 Digite um termo de busca" style={{ paddingLeft: '20px' }} value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)} />
-                    
-                </div>
-            </div>
 
             {data.length === 0 ? <p className='aviso-sem-dados'>Sem demandas para exibir.</p> : (
             <table>

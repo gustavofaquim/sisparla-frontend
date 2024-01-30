@@ -11,13 +11,18 @@ import "../../styles/components/listagem.sass";
 
 const ListaCredor = () => {
 
+    const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
 
     const getCredores = async() => {
 
         try {
             
-            const response = await userFetch.get('/credores');
+            const response = await userFetch.get('/credores', {
+                params: {
+                    termoBusca
+                },
+            })
 
             const resp = response.data;
             setData(resp);
@@ -28,6 +33,16 @@ const ListaCredor = () => {
         }
     }
 
+
+    useEffect(() => {
+        if (termoBusca.length >= 3) {
+            getCredores();
+
+        } else if(termoBusca === '') {
+            getCredores();
+        }
+    }, [termoBusca]);
+
     useEffect(() => {
         getCredores();
     },[]);
@@ -37,6 +52,34 @@ const ListaCredor = () => {
         <div className='listagem-demandas'>
             
             <h1 className='title-page'>Lista de Credores</h1>
+
+            <div id="accordion">
+                <div className="card">
+                    <div className="card-header" id="headingOne">
+                    <h5 className="mb-0">
+                        <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            🔎 Filtrar Informações
+                        </button>
+                    </h5>
+                    </div>
+
+                    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div className="card-body">
+                        
+                    <div className="filtro-busca">
+                        <div>
+                            <label htmlFor="busca">Digite um termo para buscar</label>
+                            <input type="text" id='busca' placeholder="Pesquise pelo nome, telefone ou documento" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                        </div>
+                    </div>
+
+                    </div>
+
+                    
+                    </div>
+                </div> 
+            </div>
+
            
             <div  className='btn-add'>
                 <Link to={"/novo-credor"}> <button><IoAddSharp /> Novo Credor</button></Link>

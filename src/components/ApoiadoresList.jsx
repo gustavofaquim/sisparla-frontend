@@ -21,7 +21,7 @@ const ApoiadoresList = () => {
     const [partidos, setPartidos] = useState([]);
 
     const [termoBusca, setTermoBusca] = useState(''); // Estado para o termo de busca
-    const [filtros, setFiltros] = useState({}); // Estado para o termo de busca
+    const [filtros, setFiltros] = useState(''); // Estado para o termo de busca
     const [filtroProfissao, setFiltroProfissao] = useState('');
     const [filtroPartido, setFiltroPartido] = useState('');
 
@@ -88,12 +88,6 @@ const ApoiadoresList = () => {
       
 
 
-    useEffect(() => {
-        getApoiadores();
-    }, [termoBusca, filtros]);
-
-    
-
     const getApoiadores = async() => {
 
 
@@ -106,7 +100,6 @@ const ApoiadoresList = () => {
             });
             const data = response.data;
             setApoiadores(data);
-            console.log(data);
            
 
         } catch (error) {
@@ -114,11 +107,24 @@ const ApoiadoresList = () => {
         }
     }
 
+
     useEffect(() => {
         getApoiadores();
         getProfissoes();
         getPartidos();
     }, []);
+
+
+    
+    useEffect(() => {
+        if (termoBusca.length >= 3 || filtros != '') {
+            getApoiadores();
+
+        } else if(termoBusca === ''){
+            getApoiadores();
+        }
+    }, [termoBusca, filtros]);
+
 
     const enviarMensagem = async() => {
        
@@ -139,19 +145,13 @@ const ApoiadoresList = () => {
             <h1 className='title-page'>Listagem de Apoiadores</h1>
             <h2 className='subtitle-page'>Lista de todos os eleitores ativos, desativos e com cadastro incompleto.</h2>
 
-            
-            <div className='btn-add'>
-                <Link to={"/novo-apoiador"}> <button><IoAddSharp /> Novo Apoiador</button></Link>
-            </div>
-
-        
-
+           
             <div id="accordion">
                 <div className="card">
                     <div className="card-header" id="headingOne">
                     <h5 className="mb-0">
                         <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Filtros
+                            🔎 Filtrar Informações
                         </button>
                     </h5>
                     </div>
@@ -193,20 +193,25 @@ const ApoiadoresList = () => {
 
                         </div>
 
-                    </div>
-
-                    <div className="filtro-busca">
+                        <div className="filtro-busca">
                         <div>
-                        
-                            <input type="text" placeholder="🔎 Digite um termo de busca" style={{ paddingLeft: '20px' }} value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                            <label htmlFor="busca">Digite um termo para buscar</label>
+                            <input type="text" id='busca' placeholder="Pesquise por nome, e-mail, telefone, cidade ou qualquer outro dado disponível." value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
                             
                         </div>
-                    
                     </div>
+
+                    </div>
+
                     
                     </div>
                 </div>
                
+            </div>
+
+             
+            <div className='btn-add'>
+                <Link to={"/novo-apoiador"}> <button><IoAddSharp /> Novo Apoiador</button></Link>
             </div>
 
             { /*

@@ -14,16 +14,15 @@ const Lista = () => {
     const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
 
-
     useEffect(() => {
         getEventos();
-    }, [termoBusca]);
+    }, []);
 
 
     const getEventos = async() => {
 
         try {
-            
+
             const response = await userFetch.get("/eventos", {
                 params: {
                     termoBusca
@@ -37,6 +36,15 @@ const Lista = () => {
             console.log(`Erro ao listar os eventos ${error}`);
         }
     }
+
+    useEffect(() => {
+        if (termoBusca.length >= 3) {
+            getEventos();
+
+        } else if(termoBusca === ''){
+            getEventos();
+        }
+    }, [termoBusca]);
 
 
     function formataDataEHora(dataString) {
@@ -63,20 +71,43 @@ const Lista = () => {
         <div className='listagem-demandas'>
             
             <h1 className='title-page'>Lista de Eventos</h1>
-            <h2 className='subtitle-page'></h2>
+            <h2 className='subtitle-page'>Eventos, atividades e compromissos.</h2>
 
+
+            <div id="accordion">
+                <div className="card">
+                    <div className="card-header" id="headingOne">
+                    <h5 className="mb-0">
+                        <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            🔎 Filtrar Informações
+                        </button>
+                    </h5>
+                    </div>
+
+                    <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div className="card-body">
+                       
+                    <div className="filtro-busca">
+                        <div>
+                            <label htmlFor="busca">Digite um termo para buscar</label>
+                            <input type="text" id='busca' placeholder="Pesquise pelo nome do evento, responsável ou por outros dados." value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                        </div>
+                    </div>
+
+                    </div>
+
+                    
+                    </div>
+                </div>
+               
+            </div>
             
+            
+
             <div className='btn-add'>
                 <Link to={"/novo-evento"}><button><IoAddSharp /> Novo Evento</button></Link>
             </div>
 
-            <div className="filtro-busca">
-                <div>
-                   
-                    <input type="text" name="termoBusca" placeholder="🔎 Digite um termo de busca" style={{ paddingLeft: '20px' }} value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)} />
-                    
-                </div>
-            </div>
 
             {data.length === 0 ? <p className='aviso-sem-dados'>Sem eventos para exibir.</p> : (
             <table>
