@@ -2,19 +2,26 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import userFetch from '../axios/config.js';
 import { Link } from 'react-router-dom';
-import { FaPeopleGroup, FaListUl, FaFaceLaugh, FaFaceSadCry  } from "react-icons/fa6";
+
+import { FaCakeCandles } from "react-icons/fa6";
+import { 
+    FaUserAlt, 
+    FaChartBar
+  } from 'react-icons/fa';
+
 
 import "../styles/components/dashboard.sass";
 
 const Home = () => {
 
-    const [demandas, setDemandas] = useState([]);
+
     const [demandaSituacao, setDemandaSituacao] = useState([]);
     const [demandasCategoria, setDemandaCategoria] = useState([]);
     const [quantidadeDemandas, setQuantidadeDemandas] = useState([]);
     const [ApoiadoresClassificacao, setApoiadoresClassificacao] = useState([]);
     const [ApoiadoresSituacao, setApoiadoresSituacao] = useState([]);
     const [quantidadeApoiadores, setQuantidadeApoiadores] = useState([]);
+    const [aniversariantes, setAniversariantes] = useState([]);
 
     const [minhasDemandas, setMinhasDemandas] = useState([]);
     const [eventosDia, setEventosDia] = useState([]);
@@ -24,13 +31,13 @@ const Home = () => {
 
         try {
             const response = await userFetch.get("/view-demandas")
+            
             setDemandaSituacao(response.data[0].DemandasSituacao);
             setDemandaCategoria(response.data[1].DemandasCateogira)
+            setQuantidadeDemandas(response.data?.length)
             
-            const q1 = response.data[0].DemandasSituacao.length
-            const q2 = response.data[1].DemandasCateogira.length
-
-            setQuantidadeDemandas(q1 + q2)
+            const q1 = response.data[0].DemandasSituacao?.length
+            const q2 = response.data[1].DemandasCateogira?.length
             
         } catch (error) {
             console.log(`Não foi possível obter os dados: ${error}`)
@@ -47,6 +54,26 @@ const Home = () => {
             const q2 = response.data[1].ApoiadoresSituacao.length
             setQuantidadeApoiadores(q1 + q2);
             
+        } catch (error) {
+            console.log(`Não foi possível obter os dados: ${error}`)
+        }
+    }
+
+
+    const getAniversariantesDoDia = async() => {
+
+        try {
+            const periodo = 'dia';
+
+            const response = await userFetch.get("/aniversariantes", {
+                params: {
+                    periodo
+                },
+            })
+
+        
+            setAniversariantes(response.data?.length || 0);
+
         } catch (error) {
             console.log(`Não foi possível obter os dados: ${error}`)
         }
@@ -108,6 +135,7 @@ const Home = () => {
         getApoiadores();
         getEventosDia();
         getMinhasDemandas();
+        getAniversariantesDoDia();
     }, []);
 
 
@@ -117,44 +145,48 @@ const Home = () => {
 
            <div className="resumos">
             
+           <Link to="/apoiadores">
             <div className='card apoiadores'>    
            
                 <div className='icone'>
-                    <FaFaceLaugh /> 
+                    <FaUserAlt /> 
                 </div>
 
                 <div className="texto">
                     <h4>{quantidadeApoiadores}</h4>
-                    <p className='titulo'>Quantidade de Apoiadores</p>
+                    <p className='titulo'>Apoiadores</p>
                 </div> 
 
-            </div> 
+            </div> </Link>
              
-            <div className='card incompletos'>    
-           
-                <div className='icone'>
-                    <FaFaceSadCry /> 
-                </div>
 
-                <div className="texto">
-                    <h4>{quantidadeApoiadores}</h4>
-                    <p className='titulo'>Cadastros Incompletos</p>
-                </div> 
-
-            </div>   
-
+            <Link to="/demandas">
             <div className='card demandas'>    
            
                 <div className='icone'>
-                    <FaListUl /> 
+                    <FaChartBar /> 
                 </div>
 
                 <div className="texto">
                     <h4> {quantidadeDemandas} </h4>
-                    <p className='titulo'>Quantidade de Demandas</p>
+                    <p className='titulo'>Demandas</p>
                 </div> 
 
-            </div>
+            </div></Link>
+
+            <Link to="/aniversariantes">
+            <div className='card aniversariantes'>    
+           
+                <div className='icone'>
+                    <FaCakeCandles />
+                </div>
+
+                <div className="texto">
+                    <h4> {aniversariantes} </h4>
+                    <p className='titulo'>{aniversariantes > 1 ? 'Aniversariantes' : 'Aniversariante'} Hoje</p>
+                </div> 
+
+            </div></Link>
 
                   
                 
