@@ -111,7 +111,7 @@ const CredorNovo = () =>{
         <div className="pag-cadastro">
 
             <h1 className='title-page'>Novo Credor</h1>
-            <h2 className='subtitle-page'></h2> 
+            <h2 className='subtitle-page'>Pessoas ou empresas prestadoras de serviços, fornecedores de equipamentos etc.</h2> 
 
             <div className='form-cadastro'>
             

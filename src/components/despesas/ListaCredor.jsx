@@ -52,6 +52,7 @@ const ListaCredor = () => {
         <div className='listagem-demandas'>
             
             <h1 className='title-page'>Lista de Credores</h1>
+            <h2 className='subtitle-page'>Pessoas ou empresas prestadoras de serviços, fornecedores de equipamentos etc.</h2> 
 
             <div id="accordion">
                 <div className="card">

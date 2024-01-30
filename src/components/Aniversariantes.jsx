@@ -64,7 +64,7 @@ const Aniversariantes = (props) => {
     return(
         <div className="listagem-apoiadores">
             <h1 className='title-page'>Aniversariantes</h1>
-            <h2 className='subtitle-page'></h2>
+            <h2 className='subtitle-page'>Apoiadores quem fazem aniversário no dia, semana ou mês.</h2> 
 
             <span>Período</span>
             <div className='seletor-periodo'>
