@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 import InputMask from 'react-input-mask';
 
 import "../styles/components/apoiador-novo.sass"
@@ -66,17 +67,40 @@ const ApoiadoresNovo = () => {
     const [selectedEntidade, setSelectedEntidade] = useState(null);
 
 
+
+    const [inputValueProfissao, setInputValueProfissao] = useState('');
+    const [selectedProfissao, setSelectedProfissao] = useState(null);
+    const [optionsProfissao, setOptionsProfissao] = useState([]);
+
+
     const [responseMessage, setResponseMessage] = useState();
 
 
-    const getProfissoes = async() => {
+    const getProfissoes = async(inputValueProfissao) => {
 
         try {
-            const response = await userFetch.get("/profissoes");
 
-            const data = response.data;
+            if(inputValueProfissao?.length >= 4){
+                console.log('Entrou aquiiiiiii')
+                const response = await userFetch.get("/profissoes", {
+                    params: {
+                        inputValueProfissao
+                    },
+                });
+
+                const data = response.data;
+
+                const formattedProfissao = data.map(option => ({
+                    value: option.IdProfissao, 
+                    label: option.Nome, 
+                }));
+                console.log(data);
+
+                setOptionsProfissao(formattedProfissao);
+    
+            }
             
-            setProfissoes(data);
+           
             
         } catch (error) {
             console.log(`Erro ao recuperar a profissão: ${error}`);
@@ -179,6 +203,8 @@ const ApoiadoresNovo = () => {
             if(cep){
                 cepSemMascara = RemoveMascara(cep);
             }
+
+            const profissao = selectedProfissao.value;
 
 
             const post = {
@@ -287,6 +313,10 @@ const ApoiadoresNovo = () => {
         }
 
     }
+
+    const handleChangeProfissao = (selectedProfissao) => {
+        setSelectedProfissao(selectedProfissao);
+    };
     
     
     return(
@@ -331,15 +361,21 @@ const ApoiadoresNovo = () => {
 
                     <div className="form-group">
                         <label htmlFor="inputEstado">Profissão</label>
-                        <select id="inputEstado" className="form-control" value={profissao|| ''} onChange={(e) => setProfissao(e.target.value)}>
-                            <option selected>Escolher...</option>
-                            {
-                                profissoes.map((profissao) => (
-                                    
-                                    <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
-                                ))
-                            }
-                        </select>
+                        
+                        <Select
+                            value={selectedProfissao}
+                            onInputChange={(value) => {
+                                setInputValueProfissao(value);
+                                getProfissoes(value);
+                            }}
+                            onChange={handleChangeProfissao}
+                            options={optionsProfissao}
+                            isSearchable={true}
+                            placeholder="Selecione uma opção..."
+                            className="custom-pessoa"
+                            noOptionsMessage={() => "Nenhuma opção encontrada"}
+                            
+                        />
                     </div>
 
                 

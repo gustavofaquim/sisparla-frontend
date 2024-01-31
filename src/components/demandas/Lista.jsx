@@ -123,19 +123,6 @@ const DemandasList = () => {
         }
     }
 
-    const deletaDemanda = async(id) => {
-        try {
-            
-            const response = await userFetch.delete(`demandas/${id}`);
-            if(response.status === 200){
-                navigate('/demandas');
-                toast.success('Demanda removida com sucesso');
-            }
-
-        } catch (error) {
-            console.log(`Não foi possível deletar a demanda: ${error}`);
-        }
-    }
 
     function formataData(dataString) {
         
@@ -226,7 +213,7 @@ const DemandasList = () => {
                                 <td className='ocultar-0'>{formataData(demanda?.Data)}</td>
                                 <td>
 
-                                    <a class="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a className="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <FaChevronDown />
                                     </a>
 
@@ -237,7 +224,7 @@ const DemandasList = () => {
                                     ))}
                                         
                                         <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item btn-acao btn-excluir" href="#" onClick={(e) => DeleteClick(e,deletaDemanda(demanda?.IdDemanda))}><FaTrashCan /> Excluir</a>
+                                        
                                        
                                     </div>
 
