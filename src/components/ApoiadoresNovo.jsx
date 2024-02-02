@@ -40,6 +40,7 @@ const ApoiadoresNovo = () => {
     const [cidade, setCidade] = useState();
     const [estados, setEstados] = useState([]);
     const [estado, setEstado] = useState();
+    const [uf, setUF] = useState();
     const [logradouro, setLogradouro] = useState();
     const [complemento, setComplemento] = useState();
     const [bairro, setBairro] = useState();
@@ -81,7 +82,7 @@ const ApoiadoresNovo = () => {
         try {
 
             if(inputValueProfissao?.length >= 4){
-                console.log('Entrou aquiiiiiii')
+                
                 const response = await userFetch.get("/profissoes", {
                     params: {
                         inputValueProfissao
@@ -94,8 +95,7 @@ const ApoiadoresNovo = () => {
                     value: option.IdProfissao, 
                     label: option.Nome, 
                 }));
-                console.log(data);
-
+              
                 setOptionsProfissao(formattedProfissao);
     
             }
@@ -204,16 +204,17 @@ const ApoiadoresNovo = () => {
                 cepSemMascara = RemoveMascara(cep);
             }
 
-            const profissao = selectedProfissao.value;
-
+            const profissao = selectedProfissao?.value || null;
+            
 
             const post = {
                 nome, apelido, profissao, cpfSemMascara, religiao, nascimento, classificacao, email, telefoneSemMascara, situacao, 
                 cepSemMascara, cidade, estado, logradouro, complemento, bairro, pontoReferencia,  
                 entidadeNome: entidadeNome || inputValue, entidadeTipo, entidadeSigla, entidadeCargo, entidadeLideranca,
                 partidoId, partidoCargo, partidoLideranca,
-                informacoesAdicionais };
-                
+                informacoesAdicionais 
+            };
+          
             const response = await userFetch.post("/apoiadores", post);
 
             const msg = response.data.msg || "Apoiador cadastrado com sucesso :) "; 
@@ -221,13 +222,11 @@ const ApoiadoresNovo = () => {
             setLoading(false);
             navigate('/apoiadores');
 
-
         } catch (error) {
             console.log(`Erro ao cadastrar o apoiador: ${error}`);
             setLoading(false);
             toast.error('Erro ao cadastrar o apoiador');
         }
-
     };
 
     useEffect(() => {
@@ -296,18 +295,18 @@ const ApoiadoresNovo = () => {
                 setLogradouro(resultadoConsulta?.logradouro || null);
                 setCidade(resultadoConsulta?.cidade || null);
                 setBairro(resultadoConsulta?.bairro || null);
-                setEstado(resultadoConsulta?.uf || null);
-                
-               
+              
+              
                 if(resultadoConsulta.estado){
                 
                     const estadoEncontrado = estados.find(e => e.UF === resultadoConsulta.estado);
                     const idEstado = estadoEncontrado ? estadoEncontrado.IdEstado : null;
                     setEstado(idEstado || null);
+                    setUF(estadoEncontrado.UF);
+                   
                 }
             }
             
-        
         } catch (error) {
             console.log(error)
         }
@@ -381,7 +380,7 @@ const ApoiadoresNovo = () => {
                 
 
                     <div className="form-group">
-                        <label htmlFor="classificacao">Classificação *</label>
+                        <label htmlFor="classificacao">Classificação*</label>
                         <select id="classificacao" className="form-control" required onChange={(e) => setClassificacao(e.target.value)}>
                             <option selected  value="" disabled>Escolher...</option>
                             {
@@ -410,10 +409,6 @@ const ApoiadoresNovo = () => {
 
                 <div className="form-row">
 
-                  
-
-                    
-               
                 </div>
 
                 <p className='form-session-title'>Endereço</p>
@@ -432,11 +427,11 @@ const ApoiadoresNovo = () => {
 
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" className="form-control" name='estado'  onChange={(e) => setEstado(e.target.value)} >
+                        <select id="estado" className="form-control" name='estado' onChange={(e) => setEstado(e.target.value)} >
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
-                                    <option key={estado.IdEstado} value={estado.IdEstado}>{estado.UF}</option>
+                                    <option key={estado.IdEstado}  selected={estado.UF === uf} value={estado.IdEstado}>{estado.UF}</option>
                                 ))
                             }
                         </select>
@@ -450,7 +445,7 @@ const ApoiadoresNovo = () => {
                     
 
                     <div className="form-group">
-                        <label htmlFor="endereco">Lagradouro</label>
+                        <label htmlFor="endereco">Logradouro</label>
                         <input type="text" className="form-control" id="endereco" value={logradouro} onChange={(e) => setLogradouro(e.target.value)}  />
                     </div>
                     
@@ -468,7 +463,7 @@ const ApoiadoresNovo = () => {
 
                     <div className="form-group">
                         <label htmlFor="complemento">Ponto Referencia</label>
-                        <input type="text" className="form-control" id="complemento" value={pontoReferencia} onChange={(e) => setPontoReferencia(e.target.value)}  />
+                        <input type="text" className="form-control" id="pontoReferencia" value={pontoReferencia} onChange={(e) => setPontoReferencia(e.target.value)}  />
                     </div>
 
                 </div>

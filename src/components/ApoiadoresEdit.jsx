@@ -4,6 +4,9 @@ import userFetch from "../axios/config.js";
 import { useState, useEffect } from "react";
 import Autosuggest from 'react-autosuggest';
 
+import Select from 'react-select';
+import InputMask from 'react-input-mask';
+
 import { useNavigate, useParams } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,18 +19,18 @@ import DeleteClick from '../components/DeleteClick.jsx';
 
 import { FaWhatsapp } from "react-icons/fa6";
 
+import ConsultaCEP from "./ConsultaCEP.jsx";
+import RemoveMascara from "./RemoveMascara.jsx";
+
 
 const ApoiadoresEdit = () => {
-
 
     const params = useParams();
     const id = params.id;
     const navigate = useNavigate();
 
-
     const [loading, setLoading] = useState(false);
 
-    
     const [profissoes, setProfissoes] = useState([]);
     const [classificacoes, setClassificacoes] = useState([]);
     const [religioes, setReligioes] = useState([]);
@@ -42,6 +45,10 @@ const ApoiadoresEdit = () => {
     const [suggestions, setSuggestions] = useState([]);
       
     const [data, setData] = useState({});
+
+    const [inputValueProfissao, setInputValueProfissao] = useState('');
+    const [selectedProfissao, setSelectedProfissao] = useState(null);
+    const [optionsProfissao, setOptionsProfissao] = useState([]);
 
 
     const onSuggestionsFetchRequested = ({ value }) => {
@@ -153,14 +160,28 @@ const ApoiadoresEdit = () => {
         }
     };
 
-    const getProfissoes = async() => {
+    const getProfissoes = async(inputValueProfissao) => {
 
         try {
-            const response = await userFetch.get("/profissoes");
 
-            const data = response.data;
-            
-            setProfissoes(data);
+            if(inputValueProfissao?.length >= 4){
+                
+                const response = await userFetch.get("/profissoes", {
+                    params: {
+                        inputValueProfissao
+                    },
+                });
+
+                const data = response.data;
+
+                const formattedProfissao = data.map(option => ({
+                    value: option.IdProfissao, 
+                    label: option.Nome, 
+                }));
+
+                setOptionsProfissao(formattedProfissao);
+    
+            }
             
         } catch (error) {
             console.log(`Erro ao recuperar a profissão: ${error}`);
@@ -219,7 +240,7 @@ const ApoiadoresEdit = () => {
         e.preventDefault();
 
        try {
-            
+        
             setLoading(true);
             await userFetch.put(`/apoiadores/${id}`, data);
             toast.success('Apoiador alterado com sucesso!');
@@ -249,6 +270,44 @@ const ApoiadoresEdit = () => {
         }
     }
 
+    const handleChangeProfissao = (selectedProfissao) => {
+        setSelectedProfissao(selectedProfissao);
+    };
+
+    const handleConsultaCEP = async() => {
+
+        try {
+            
+            
+            if(RemoveMascara(data.cep)?.length >= 8){
+                const resultadoConsulta  = await ConsultaCEP(RemoveMascara(data.cep));
+                
+                data.logradouro = resultadoConsulta?.logradouro
+                data.cidade = resultadoConsulta?.cidade
+                data.bairro = resultadoConsulta?.bairro
+                
+                
+                if(resultadoConsulta.estado){
+                
+                    const estadoEncontrado = estados.find(e => e.UF === resultadoConsulta.estado);
+                    const idEstado = estadoEncontrado ? estadoEncontrado.IdEstado : null;
+                    setData({...data, 'estado' : idEstado})
+                    data.estado = idEstado;
+                }
+
+                console.log(data);
+            }
+            
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
+    const handleInputChangeCEP = (e) => {
+        setData({...data, 'cep' : e.target.value})
+    };
+
     
     return(
 
@@ -262,44 +321,50 @@ const ApoiadoresEdit = () => {
                 <p className='form-session-title'>Informações Pessoais</p>
                 <div className="form-row">
 
-                    <div className="form-group col-md-5">
+                    <div className="form-group col-md-8">
                         <label htmlFor="nome">Nome</label>
                         <input type="nome" className="form-control" id="nome" name='nome' placeholder="Nome" value={data.nome}  onChange={valueInput} />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="apelido">Apelido</label>
-                        <input type="text" className="form-control" id="apelido" placeholder="pelido" name="apelido" value={data.apelido}  onChange={valueInput} />
+                        <label htmlFor="nascimento">Data de Nascimento*</label>
+                        <input type="date" className="form-control" id="dataNascimento" name='dataNascimento' value={data.dataNascimento}  onChange={valueInput}  />
                     </div>
+
+                    <div className="form-group">
+                        <label htmlFor="telefone">Telefone*</label> 
+                        <span> <input type="checkbox" id='whatsapp' checked={data.numeroWhatsapp} name='numeroWhatsapp' onChange={valueInput} /> <FaWhatsapp /> </span>
+                        <InputMask required
+                            id="numeroTelefone" name="numeroTelefone"  value={data.numeroTelefone}  onChange={valueInput}
+                            mask="(99) 99999-9999"
+                            maskChar="_"
+                            className="form-control"  
+                        />
+                    </div>
+                    <input type="hidden"  value={data.numeroAntigo} />
+
+                    <div className="form-group col-md-5">
+                        <label htmlFor="email">E-mail</label>
+                        <input type="email" className="form-control" id="email" name="email" placeholder="E-mail" value={data.email}  onChange={valueInput} />
+                    </div>
+
 
                     <div className="form-group">
                         <label htmlFor="profissao">Profissão</label>
-                        <select id="profissao" name='profissao' className="form-control"  onChange={valueInput}>
-                            <option >Escolher...</option>
-                            {
-                                profissoes.map((profissao) => (
-                                    
-                                    <option key={profissao.IdProfissao} selected={profissao.Nome === data.profissao}  value={profissao.profissao}>{profissao.Nome}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="religiao">Religião</label>
-                        <select id="religiao" name='religiao' className="form-control"  onChange={valueInput}>
-                            <option >Escolher...</option>
-                            {
-                                religioes.map((religiao) => (
-                                    <option key={religiao.IdReligiao} selected={religiao.Nome === data.religiao}  value={religiao.Nome}>{religiao.Nome}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="nascimento">Data de Nascimento</label>
-                        <input type="date" className="form-control" id="dataNascimento" name='dataNascimento' value={data.dataNascimento}  onChange={valueInput}  />
+                        <Select
+                            value={selectedProfissao}
+                            onInputChange={(value) => {
+                                setInputValueProfissao(value);
+                                getProfissoes(value);
+                            }}
+                            onChange={handleChangeProfissao}
+                            options={optionsProfissao}
+                            isSearchable={true}
+                            placeholder="Selecione uma opção..."
+                            className="custom-pessoa"
+                            noOptionsMessage={() => "Nenhuma opção encontrada"}
+                            
+                        />
                     </div>
 
 
@@ -332,22 +397,6 @@ const ApoiadoresEdit = () => {
                 </div>
 
 
-                <div className="form-row">
-
-                    <div className="form-group">
-                        <label htmlFor="email">E-mail</label>
-                        <input type="email" className="form-control" id="email" name="email" placeholder="E-mail" value={data.email}  onChange={valueInput} />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="telefone">Telefone 
-                        <span> <input type="checkbox" id='whatsapp' checked={data.numeroWhatsapp} name='numeroWhatsapp' onChange={valueInput} /> <FaWhatsapp /> </span>
-                        </label>
-                        <input type="text" className="form-control" name="numeroTelefone" id="numeroTelefone" placeholder="Telefone" value={data.numeroTelefone}  onChange={valueInput}/>
-                    </div>
-                    <input type="hidden"  value={data.numeroAntigo} />
-               
-                </div>
 
                 <p className='form-session-title'>Endereço</p>
                 <div className="form-row">
@@ -355,14 +404,15 @@ const ApoiadoresEdit = () => {
                     <input type="hidden" value={data.idEndereco} onChange={valueInput}  />
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input type="text" className="form-control" id="cep" name="cep" value={data.cep}  onChange={valueInput} />
+                        <InputMask
+                            className="form-control" id="cep" name="cep" value={data.cep}
+                            mask="99999-999"
+                            maskChar="_"
+                            onChange={handleInputChangeCEP}  
+                            onBlur={handleConsultaCEP}
+                        />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="cidade">Cidade</label>
-                        <input type="text" className="form-control" name="cidade" id="cidade" placeholder='Cidade' value={data.cidade}   onChange={valueInput} />
-                    </div>
-                    
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
                         <select id="estado" className="form-control" name='estado'  onChange={valueInput} >
@@ -376,8 +426,14 @@ const ApoiadoresEdit = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="endereco">Lagradouro</label>
-                        <input type="text" className="form-control" name="lagradouro" id="endereco" value={data.lagradouro} onChange={valueInput}  />
+                        <label htmlFor="cidade">Cidade</label>
+                        <input type="text" className="form-control" name="cidade" id="cidade" placeholder='Cidade' value={data.cidade}   onChange={valueInput} />
+                    </div>
+                    
+
+                    <div className="form-group">
+                        <label htmlFor="endereco">Logradouro</label>
+                        <input type="text" className="form-control" name="logradouro" id="endereco" value={data.logradouro} onChange={valueInput}  />
                     </div>
                     
                     <div className="form-group">

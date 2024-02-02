@@ -22,6 +22,7 @@ const ApoiadoresFicha = () => {
 
     const getApoiador = async() => {
         
+        
         if(id === undefined){
             console.log("Apoiador não encontrado");
             return;
@@ -106,7 +107,7 @@ const ApoiadoresFicha = () => {
                 
                 <div className="dados-endereco">
                     <p className='session-title'>Endereço</p>
-                    <span>{data.lgradouro} {data.bairro}  {data.complemento}</span>
+                    <span>{data.logradouro} {data.bairro}  {data.complemento}</span>
                     <span>Ponto de Referencia: {data.pontoReferencia}</span>
                     <span>{data.cidade} | CEP: {data.cep}</span>
                 </div>
