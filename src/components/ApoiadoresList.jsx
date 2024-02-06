@@ -7,8 +7,9 @@ import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa6";
 import { IoAddSharp } from "react-icons/io5";
 
-
+import Pagination from './Pagination';
 import InsereMascara from './InsereMascara.jsx';
+
 
 import "../styles/components/apoiadores-list.sass";
 
@@ -16,6 +17,12 @@ import "../styles/components/apoiadores-list.sass";
 const ApoiadoresList = () => {
 
     const navigate = useNavigate();
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 3;
+
+
+    
     const [apoiadores, setApoiadores] = useState([]);
     const [profissoes, setProfissoes] = useState([]);
     const [partidos, setPartidos] = useState([]);
@@ -26,6 +33,7 @@ const ApoiadoresList = () => {
     const [filtroPartido, setFiltroPartido] = useState('');
 
     const [linhasSelecionadas, setLinhasSelecionadas] = useState([]);
+
 
     
 
@@ -139,6 +147,14 @@ const ApoiadoresList = () => {
 
    
 
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentApoiadores = apoiadores.slice(indexOfFirstItem, indexOfLastItem);
+
 
     return(
         <div className="listagem-apoiadores">
@@ -249,8 +265,8 @@ const ApoiadoresList = () => {
 
                 <tbody>
             
-                    {apoiadores.length === 0 ? <p>Carregando...</p> : (
-                        apoiadores.map((apoiador) => (
+                    {currentApoiadores.length === 0 ? <p>Carregando...</p> : (
+                        currentApoiadores.map((apoiador) => (
                             <tr key={apoiador.IdApoiador}>
                                 <td>
                                     <input
@@ -277,8 +293,9 @@ const ApoiadoresList = () => {
                     )}
                 </tbody>
             </table>
-            
-   
+
+            <Pagination totalItems={apoiadores} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
+
         </div>
     );
 

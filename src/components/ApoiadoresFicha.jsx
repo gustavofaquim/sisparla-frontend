@@ -66,8 +66,8 @@ const ApoiadoresFicha = () => {
     }
 
 
-    const deleteApoiador = async(id) => {
-
+    const deleteApoiador = async() => {
+        
         try {
             
             const response = await userFetch.delete(`/apoiador/${id}`);
@@ -81,6 +81,7 @@ const ApoiadoresFicha = () => {
             console.log(`Error: ` + error)
         }
     }
+
 
 
     const dataNascimento = formataData(data.dataNascimento);
@@ -150,7 +151,7 @@ const ApoiadoresFicha = () => {
 
             <div className="div-btn">
                 <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn btn-editar" >Editar Dados</button></Link>
-                <Link to={``}><button onClick={ (e) => DeleteClick(e, deleteApoiador(data.idApoiador)) } className="btn btn-excluir" >Excluir Apoiador</button></Link>
+                <Link to={``}><button onClick={ (e) => DeleteClick(e, deleteApoiador) } className="btn btn-excluir">Excluir Apoiador</button></Link>
                 <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
                 <Link to={``}><button className="btn btn-add-demanda" >Nova Demanda</button></Link>
             </div>
