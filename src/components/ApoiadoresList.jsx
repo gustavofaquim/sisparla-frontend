@@ -254,7 +254,7 @@ const ApoiadoresList = () => {
             <table>
                 <thead>
                     <tr>
-                       <th>#</th>
+                    { /* <th>#</th>*/ }
                         <th>Nome</th>
                         <th className='ocultar-0'>Telefone</th>
                         <th className='ocultar-0 ocultar-1'>E-mail</th>
@@ -268,13 +268,13 @@ const ApoiadoresList = () => {
                     {currentApoiadores.length === 0 ? <p>Carregando...</p> : (
                         currentApoiadores.map((apoiador) => (
                             <tr key={apoiador.IdApoiador}>
-                                <td>
-                                    <input
+                                { /* <td>
+                                <input
                                     type="checkbox"
                                     onChange={() => handleSelecionarLinha(apoiador)}
                                     checked={linhasSelecionadas.some((linha) => linha.IdApoiador === apoiador.IdApoiador)}
-                                    />
-                                </td>
+                                    /> 
+                                </td>*/ }
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
                                 <td>
                                     <Link to={`https://api.whatsapp.com/send?phone=55${apoiador.TelefoneApoiador.Numero}`} target="_blank">

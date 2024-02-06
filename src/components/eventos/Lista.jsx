@@ -4,8 +4,9 @@ import userFetch from '../../axios/config.js';
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-
 import { IoAddSharp } from "react-icons/io5";
+
+import Pagination from '../Pagination';
 
 import "../../styles/components/listagem.sass";
 
@@ -13,6 +14,19 @@ const Lista = () => {
 
     const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
+
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 20;
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentDemanda = data.slice(indexOfFirstItem, indexOfLastItem);
 
     useEffect(() => {
         getEventos();
@@ -133,6 +147,8 @@ const Lista = () => {
                 </tbody>
             </table>
             )}
+
+            <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 
         </div>
     )

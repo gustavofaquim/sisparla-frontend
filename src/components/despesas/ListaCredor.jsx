@@ -7,12 +7,25 @@ import InsereMascara from '../InsereMascara.jsx';
 
 import { IoAddSharp } from "react-icons/io5";
 
+import Pagination from '../Pagination';
+
 import "../../styles/components/listagem.sass";
 
 const ListaCredor = () => {
 
     const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 20;
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentCredor = data.slice(indexOfFirstItem, indexOfLastItem);
 
     const getCredores = async() => {
 
@@ -86,7 +99,7 @@ const ListaCredor = () => {
                 <Link to={"/novo-credor"}> <button><IoAddSharp /> Novo Credor</button></Link>
             </div>
 
-            {data.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
+            {currentCredor.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
             <table>
                 <thead>
                     <tr>
@@ -98,7 +111,7 @@ const ListaCredor = () => {
                 </thead>
 
                 <tbody>
-                    {data.map((credor) => (
+                    {currentCredor.map((credor) => (
                             
                         <tr key={credor.IdCredor}>
                             <td> <Link to={`/credor/${credor.IdCredor}`}>{credor.Nome}</Link></td>
@@ -112,6 +125,9 @@ const ListaCredor = () => {
             </table>
 
             )}
+
+            <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
+
         </div>
     )
 }

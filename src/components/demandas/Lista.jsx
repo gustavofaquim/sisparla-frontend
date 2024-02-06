@@ -8,6 +8,8 @@ import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
 
 import { IoAddSharp } from "react-icons/io5";
 
+import Pagination from '../Pagination';
+
 import "../../styles/components/listagem.sass";
 
 import DeleteClick from '../DeleteClick.jsx';
@@ -15,10 +17,25 @@ import DeleteClick from '../DeleteClick.jsx';
 
 const DemandasList = () => {
 
+
+
     const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
     const [situacoes, setSituacoes] = useState([]); 
     const [apoiadoresData, setApoiadoresData] = useState([]);
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 20;
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentDemanda = data.slice(indexOfFirstItem, indexOfLastItem);
+
 
     
 
@@ -188,7 +205,7 @@ const DemandasList = () => {
             </div>
 
 
-            {data.length === 0 ? <p className='aviso-sem-dados'>Sem demandas para exibir.</p> : (
+            {currentDemanda.length === 0 ? <p className='aviso-sem-dados'>Sem demandas para exibir.</p> : (
             <table>
                 <thead>
                     <tr>
@@ -203,7 +220,7 @@ const DemandasList = () => {
 
                 <tbody>
                         
-                        {data.map((demanda) => (
+                        {currentDemanda.map((demanda) => (
                             
                             <tr key={demanda.IdDemanda}>
                                 <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
@@ -238,6 +255,7 @@ const DemandasList = () => {
             </table>
             )}
 
+            <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
         </div>
 
 

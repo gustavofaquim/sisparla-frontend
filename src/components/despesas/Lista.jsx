@@ -6,13 +6,26 @@ import { toast } from 'react-toastify';
 import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
 import { IoAddSharp } from "react-icons/io5";
 
+import Pagination from '../Pagination';
 
 import "../../styles/components/listagem.sass";
 
 const DespesasList = () => {
-
+    
     const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
+
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 3;
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentDespesa = data.slice(indexOfFirstItem, indexOfLastItem);
 
     const getDespesas = async() => {
         
@@ -88,7 +101,7 @@ const DespesasList = () => {
         </div>
        
 
-        {data.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
+        {currentDespesa.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
         <table>
             <thead>
                 <tr>
@@ -101,7 +114,7 @@ const DespesasList = () => {
 
             <tbody>
                     
-                    {data.map((despesa) => (
+                    {currentDespesa.map((despesa) => (
                         
                         <tr key={despesa.IdDespesa}>
                             <td> <Link to={`/despesas/${despesa.IdDespesa}`}> {despesa.Descricao} </Link> </td>
@@ -113,6 +126,7 @@ const DespesasList = () => {
             </tbody>
         </table>
         )}
+        <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 
     </div>
 
