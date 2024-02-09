@@ -16,8 +16,11 @@ import {
     FaRegWindowClose,
     FaHouseUser,
     FaWhatsapp,
-    FaDollarSign  
+    FaDollarSign,
+    FaArrowLeft   
   } from 'react-icons/fa';
+
+  
 
 const Sidebars = () => {
   // Use o hook useAuth para obter a função handleLogout
@@ -66,7 +69,7 @@ const Sidebars = () => {
                     <MenuItem component={<Link to="/lista-contatos" />} onClick={() => handleMenuItemClick('mensagens')}>Lista de Contatos</MenuItem>
                 </SubMenu>
                 
-                <MenuItem icon={<FaRegWindowClose/>} onClick={logoutAndRedirect} >Sair</MenuItem>
+                <MenuItem icon={<FaArrowLeft />} onClick={logoutAndRedirect} >Sair</MenuItem>
 
                 
             </Menu>
