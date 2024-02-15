@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const userFetch = axios.create({
-   baseURL: "http://localhost:3000/api/", 
+   baseURL: "http://54.83.86.16:3000/api/", 
    headers: {
     "Content-Type": "application/json"
    }
