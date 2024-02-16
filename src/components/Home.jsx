@@ -145,112 +145,125 @@ const Home = () => {
 
            <div className="resumos">
             
-           <Link to="/apoiadores">
-            <div className='card apoiadores'>    
-           
-                <div className='icone'>
-                    <FaUserAlt /> 
-                </div>
+          
+            <div className='cards'>
+                <Link to="/apoiadores">
+                    <div className='card apoiadores'>    
+            
+                        <div className='icone'>
+                            <FaUserAlt /> 
+                        </div>
 
-                <div className="texto">
-                    <h4>{quantidadeApoiadores}</h4>
-                    <p className='titulo'>Apoiadores</p>
-                </div> 
+                        <div className="texto">
+                            <h4>{quantidadeApoiadores}</h4>
+                            <p className='titulo'>Apoiadores</p>
+                        </div> 
 
-            </div> </Link>
+                    </div> 
+                </Link>
+            </div>
              
+            <div className='cards'>
+                <Link to="/demandas">
+                    <div className='card demandas'>    
+                
+                        <div className='icone'>
+                            <FaChartBar /> 
+                        </div>
 
-            <Link to="/demandas">
-            <div className='card demandas'>    
+                        <div className="texto">
+                            <h4> {quantidadeDemandas} </h4>
+                            <p className='titulo'>Demandas</p>
+                        </div> 
+
+                    </div>
+                </Link>
+            </div>
            
-                <div className='icone'>
-                    <FaChartBar /> 
-                </div>
-
-                <div className="texto">
-                    <h4> {quantidadeDemandas} </h4>
-                    <p className='titulo'>Demandas</p>
-                </div> 
-
-            </div></Link>
-
+            <div className='cards'>
             <Link to="/aniversariantes">
-            <div className='card aniversariantes'>    
-           
-                <div className='icone'>
-                    <FaCakeCandles />
+                <div className='card aniversariantes'>    
+            
+                    <div className='icone'>
+                        <FaCakeCandles />
+                    </div>
+
+                    <div className="texto">
+                        <h4> {aniversariantes} </h4>
+                        <p className='titulo'>{aniversariantes > 1 ? 'Aniversariantes' : 'Aniversariante'} Hoje</p>
+                    </div> 
+
                 </div>
+            </Link>
 
-                <div className="texto">
-                    <h4> {aniversariantes} </h4>
-                    <p className='titulo'>{aniversariantes > 1 ? 'Aniversariantes' : 'Aniversariante'} Hoje</p>
-                </div> 
-
-            </div></Link>
+            </div>
+           
 
                   
                 
              </div>  
 
+            <div className='cards-listas'>
+                <div className='eventos'>
+                    <p className='titulo'>Eventos do dia</p>
+                    {eventosDia.length === 0 ? (
+                        <p className=''>Não existem eventos agendados para hoje.</p>
+                    ) : (
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Data e Hora</th>
+                                </tr>
+                            </thead>
 
-            <div className='eventos'>
-                <p className='titulo'>Eventos do dia</p>
-                {eventosDia.length === 0 ? (
-                    <p className=''>Não existem eventos agendados para hoje.</p>
-                ) : (
-                    <table>
+                            <tbody>
+                                {eventosDia.map((evento) => (
+                                    <tr key={evento.IdEvento}>
+                                        <td><Link to={`/eventos/${evento.IdEvento}`}>{evento.Nome}</Link></td>
+                                        <td>{formataDataEHora(evento?.DataHorario)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+
+
+                </div>
+
+                <div className='minhas-demandas'>
+                    <p className='titulo'>Minhas Demandas Abertas</p>
+                    {minhasDemandas.length === 0 ? (
+                        <p className=''>Não existem demandas abertas.</p>
+                    ) : (
+
+                        <table>
                         <thead>
                             <tr>
-                                <th>Nome</th>
-                                <th>Data e Hora</th>
+                                <th>Assunto</th>
+                                <th>Categoria</th>
+                                <th>Data de Abertura</th>
                             </tr>
                         </thead>
 
-                        <tbody>
-                            {eventosDia.map((evento) => (
-                                <tr key={evento.IdEvento}>
-                                    <td><Link to={`/eventos/${evento.IdEvento}`}>{evento.Nome}</Link></td>
-                                    <td>{formataDataEHora(evento?.DataHorario)}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                )}
+                            <tbody>
+                            { minhasDemandas.map((demanda) => (
+                                    <tr key={demanda.IdDemanda}>
+                                        <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
+                                        <td>{demanda?.DemandaCategoria?.Descricao}</td>
+                                        <td>{formataDataEHora(demanda?.Data)}</td>
+                                    </tr>
+                                
+                                ))}
+                            </tbody>
+                        </table>
+                    
+                    )}
+                    
 
-
+                </div>
             </div>
-
-            <div className='minhas-demandas'>
-                <p className='titulo'>Minhas Demandas Abertas</p>
-                {minhasDemandas.length === 0 ? (
-                    <p className=''>Não existem demandas abertas.</p>
-                ) : (
-
-                    <table>
-                    <thead>
-                        <tr>
-                            <th>Assunto</th>
-                            <th>Categoria</th>
-                            <th>Data de Abertura</th>
-                        </tr>
-                    </thead>
-
-                        <tbody>
-                           { minhasDemandas.map((demanda) => (
-                                <tr key={demanda.IdDemanda}>
-                                    <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
-                                    <td>{demanda?.DemandaCategoria?.Descricao}</td>
-                                    <td>{formataDataEHora(demanda?.Data)}</td>
-                                </tr>
-                            
-                            ))}
-                        </tbody>
-                    </table>
-                
-                )}
-                
-
-            </div>
+            
 
 
             <div className='area-cards'>

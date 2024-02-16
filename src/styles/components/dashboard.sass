@@ -26,31 +26,33 @@
             font-size: 13pt
             font-weight: 300
             margin-top: 15px
-            padding: 5px
             width: 100%
             display: block
             color: black
 
     .resumos
-        margin-top: 2em
+        display: inline-flex
+        width: 100%
+        margin-top: 3em
+        padding: 20px
+
+        .cards
+            width: 40%
+            margin: auto
 
         .card
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px
             display: inline-flex
-            background-color: variables.$fundo-card-cinza
             padding: 10px
-            margin-right: 40px
+            width: 80%
+            margin: auto
             align-items: center
-            border: 0px solid
             flex-direction: row
-            margin-top: 20px
-            
-            .icone
 
+            .icone
                 svg
                     font-size: 40pt
-                   
-
+                
             .texto
                 margin-left: 10px
 
@@ -63,9 +65,11 @@
 
     .demandas 
         color: variables.$card-vermelho
+        border-left: 6px solid variables.$card-vermelho
     
     .apoiadores 
         color: variables.$card-azul
+        border-left: 6px solid variables.$card-azul
 
     .incompletos
         color: variables.$card-amarelo
@@ -77,15 +81,23 @@
         .titulo
             color: variables.$card-amarelo
     
-
+    .cards-listas
+        display: inline-flex
+        width: 100%
+        
     .eventos,.minhas-demandas
+        margin: auto
         margin-top: 50px
         background-color: variables.$fundo-card-cinza
-        width: 70%
-        padding: 10px
+        width: 45%
+        padding: 5px
 
         .titulo
-            border-bottom: 1px solid rgba(97, 106, 120, 0.07)
+            background: variables.$cor-destaque
+            padding: 6px
+            border-radius: 4px
+            color: variables.$cor-fundo-branco
+            text-align: center
 
         table
             width: 100% 

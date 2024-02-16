@@ -181,15 +181,15 @@ const ApoiadoresList = () => {
                
                         <div className='filtro'>
                                 <div>
-                                <p>Profissao</p>
-                                    <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
-                                        <option value='todas'>Todas</option>
-                                        {
-                                            profissoes.map((profissao) => (   
-                                                <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
-                                            ))
-                                        }
-                                    </select>
+                                    <p>Profissao</p>
+                                        <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
+                                            <option value='todas'>Todas</option>
+                                            {
+                                                profissoes.map((profissao) => (   
+                                                    <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
+                                                ))
+                                            }
+                                        </select>
                                 </div>
                             </div>
 
@@ -207,16 +207,13 @@ const ApoiadoresList = () => {
                                 </select>
                             </div>
 
-                        </div>
-
-                        <div className="filtro-busca">
-                        <div>
-                            <label htmlFor="busca">Digite um termo para buscar</label>
-                            <input type="text" id='busca' placeholder="Pesquise por nome, e-mail, telefone, cidade ou qualquer outro dado disponível." value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                            <div className='filtro'>
+                                <p>Digite um termo para buscar</p>
+                                <input type="text" id='busca' placeholder="Pesquise por nome, e-mail, telefone, cidade ou qualquer outro dado disponível." value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
                             
-                        </div>
-                    </div>
+                            </div>
 
+                        </div>
                     </div>
 
                     

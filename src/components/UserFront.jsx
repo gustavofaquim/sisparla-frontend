@@ -9,7 +9,6 @@ const UserFront = () =>{
 
     const { user } = useAuth();
 
-    console.log(user)
     return(
         <div className='user-front'>
         {user ? (
