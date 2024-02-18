@@ -7,12 +7,15 @@ import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa6";
 import { IoAddSharp } from "react-icons/io5";
 
+
+import ApoiadoresNovo from "./ApoiadoresNovo.jsx";
+
 import Pagination from './Pagination';
 import InsereMascara from './InsereMascara.jsx';
 
 
 import "../styles/components/apoiadores-list.sass";
-
+import "../styles/components/modal.sass"
 
 const ApoiadoresList = () => {
 
@@ -292,6 +295,30 @@ const ApoiadoresList = () => {
             </table>
 
             <Pagination totalItems={apoiadores} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
+
+
+            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modalCadastroApoiador">
+            Abrir modal de demonstração
+            </button>
+            
+            <div className="modal fade" id="modalCadastroApoiador" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <ApoiadoresNovo />
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" className="btn btn-primary">Salvar mudanças</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     );

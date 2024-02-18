@@ -106,6 +106,9 @@ const Aniversariantes = (props) => {
             </table>
             )}
 
+
+           
+
         </div>
     )
 }

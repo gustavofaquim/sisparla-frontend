@@ -328,7 +328,9 @@ const ApoiadoresNovo = () => {
                 <form onSubmit={createApoiador}>
 
                 <p className='form-session-title'>Informações Pessoais</p>
+                <hr className='linha-destaque'/>
                 <div className="form-row">
+                    
 
                     <div className="form-group col-md-8">
                         <label htmlFor="nome">Nome*</label>
