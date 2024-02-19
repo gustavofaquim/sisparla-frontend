@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 
 
 import DeleteClick from '../components/DeleteClick.jsx';
+import ApoiadoresEdit from "../components/ApoiadoresEdit.jsx";
 
 import "../styles/components/apoiador-ficha.sass";
+import "../styles/components/modal.sass"
 
 
 const ApoiadoresFicha = () => {
@@ -18,6 +20,37 @@ const ApoiadoresFicha = () => {
 
 
     const [data, setData] = useState({});
+
+    const [modalOpen, setModalOpen] = useState(false);
+
+    
+    const openModal = () => {
+        setModalOpen(true);
+
+        $('#modalCadastroApoiador').modal('hide');
+    };
+
+    const closeAndRefresh =  async () => {
+        setModalOpen(false);
+        
+        try {
+            // Chamar a função de obtenção dos dados atualizados
+            const novosDados = await getApoiador();
+    
+            if (novosDados) {
+                // Atualizar o estado com os novos dados do apoiador
+                setData(novosDados);
+            }
+        } catch (error) {
+            console.error('Erro ao obter os dados atualizados do apoiador:', error);
+            // Lógica de tratamento de erro, se necessário
+        }
+
+
+        // Atualizar o estado com os novos dados do apoiador recebidos da API
+        setData(novosDados);
+    };
+      
 
 
     const getApoiador = async() => {
@@ -150,10 +183,30 @@ const ApoiadoresFicha = () => {
             }
 
             <div className="div-btn">
-                <Link to={`/apoiador-edit/${data.idApoiador}`}><button className="btn btn-editar" >Editar Dados</button></Link>
+                <button type="button" className="btn btn-editar" data-toggle="modal" data-target="#modalCadastroApoiador">Editar Dados</button>
                 <Link to={``}><button onClick={ (e) => DeleteClick(e, deleteApoiador) } className="btn btn-excluir">Excluir Apoiador</button></Link>
                 <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
                 <Link to={``}><button className="btn btn-add-demanda" >Nova Demanda</button></Link>
+            </div>
+
+
+            
+            <div className="modal fade" id="modalCadastroApoiador" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <ApoiadoresEdit openModal={openModal} updateApoiadorFicha={closeAndRefresh}/>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                    </div>
+                </div>
             </div>
         </div>
 

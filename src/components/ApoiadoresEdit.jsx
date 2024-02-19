@@ -23,7 +23,7 @@ import ConsultaCEP from "./ConsultaCEP.jsx";
 import RemoveMascara from "./RemoveMascara.jsx";
 
 
-const ApoiadoresEdit = () => {
+const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
 
     const params = useParams();
     const id = params.id;
@@ -242,12 +242,23 @@ const ApoiadoresEdit = () => {
        try {
         
             setLoading(true);
-            await userFetch.put(`/apoiadores/${id}`, data);
-            toast.success('Apoiador alterado com sucesso!');
-            navigate('/apoiadores');
+            const response = await userFetch.put(`/apoiadores/${id}`, data);
+
+            if(response.status == 200){
+                toast.success('Apoiador alterado com sucesso!');
+
+                updateApoiadorFicha();
+                
+
+                // Fechar o modal
+                openModal();
+
+                navigate(`/apoiador/${id}`)
+            }
+           
             setLoading(false);
 
-        } catch (error) {
+        }catch (error) {
             toast.error('Erro ao alterar informações.');
             console.log('Deu erro:' + error);
             setLoading(false);
@@ -295,7 +306,6 @@ const ApoiadoresEdit = () => {
                     data.estado = idEstado;
                 }
 
-                console.log(data);
             }
             
         } catch (error) {
@@ -319,6 +329,7 @@ const ApoiadoresEdit = () => {
                 <form onSubmit={(e) => apoiadorEdit(e)}>
 
                 <p className='form-session-title'>Informações Pessoais</p>
+                <hr className='linha-destaque'/>
                 <div className="form-row">
 
                     <div className="form-group col-md-8">
@@ -399,6 +410,7 @@ const ApoiadoresEdit = () => {
 
 
                 <p className='form-session-title'>Endereço</p>
+                <hr className='linha-destaque'/>
                 <div className="form-row">
 
                     <input type="hidden" value={data.idEndereco} onChange={valueInput}  />
@@ -455,6 +467,7 @@ const ApoiadoresEdit = () => {
                 </div>
 
                 <p className='form-session-title'>Movimento Social/Sindical/Entidade</p>
+                <hr className='linha-destaque'/>
 
                 <div className="form-row">
 
@@ -528,6 +541,7 @@ const ApoiadoresEdit = () => {
                 </div>
 
                 <p className='form-session-title'>Partido Político</p>
+                <hr className='linha-destaque'/>
                 <div className="form-row">
                     
                 <div className="form-group">
@@ -562,8 +576,9 @@ const ApoiadoresEdit = () => {
 
                 </div>
 
+                <p className='form-session-title'>Anotações Internas</p>
+                <hr className='linha-destaque'/>
                 <div className="form-row">
-                    <p className='form-session-title'>Anotações Internas</p>
                     <div className="form-group group-infoAdicional">
                         <label htmlFor="infoAdicional"></label>
                         <textarea className="form-control" id="infoAdicional" name='informacaoAdicional'  value={data.informacaoAdicional} onChange={valueInput} ></textarea>

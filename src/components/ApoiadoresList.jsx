@@ -227,7 +227,8 @@ const ApoiadoresList = () => {
 
              
             <div className='btn-add'>
-                <Link to={"/novo-apoiador"}> <button><IoAddSharp /> Novo Apoiador</button></Link>
+                
+                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modalCadastroApoiador">Novo Apoiador</button>
             </div>
 
             { /*
@@ -297,9 +298,6 @@ const ApoiadoresList = () => {
             <Pagination totalItems={apoiadores} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 
 
-            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modalCadastroApoiador">
-            Abrir modal de demonstração
-            </button>
             
             <div className="modal fade" id="modalCadastroApoiador" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
                 <div className="modal-dialog" role="document">
@@ -314,7 +312,6 @@ const ApoiadoresList = () => {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        <button type="button" className="btn btn-primary">Salvar mudanças</button>
                     </div>
                     </div>
                 </div>

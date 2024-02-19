@@ -414,6 +414,7 @@ const ApoiadoresNovo = () => {
                 </div>
 
                 <p className='form-session-title'>Endereço</p>
+                <hr className='linha-destaque'/>
                 <div className="form-row">
 
                     <div className="form-group col-md-2">
@@ -471,21 +472,9 @@ const ApoiadoresNovo = () => {
                 </div>
 
                 <p className='form-session-title'>Movimento Social/Sindical/Entidade</p>
+                <hr className='linha-destaque'/>
 
                 <div className="form-row">
-
-                   <div className="form-group">
-                    <p>Movimento ou Entidade ?</p>
-                    <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="entidade" id="entidade" value="s" onChange={(e) => setEntidade(e.target.value)} />
-                            <label className="form-check-label" for="entidade">Sim</label>
-                        </div>
-                        
-                        <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="entidade" id="entidade2" value="n" onChange={(e) => setEntidade(e.target.value)}  />
-                            <label className="form-check-label" for="entidade2">Não</label>
-                        </div>
-                   </div>
 
 
                     <div className="form-group">
@@ -540,6 +529,7 @@ const ApoiadoresNovo = () => {
                 </div>
 
                 <p className='form-session-title'>Partido Político</p>
+                <hr className='linha-destaque'/>
                 <div className="form-row">
                     
                 <div className="form-group">
@@ -574,8 +564,9 @@ const ApoiadoresNovo = () => {
 
                 </div>
 
+                <p className='form-session-title'>Anotações Internas</p>
+                <hr className='linha-destaque'/>
                 <div className="form-row">
-                    <p className='form-session-title'>Anotações Internas</p>
                     <div className="form-group group-infoAdicional">
                         <label for="infoAdicional"></label>
                         <textarea className="form-control" id="infoAdicional" name='infoAdicional'  value={informacoesAdicionais || ''} onChange={(e) => setInformacoesAdicionais(e.target.value)}></textarea>
