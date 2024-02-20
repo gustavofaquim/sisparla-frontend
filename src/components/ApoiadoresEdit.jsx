@@ -68,7 +68,10 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
 
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
-                setData(response.data); 
+                setData(response.data);
+                
+                console.log('Dados do Apoiador')
+                console.log(response.data); 
             })
             .catch((error) => {
 
@@ -163,25 +166,23 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
     const getProfissoes = async(inputValueProfissao) => {
 
         try {
-
-            if(inputValueProfissao?.length >= 4){
                 
-                const response = await userFetch.get("/profissoes", {
-                    params: {
-                        inputValueProfissao
-                    },
-                });
+            const response = await userFetch.get("/profissoes", {
+                params: {
+                    inputValueProfissao
+                },
+            });
 
-                const data = response.data;
+            const data = response.data;
 
-                const formattedProfissao = data.map(option => ({
-                    value: option.IdProfissao, 
-                    label: option.Nome, 
-                }));
+            const formattedProfissao = data.map(option => ({
+                value: option.IdProfissao, 
+                label: option.Nome, 
+            }));
 
-                setOptionsProfissao(formattedProfissao);
+            setOptionsProfissao(formattedProfissao);
     
-            }
+            
             
         } catch (error) {
             console.log(`Erro ao recuperar a profissão: ${error}`);
@@ -239,10 +240,29 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
     const apoiadorEdit = async (e) => {
         e.preventDefault();
 
+        setLoading(true);
+
        try {
-        
-            setLoading(true);
-            const response = await userFetch.put(`/apoiadores/${id}`, data);
+            
+            let cepSemMascara = null;
+            const telefoneSemMascara = RemoveMascara(data.numeroTelefone);
+            const numeroAntigoSemMascara = RemoveMascara(data.numeroAntigo);
+            
+            let cpfSemMascara = null;
+
+            if(data.cpf){
+                cpfSemMascara = RemoveMascara(cpf);
+            }
+
+            if(data.cep){
+                cepSemMascara = RemoveMascara(cep);
+            }
+
+            const profissao = selectedProfissao?.value || null;
+
+            const dataToSend = { ...data, numeroTelefone: telefoneSemMascara, numeroAntigo: numeroAntigoSemMascara, cpf: cpfSemMascara, cep:  cepSemMascara, profissao };
+
+            const response = await userFetch.put(`/apoiadores/${id}`, dataToSend);
 
             if(response.status == 200){
                 toast.success('Apoiador alterado com sucesso!');
@@ -283,6 +303,7 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
 
     const handleChangeProfissao = (selectedProfissao) => {
         setSelectedProfissao(selectedProfissao);
+        
     };
 
     const handleConsultaCEP = async() => {
@@ -317,6 +338,16 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
     const handleInputChangeCEP = (e) => {
         setData({...data, 'cep' : e.target.value})
     };
+
+
+    useEffect(() => {
+        if (data.idProfissao) {
+            
+            const profissaoSelecionada = optionsProfissao.find(option => option.value === data.idProfissao);
+           
+            setSelectedProfissao(profissaoSelecionada);
+        }
+    }, [data.idProfissao, optionsProfissao]);
 
     
     return(

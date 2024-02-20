@@ -130,7 +130,6 @@ const DespesasEdit = () => {
         try {
             
             const dataToSend = { ...data, Credor: selectedOption.value, dataDespesa: dataAtual };
-            console.log(dataToSend)
             const respose = await userFetch.put(`despesa/${id}`, dataToSend)
 
             if(respose.status === 200){

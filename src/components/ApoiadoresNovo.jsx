@@ -15,7 +15,7 @@ import { FaWhatsapp } from "react-icons/fa6";
 import ConsultaCEP from "./ConsultaCEP.jsx";
 import RemoveMascara from "./RemoveMascara.jsx";
 
-const ApoiadoresNovo = () => {
+const ApoiadoresNovo = ({ openModal, updateListaApoiadores }) => {
 
 
     const navigate = useNavigate();
@@ -217,9 +217,25 @@ const ApoiadoresNovo = () => {
           
             const response = await userFetch.post("/apoiadores", post);
 
-            const msg = response.data.msg || "Apoiador cadastrado com sucesso :) "; 
-            toast.success(msg);
+            if(response.status == 200){
+                
+                toast.success('Apoiador cadastrado com sucesso');
+            
+                updateListaApoiadores();
+                    
+                // Fechar o modal
+                openModal();
+
+                setNome, setApelido, setProfissao, setCpf, setReligiao, setNascimento, setClassificacao, setEmail, setTelefone, setSituacao, 
+                setCep, setCidade, setEstado, setLogradouro, setComplemento, setBairro, setPontoReferencia,  
+                setEntidadeNome,  setEntidadeTipo, setEntidadeSigla, setEntidadeCargo, setEntidadeLideranca,
+                setPartidoId, setPartidoCargo, setPartidoLideranca,
+                setInformacoesAdicionais = "";
+                
+            }
+
             setLoading(false);
+           
             navigate('/apoiadores');
 
         } catch (error) {
@@ -303,7 +319,6 @@ const ApoiadoresNovo = () => {
                     const idEstado = estadoEncontrado ? estadoEncontrado.IdEstado : null;
                     setEstado(idEstado || null);
                     setUF(estadoEncontrado.UF);
-                   
                 }
             }
             

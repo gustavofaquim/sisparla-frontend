@@ -131,6 +131,7 @@ const ApoiadoresFicha = () => {
 
             <div className="dados-corpo">
                 <p className='session-title'>Informações Pessoais</p>
+                <hr className='linha-destaque'/>
                 <span>Data de Nascimento: {dataNascimento || 'Não informado'} </span>
                 <span>E-mail: {data.email || 'Não informado'}</span>
                 <span>Profissão: {data.profissao || 'Não informado'}</span>
@@ -141,6 +142,7 @@ const ApoiadoresFicha = () => {
                 
                 <div className="dados-endereco">
                     <p className='session-title'>Endereço</p>
+                    <hr className='linha-destaque'/>
                     <span>{data.logradouro} {data.bairro}  {data.complemento}</span>
                     <span>Ponto de Referencia: {data.pontoReferencia}</span>
                     <span>{data.cidade} | CEP: {data.cep}</span>
@@ -153,6 +155,7 @@ const ApoiadoresFicha = () => {
                 
                 <div className="dados-entidade">
                     <p className='session-title'>Movimento Social/Sindical/Entidade</p>
+                    <hr className='linha-destaque'/>
                     <span>{data.entidadeNome}</span>
                     <span> Liderança: {data.entidadeLideranca}</span>
                     <span>Cargo: {data.entidadeCargo}</span>
@@ -164,16 +167,18 @@ const ApoiadoresFicha = () => {
                 
                 <div className="dados-partido">
                     <p className='session-title'>Informações Pardidárias</p>
-                    <span>{data.partidoNome}</span>
-                    <span> Liderança: {data.partidoLideranca}</span>
+                    <hr className='linha-destaque'/>
+                    <span>Partido: {data.partidoNome}</span>
+                    <span>Liderança: {data.partidoLideranca || Não}</span>
                     <span>Cargo: {data.partidoCargo}</span>
                 </div>
                 
             }
 
-            {data.demandas &&
+            {data?.demanda?.demandaId &&
                 <div className="dados-demandas">
                     <p className='session-title'>Demandas</p>
+                    <hr className='linha-destaque'/>
                     {data?.demandas?.map((demanda, index) => (
                         <div key={index}>
                         <Link to={`/demandas/${demanda.demandaId}`}><span>{demanda.assunto}</span></Link>

@@ -103,7 +103,8 @@ const ApoiadoresList = () => {
 
 
         try {
-
+            console.log('Filtros');
+            console.log(filtros)
             const response = await userFetch.get("/apoiadores", {
                 params: {
                     termoBusca, ...filtros,
@@ -148,7 +149,6 @@ const ApoiadoresList = () => {
         }
     }
 
-   
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -157,6 +157,33 @@ const ApoiadoresList = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentApoiadores = apoiadores.slice(indexOfFirstItem, indexOfLastItem);
+
+    const [modalOpen, setModalOpen] = useState(false);
+
+    
+    const openModal = () => {
+        setModalOpen(true);
+
+        $('#modalCadastroApoiador').modal('hide');
+    };
+
+    const closeAndRefresh =  async () => {
+        setModalOpen(false);
+        
+        try {
+            // Chamar a função de obtenção dos dados atualizados
+            const novosDados = await getApoiadores(); 
+    
+            if (novosDados) {
+                // Atualizar o estado com os novos dados do apoiador
+                setApoiadores(novosDados);
+            }
+        } catch (error) {
+            console.error('Erro ao obter os dados atualizados do apoiador:', error);
+            // Lógica de tratamento de erro, se necessário
+        }
+
+    };
 
 
     return(
@@ -183,20 +210,22 @@ const ApoiadoresList = () => {
                     <div className='seletor-filtros'>
                
                         <div className='filtro'>
-                                <div>
-                                    <p>Profissao</p>
-                                        <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
-                                            <option value='todas'>Todas</option>
-                                            {
-                                                profissoes.map((profissao) => (   
-                                                    <option key={profissao.IdProfissao} value={profissao.Nome}>{profissao.Nome}</option>
-                                                ))
-                                            }
-                                        </select>
-                                </div>
+                            <div>
+                                <p>Profissao</p>
+                                    <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
+                                        <option value='todas'>Todas</option>
+                                        {
+                                            profissoes.map((profissao) => (   
+                                                <option key={profissao.IdProfissao} value={profissao.IdProfissao}>{profissao.Nome}</option>
+                                            ))
+                                        }
+                                    </select>
                             </div>
+                        </div>
 
-                            <div className='filtro'>
+                       
+
+                            { /* <div className='filtro'>
                                 <p>Partido</p>
                                 <select name="partido" id="partido" onChange={(e) => handleFiltroChange('partido', e.target.value)}> 
                                     <option value='todos'>Todos</option>
@@ -208,7 +237,7 @@ const ApoiadoresList = () => {
                                     }
                                     
                                 </select>
-                            </div>
+                            </div> */ }
 
                             <div className='filtro'>
                                 <p>Digite um termo para buscar</p>
@@ -227,7 +256,6 @@ const ApoiadoresList = () => {
 
              
             <div className='btn-add'>
-                
                 <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modalCadastroApoiador">Novo Apoiador</button>
             </div>
 
@@ -308,7 +336,7 @@ const ApoiadoresList = () => {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <ApoiadoresNovo />
+                        <ApoiadoresNovo  openModal={openModal} updateListaApoiadores={closeAndRefresh}/>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
