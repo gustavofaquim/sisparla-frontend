@@ -9,8 +9,11 @@ import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
 import { IoAddSharp } from "react-icons/io5";
 
 import Pagination from '../Pagination';
+import DemandaNova from "../demandas/Nova.jsx";
+import DemandaEdit from "../demandas/Edit.jsx";
 
 import "../../styles/components/listagem.sass";
+import "../../styles/components/modal.sass";
 
 import DeleteClick from '../DeleteClick.jsx';
 
@@ -158,6 +161,40 @@ const DemandasList = () => {
         return `${dia}/${mes}/${ano}`;
     }
 
+    const [modalOpen, setModalOpen] = useState(false);
+    const [IdDemandaAtt, setIdDemandaAtt] = useState(null);
+
+    const openModal = () => {
+        setModalOpen(true);
+
+        $('#modalCadastroApoiador').modal('hide');
+    };
+
+    const openAtualizacaoModal = (demandaId) => {
+        setModalOpen(true);
+        setIdDemandaAtt(demandaId);
+        
+        $('#modalAtualizacaoDemandas').modal('show');
+    };
+
+    const closeAndRefresh =  async () => {
+        setModalOpen(false);
+        
+        try {
+            // Chamar a função de obtenção dos dados atualizados
+            const novosDados = await getDemandas(); 
+    
+            if (novosDados) {
+                // Atualizar o estado com os novos dados do apoiador
+                setData(novosDados);
+            }
+        } catch (error) {
+            console.error('Erro ao obter os dados atualizados da demanda:', error);
+            // Lógica de tratamento de erro, se necessário
+        }
+    };
+
+
     
 
 
@@ -176,7 +213,7 @@ const DemandasList = () => {
                     <div className="card-header" id="headingOne">
                     <h5 className="mb-0">
                         <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            🔎 Filtrar Informações
+                            Filtrar Informações
                         </button>
                     </h5>
                     </div>
@@ -199,9 +236,8 @@ const DemandasList = () => {
                
             </div>
             
-                    
             <div className='btn-add'>
-                <Link to={"/nova-demanda"}> <button><IoAddSharp /> Nova Demanda</button></Link>
+                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modalCadastroDemanda">Nova Demanda</button>
             </div>
 
 
@@ -223,7 +259,7 @@ const DemandasList = () => {
                         {currentDemanda.map((demanda) => (
                             
                             <tr key={demanda.IdDemanda}>
-                                <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
+                                <td> <Link data-toggle="modal" data-target="#modalAtualizacaoDemandas" onClick={() => openAtualizacaoModal(demanda.IdDemanda)} >{demanda.Assunto}</Link></td>
                                 <td>{demanda?.DemandaSituaco?.Descricao}</td>
                                 <td className='ocultar-1'>{demanda?.DemandaCategoria?.Descricao}</td>
                                 {apoiadoresData.length > 0 && <td>{getApoiadorName(demanda?.Apoiador)}</td>}
@@ -244,7 +280,6 @@ const DemandasList = () => {
                                         
                                        
                                     </div>
-
                                    
                                 </td>
                                
@@ -256,6 +291,42 @@ const DemandasList = () => {
             )}
 
             <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
+
+            <div className="modal fade" id="modalCadastroDemanda" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <DemandaNova  openModal={openModal} updateListaDemandas={closeAndRefresh}/>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="modalAtualizacaoDemandas" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <DemandaEdit  openModal={openAtualizacaoModal} updateListaDemandas={closeAndRefresh} IdDemandaAtt={IdDemandaAtt} modalOpen={modalOpen}/>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 

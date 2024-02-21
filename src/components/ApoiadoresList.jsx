@@ -103,7 +103,7 @@ const ApoiadoresList = () => {
 
 
         try {
-            console.log('Filtros');
+            console.log('Filtros')
             console.log(filtros)
             const response = await userFetch.get("/apoiadores", {
                 params: {
@@ -112,6 +112,7 @@ const ApoiadoresList = () => {
             });
             const data = response.data;
             setApoiadores(data);
+            
            
 
         } catch (error) {
@@ -197,7 +198,7 @@ const ApoiadoresList = () => {
                     <div className="card-header" id="headingOne">
                     <h5 className="mb-0">
                         <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            🔎 Filtrar Informações
+                            Filtrar Informações
                         </button>
                     </h5>
                     </div>
@@ -288,6 +289,7 @@ const ApoiadoresList = () => {
                         <th className='ocultar-0'>Telefone</th>
                         <th className='ocultar-0 ocultar-1'>E-mail</th>
                         <th className='ocultar-0 ocultar-2'>Cidade</th>
+                        <th className='ocultar-0 ocultar-1'>Profissão</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -315,6 +317,7 @@ const ApoiadoresList = () => {
 
                                 <td className='ocultar-0 ocultar-1' >{apoiador?.Email}</td> 
                                 <td className='ocultar-0 ocultar-2'>{apoiador?.EnderecoApoiador?.CidadeEndereco?.Nome}</td> 
+                                <td className='ocultar-0 ocultar-1'>{apoiador?.ProfissaoApoiador?.Nome}</td> 
                                 <td className=''><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
                             </tr>
                         

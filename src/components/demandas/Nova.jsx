@@ -12,7 +12,7 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 
 import "../../styles/components/paginas-cadastros-gerais.sass";
 
-const Nova = () => {
+const Nova = ({ openModal, updateListaDemandas }) => {
 
     const navigate = useNavigate();
     const [categorias, setCategorias] = useState([]); 
@@ -101,6 +101,12 @@ const Nova = () => {
             
             if(response.status === 200){
                 toast.success("Demanda criada com sucesso");
+
+                updateListaDemandas();
+                    
+                // Fechar o modal
+                openModal();
+
                 navigate('/demandas');
             }
             
@@ -149,24 +155,24 @@ const Nova = () => {
                 
                 <div className="form-row">
 
-                    <div className="form-group col-md-7">
+                    <div className="form-group col-md">
                         <label htmlFor="assunto">Assunto *</label>
-                        <input type="assunto" required className="form-control" id="assunto" name='assunto' placeholder="Assunto"  onChange={valueInput} />
+                        <input type="assunto" required className="form-control" id="assunto" name='assunto'   onChange={valueInput} />
                     </div>
 
                 </div>
 
                 <div className="form-row">
 
-                    <div className="form-group col-md-7">
+                    <div className="form-group col-md">
                         <label htmlFor="descricao">Descrição</label>
-                        <textarea name='descricao' className="form-control" placeholder="Informe os detalhes da demanda" onChange={valueInput} id="descricao"></textarea>
+                        <textarea name='descricao' className="form-control"  onChange={valueInput} id="descricao"></textarea>
                     </div>
 
                 </div>
 
                 <div className="form-row">
-                    <div class="form-group">
+                    <div class="form-group col-md">
                         <label htmlFor="">Apoiador Solicitante</label>
                         <Autosuggest
                             suggestions={suggestions}
@@ -175,7 +181,7 @@ const Nova = () => {
                             getSuggestionValue={(apoiador) => apoiador.Nome}
                             renderSuggestion={(apoiador) => <div>{apoiador.Nome}</div>}
                             inputProps={{
-                                placeholder: 'Digite o nome do apoiador',
+                               
                                 className: 'form-control',
                                 value: selectedApoiador ? selectedApoiador.Nome : apoiadorInputValue,
                                 onChange: handleEntidadeInputChange,
@@ -202,7 +208,7 @@ const Nova = () => {
 
                 <div className="form-row">
 
-                    <div className="form-group">
+                    <div className="form-group col-md-4">
                         <label htmlFor="categoria">Categoria *</label>
                         <select id="categoria" required className="form-control" name="idCategoria" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
@@ -214,7 +220,7 @@ const Nova = () => {
                         </select>
                     </div>
                             
-                    <div className="form-group">
+                    <div className="form-group col-md-4">
                         <label htmlFor="situacao">Situação *</label>
                         <select id="situacao" required className="form-control" name="idSituacao" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
@@ -226,15 +232,15 @@ const Nova = () => {
                         </select>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="valor"> Valor Estimado</label>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="valor">Valor Estimado</label>
                         <input type="number" name="valor" className="form-control" id="valor"  onChange={valueInput} />
                     </div>
 
                 </div>
 
                 <div class="form-row">
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="responsavel">Responsável</label>
                         <select id="responsavel" className="form-control" name="idResponsavel" onChange={valueInput}>
                             <option selected>Escolher...</option>
@@ -250,7 +256,7 @@ const Nova = () => {
                 <div className="form-row" id='emenda-parlamentar'>
                     
                     <div className="form-group">
-                        <p>Emanda Parlamentar ?</p>
+                        <p>A demanda é uma Emanda Parlamentar ?</p>
                         <div class="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" onChange={valueInput} />
                             <label className="form-check-label" for="emendaParlamentarS">Sim</label>

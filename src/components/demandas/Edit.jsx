@@ -14,7 +14,7 @@ import "../../styles/components/paginas-cadastros-gerais.sass";
 import DeleteClick from '../DeleteClick.jsx';
 
 
-const DemandasEdit = () => {
+const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen }) => {
     
     const params = useParams();
     const id = params?.id;
@@ -76,13 +76,15 @@ const DemandasEdit = () => {
 
     const getDemanda = async() => {
         try {
-            
-          if(id === undefined){
+           console.log('Modal:  ')
+           console.log(modalOpen)
+
+          if(IdDemandaAtt === undefined){
             console.log('Demanda não encontrada');
             return;
           }
 
-          await userFetch(`/demandas/${id}`)
+          await userFetch(`/demandas/${IdDemandaAtt}`)
             .then((response) => {
                 setData(response.data)
             })
@@ -120,12 +122,15 @@ const DemandasEdit = () => {
 
 
     useEffect(() => {
-        getCategorias();
-        getSituacoes();
-        getUsers();
-        getDemanda();
-        getApoiadores();
-    },[]);
+        if (modalOpen && IdDemandaAtt !== undefined) {
+            getCategorias();
+            getSituacoes();
+            getUsers();
+            getDemanda();
+            getApoiadores();
+        }
+       
+    },[modalOpen, IdDemandaAtt]);
 
     const [apoiador, setApoiador] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
@@ -161,7 +166,13 @@ const DemandasEdit = () => {
             
 
             if(response.status == '200'){
+
                 toast.success('Demanda atualizada com sucesso');
+
+                updateListaDemandas();
+
+                // Fechar o modal
+                openModal();
                 navigate('/');
             }
             
