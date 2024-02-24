@@ -14,7 +14,7 @@ import "../../styles/components/paginas-cadastros-gerais.sass";
 import DeleteClick from '../DeleteClick.jsx';
 
 
-const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen }) => {
+const DemandasEdit = ({closeAndRefresh, IdDemandaAtt, modalOpen }) => {
     
     const params = useParams();
     const id = params?.id;
@@ -76,9 +76,7 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
 
     const getDemanda = async() => {
         try {
-           console.log('Modal:  ')
-           console.log(modalOpen)
-
+         
           if(IdDemandaAtt === undefined){
             console.log('Demanda não encontrada');
             return;
@@ -158,22 +156,20 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
 
     const editDemanda = async(e) => {
         e.preventDefault();
-
+       
         try {
+            
             const dataToSend = { ...data, idApoiador: selectedApoiadorId };
             
-            const response = await userFetch.put(`/demandas/${id}`, dataToSend);
-            
+            const response = await userFetch.put(`/demandas/${IdDemandaAtt}`, dataToSend);
+        
 
             if(response.status == '200'){
 
                 toast.success('Demanda atualizada com sucesso');
-
-                updateListaDemandas();
-
-                // Fechar o modal
-                openModal();
-                navigate('/');
+                closeAndRefresh();
+               
+                navigate('/demandas');
             }
             
 
@@ -186,7 +182,7 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
     const deletaDemanda = async() => {
         try {
             
-            const response = await userFetch.delete(`demandas/${id}`);
+            const response = await userFetch.delete(`demandas/${IdDemandaAtt}`);
             if(response.status === 200){
                 navigate('/demandas');
                 toast.success('Demanda removida com sucesso');
@@ -213,7 +209,7 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
                 
                 <div className="form-row">
 
-                    <div className="form-group col-md-7">
+                    <div className="form-group col-md">
                         <label htmlFor="assunto">Assunto</label>
                         <input type="assunto" required className="form-control" id="assunto" name='assunto' placeholder="Assunto" value={data.assunto} onChange={valueInput} />
                     </div>
@@ -223,7 +219,7 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
                 <div className="form-row">
 
                     
-                    <div className="form-group col-md-7">
+                    <div className="form-group col-md">
                         <label htmlFor="descricao">Descrição</label>
                         <textarea className="form-control" spellCheck="true" lang='pt-br' name='descricao' value={data.descricao} onChange={valueInput} id="descricao"></textarea>
                     </div>
@@ -233,8 +229,9 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
 
 
                 <div className="form-row">
-
-                    <Autosuggest
+                <div class="form-group col-md">
+                <label htmlFor="">Apoiador Solicitante</label>
+                <Autosuggest
                         suggestions={suggestions}
                         onSuggestionsFetchRequested={({ value }) => getApoiadores(value)}
                         onSuggestionsClearRequested={() => setSuggestions([])}
@@ -260,6 +257,8 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
                         </div>
                         )}
                     />  
+                </div>
+                   
                         
 
                 </div>
@@ -268,7 +267,7 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
                 <div className="form-row">
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md-4">
                         <label htmlFor="categoria">Categoria</label>
                         <select id="categoria" required className="form-control" name="idCategoria" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
@@ -283,7 +282,7 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
                     </div>
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md-4">
                         <label htmlFor="situacao">Situação</label>
                         <select id="situacao" required className="form-control" name="idSituacao" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
@@ -295,10 +294,15 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
                         </select>
                     </div>
 
+                    <div className="form-group col-md-4">
+                        <label htmlFor="valor">Valor Estimado</label>
+                        <input type="number"  className="form-control" name="valor" id="valor" value={data.valor} onChange={valueInput} />
+                    </div>
+
                 </div>
 
                 <div className="form-row">
-                    <div className="form-group col-md-4">
+                    <div className="form-group col-md">
                         <label htmlFor="responsavel">Responsável</label>
                         <select id="responsavel" className="form-control" name="idResponsavel" onChange={valueInput}>
                             <option selected>Escolher...</option>
@@ -314,7 +318,7 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
                 <div className="form-row">
                     
                     <div className="form-group">
-                        <p>Emanda Parlamentar ?</p>
+                        <p>A demanda é uma Emanda Parlamentar ?</p>
                         <div className="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="emendaParlamentar" id="emendaParlamentarS" value="S" checked={data.emendaParlamentar == "S"} onChange={valueInput} />
                             <label className="form-check-label" for="emendaParlamentarS">Sim</label>
@@ -326,15 +330,11 @@ const DemandasEdit = ({ openModal, updateListaDemandas, IdDemandaAtt, modalOpen 
                         </div>
                     </div>
 
-                    
-                    <div className="form-group">
-                        <label htmlFor="valor">Valor Estimado</label>
-                        <input type="number"  className="form-control" name="valor" id="valor" value={data.valor} onChange={valueInput} />
-                    </div>
+                   
 
                 </div>
 
-
+                            
 
                 <div className='div-buttons'>
                     <button type="submit" className="btn btn-cadastrar">Salvar</button>

@@ -15,7 +15,9 @@ import InsereMascara from './InsereMascara.jsx';
 
 
 import "../styles/components/apoiadores-list.sass";
+import "../styles/components/tabela.sass";
 import "../styles/components/modal.sass"
+
 
 const ApoiadoresList = () => {
 

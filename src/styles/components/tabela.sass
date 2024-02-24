@@ -1,0 +1,59 @@
+@use '../variables'
+@use '../mixins'
+
+
+table
+    margin-top: 2rem
+    width: 100%
+    min-width: 300px
+    max-width: 100%
+    overflow-x: auto
+    border-collapse: collapse
+    text-align: left
+    box-shadow: 0 5px 10px #e1e5ee
+       
+    .ocultar-0
+        @media (max-width: 400px)
+            display: none
+
+    .ocultar-1
+        @media (max-width: 1199px)
+            display: none
+    
+    .ocultar-2
+        @media (max-width: 859px)
+            display: none
+
+    svg
+        font-size: 16pt
+
+    thead
+        color: variables.$side-nav-link-color
+        text-transform: uppercase
+        font-weight: 100
+
+
+    th
+        padding: 0.5rem 1rem
+        background: variables.$cor-destaque
+        height: 2.3rem
+        color: variables.$cor-fundo-branco
+        
+    
+    tr
+        height: 3rem
+        
+
+    tr:nth-child(even) 
+        background-color: #f2f2f2
+
+
+    td
+        display: table-cell
+        padding: 0.5rem 1rem
+        text-overflow: ellipsis
+        overflow: hidden
+
+       
+    #th-acao
+        text-align: center

@@ -12,7 +12,7 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 
 import "../../styles/components/paginas-cadastros-gerais.sass";
 
-const Nova = ({ openModal, updateListaDemandas }) => {
+const Nova = ({ closeAndRefresh }) => {
 
     const navigate = useNavigate();
     const [categorias, setCategorias] = useState([]); 
@@ -102,10 +102,8 @@ const Nova = ({ openModal, updateListaDemandas }) => {
             if(response.status === 200){
                 toast.success("Demanda criada com sucesso");
 
-                updateListaDemandas();
-                    
-                // Fechar o modal
-                openModal();
+
+                closeAndRefresh();
 
                 navigate('/demandas');
             }
@@ -209,7 +207,7 @@ const Nova = ({ openModal, updateListaDemandas }) => {
                 <div className="form-row">
 
                     <div className="form-group col-md-4">
-                        <label htmlFor="categoria">Categoria *</label>
+                        <label htmlFor="categoria">Categoria*</label>
                         <select id="categoria" required className="form-control" name="idCategoria" onChange={valueInput}>
                             <option selected value="" disabled>Escolher...</option>
                             {
