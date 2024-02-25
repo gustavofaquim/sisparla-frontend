@@ -4,6 +4,9 @@ import userFetch from "../axios/config.js";
 import { Link } from "react-router-dom";
 
 
+import ModalButton from '../components/modal/ModalButton.jsx';
+import { Modal, closeAndRefresh } from "../components/modal/Modal.jsx"; 
+
 import DeleteClick from '../components/DeleteClick.jsx';
 import ApoiadoresEdit from "../components/ApoiadoresEdit.jsx";
 
@@ -20,38 +23,7 @@ const ApoiadoresFicha = () => {
 
 
     const [data, setData] = useState({});
-
-    const [modalOpen, setModalOpen] = useState(false);
-
     
-    const openModal = () => {
-        setModalOpen(true);
-
-        $('#modalCadastroApoiador').modal('hide');
-    };
-
-    const closeAndRefresh =  async () => {
-        setModalOpen(false);
-        
-        try {
-            // Chamar a função de obtenção dos dados atualizados
-            const novosDados = await getApoiador();
-    
-            if (novosDados) {
-                // Atualizar o estado com os novos dados do apoiador
-                setData(novosDados);
-            }
-        } catch (error) {
-            console.error('Erro ao obter os dados atualizados do apoiador:', error);
-            // Lógica de tratamento de erro, se necessário
-        }
-
-
-        // Atualizar o estado com os novos dados do apoiador recebidos da API
-        setData(novosDados);
-    };
-      
-
 
     const getApoiador = async() => {
         
@@ -115,9 +87,16 @@ const ApoiadoresFicha = () => {
         }
     }
 
-
-
     const dataNascimento = formataData(data.dataNascimento);
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [IdUpdate, setIdUpdate] = useState(null);
+
+    const handleCloseAndRefresh = async () => {
+        await closeAndRefresh(setModalOpen, setData, getApoiador); // Certifique-se de passar a função getEventos conforme necessário
+    };
+
+
 
     return(
         <div className="apoiador-ficha">
@@ -188,34 +167,29 @@ const ApoiadoresFicha = () => {
             }
 
             <div className="div-btn">
-                <button type="button" className="btn btn-editar" data-toggle="modal" data-target="#modalCadastroApoiador">Editar Dados</button>
+                
+                {/* Botão de Adição */}
+                <ModalButton key={id} isBtnEdit onClick={() => { setModalOpen(true); setIdUpdate(id);}}>
+                    Editar Dados
+                </ModalButton>
                 <Link to={``}><button onClick={ (e) => DeleteClick(e, deleteApoiador) } className="btn btn-excluir">Excluir Apoiador</button></Link>
-                <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
-                <Link to={``}><button className="btn btn-add-demanda" >Nova Demanda</button></Link>
+                  {/* <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
+                <Link to={``}><button className="btn btn-add-demanda" >Nova Demanda</button></Link>*/}
             </div>
 
 
+            {/* Modal */}
+            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                <ApoiadoresEdit
+                    closeAndRefresh={handleCloseAndRefresh}
+                    IdUpdate={id}
+                    modalOpen={modalOpen}  
+                    />
+            </Modal>
             
-            <div className="modal fade" id="modalCadastroApoiador" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                    <div className="modal-header">
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <ApoiadoresEdit openModal={openModal} updateApoiadorFicha={closeAndRefresh}/>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
+           
         </div>
-
-        
+ 
     );
 }
 

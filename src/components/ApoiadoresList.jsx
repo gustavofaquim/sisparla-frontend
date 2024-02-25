@@ -4,6 +4,7 @@ import userFetch from "../axios/config.js";
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { FaCirclePlus, FaMagnifyingGlass } from "react-icons/fa6";
+import { IoFilter } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa6";
 import { IoAddSharp } from "react-icons/io5";
 
@@ -26,23 +27,24 @@ const ApoiadoresList = () => {
     const navigate = useNavigate();
 
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 30;
+    const itemsPerPage = 20;
 
 
     
     const [apoiadores, setApoiadores] = useState([]);
     const [profissoes, setProfissoes] = useState([]);
+    const [cidades, setCidades] = useState([]);
     const [partidos, setPartidos] = useState([]);
 
     const [termoBusca, setTermoBusca] = useState(''); // Estado para o termo de busca
     const [filtros, setFiltros] = useState(''); // Estado para o termo de busca
+   
     const [filtroProfissao, setFiltroProfissao] = useState('');
     const [filtroPartido, setFiltroPartido] = useState('');
 
     const [linhasSelecionadas, setLinhasSelecionadas] = useState([]);
 
 
-    
 
     const chamaListaContato = () => {
         
@@ -62,6 +64,7 @@ const ApoiadoresList = () => {
             const data = response.data;
             
             setProfissoes(data);
+           
             
         } catch (error) {
             console.log(`Erro ao recuperar a profissão: ${error}`);
@@ -78,6 +81,18 @@ const ApoiadoresList = () => {
 
         } catch (error) {
             console.log(`Erro ao recuperar a lista de partidos: ${error}`);
+        }
+    }
+
+    const getCidades = async() => {
+        try {
+            
+            const response = await userFetch.get('/cidades-apoiadores/');
+            const data = response.data;
+            setCidades(data);
+         
+        } catch (error) {
+            console.log(`Erro ao recuperar a lista de cidades: ${error}`);
         }
     }
 
@@ -103,11 +118,8 @@ const ApoiadoresList = () => {
 
 
     const getApoiadores = async() => {
-
-
+       
         try {
-            console.log('Filtros')
-            console.log(filtros)
             const response = await userFetch.get("/apoiadores", {
                 params: {
                     termoBusca, ...filtros,
@@ -127,7 +139,8 @@ const ApoiadoresList = () => {
     useEffect(() => {
         getApoiadores();
         getProfissoes();
-        getPartidos();
+        //getPartidos();
+        getCidades();
     }, []);
 
 
@@ -184,7 +197,7 @@ const ApoiadoresList = () => {
                     <div className="card-header" id="headingOne">
                     <h5 className="mb-0">
                         <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Filtrar Informações
+                        <IoFilter /> Filtrar Informações
                         </button>
                     </h5>
                     </div>
@@ -198,7 +211,7 @@ const ApoiadoresList = () => {
                
                         <div className='filtro'>
                             <div>
-                                <p>Profissao</p>
+                                <p>Profissão</p>
                                     <select name="profissao" id="profissao" onChange={(e) => handleFiltroChange('profissao', e.target.value)}>
                                         <option value='todas'>Todas</option>
                                         {
@@ -208,6 +221,19 @@ const ApoiadoresList = () => {
                                         }
                                     </select>
                             </div>
+                        </div>
+
+                        <div className='filtro'>
+                            <p>Cidade</p>
+                            <select name="cidade" id="cidade" onChange={(e) => handleFiltroChange('cidade', e.target.value)}>
+                                <option value='todas'>Todas</option>
+                                {
+                                    cidades.map((cidade) => (
+                                        <option key={cidade.IdCidade} value={cidade.IdCidade}>{cidade.Nome}</option>
+                                    ))
+                                }
+
+                            </select>
                         </div>
 
                        
@@ -244,7 +270,7 @@ const ApoiadoresList = () => {
              
             {/* Botão de Adição */}
             <ModalButton onClick={() => { setModalOpen(true); setIdDemandaAtt(null); }}>
-                <IoAddSharp /> Nova Demanda
+                <IoAddSharp /> Novo Apoiador
             </ModalButton>
 
             { /*

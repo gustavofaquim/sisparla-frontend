@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-const ModalButton = ({ isLink, onClick, children }) => {
+const ModalButton = ({ isLink, isBtnEdit, onClick, children }) => {
   if (isLink) {
     return (
       <Link href="#"  data-toggle="modal" data-target="#modal-pag" onClick={onClick}>
@@ -10,6 +10,14 @@ const ModalButton = ({ isLink, onClick, children }) => {
     );
   }
 
+  else if(isBtnEdit){
+    return (
+      <button type="button" className="btn btn-editar" data-toggle="modal" data-target="#modal-pag" onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+  
   return (
     <button type="button" className="btn btn-primary btn-add" data-toggle="modal" data-target="#modal-pag" onClick={onClick}>
       {children}

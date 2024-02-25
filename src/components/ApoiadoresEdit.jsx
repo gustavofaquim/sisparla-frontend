@@ -23,7 +23,7 @@ import ConsultaCEP from "./ConsultaCEP.jsx";
 import RemoveMascara from "./RemoveMascara.jsx";
 
 
-const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
+const ApoiadoresEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
 
     const params = useParams();
     const id = params.id;
@@ -69,9 +69,6 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
                 setData(response.data);
-                
-                console.log('Dados do Apoiador')
-                console.log(response.data); 
             })
             .catch((error) => {
 
@@ -269,11 +266,7 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
             if(response.status == 200){
                 toast.success('Apoiador alterado com sucesso!');
 
-                updateApoiadorFicha();
-                
-
-                // Fechar o modal
-                openModal();
+                closeAndRefresh();
 
                 navigate(`/apoiador/${id}`)
             }
@@ -294,6 +287,9 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
             const response = await userFetch.delete(`/apoiador/${id}`);
             
             if(response.status === 200){
+
+                closeAndRefresh();
+                
                 navigate('/apoiadores');
             }
 
@@ -363,19 +359,24 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
 
                 <p className='form-session-title'>Informações Pessoais</p>
                 <hr className='linha-destaque'/>
+
                 <div className="form-row">
 
-                    <div className="form-group col-md-8">
+                    <div className="form-group col-md">
                         <label htmlFor="nome">Nome</label>
                         <input type="nome" className="form-control" id="nome" name='nome' placeholder="Nome" value={data.nome}  onChange={valueInput} />
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md-4">
                         <label htmlFor="nascimento">Data de Nascimento*</label>
                         <input type="date" className="form-control" id="dataNascimento" name='dataNascimento' value={data.dataNascimento}  onChange={valueInput}  />
                     </div>
 
-                    <div className="form-group">
+                </div>
+
+
+                <div className="form-row">
+                    <div className="form-group col-md-4">
                         <label htmlFor="telefone">Telefone*</label> 
                         <span> <input type="checkbox" id='whatsapp' checked={data.numeroWhatsapp} name='numeroWhatsapp' onChange={valueInput} /> <FaWhatsapp /> </span>
                         <InputMask required
@@ -387,13 +388,16 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                     </div>
                     <input type="hidden"  value={data.numeroAntigo} />
 
-                    <div className="form-group col-md-5">
+                    <div className="form-group col-md">
                         <label htmlFor="email">E-mail</label>
                         <input type="email" className="form-control" id="email" name="email" placeholder="E-mail" value={data.email}  onChange={valueInput} />
                     </div>
+                </div>
+
+                <div className="form-row">
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md-5">
                         <label htmlFor="profissao">Profissão</label>
                         <Select
                             value={selectedProfissao}
@@ -412,7 +416,7 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                     </div>
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="classificacao">Classificação</label>
                         <select id="classificacao" className="form-control"  name='idClassificacao'  onChange={valueInput}>
                             <option selected>Escolher...</option>
@@ -426,7 +430,7 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                     </div>
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="situacao">Situação</label>
                         <select id="situacao" className="form-control" name="idSituacao" onChange={valueInput} >
                             <option selected>Escolher...</option>
@@ -444,10 +448,12 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
 
                 <p className='form-session-title'>Endereço</p>
                 <hr className='linha-destaque'/>
+
+
                 <div className="form-row">
 
                     <input type="hidden" value={data.idEndereco} onChange={valueInput}  />
-                    <div className="form-group">
+                    <div className="form-group col-md-4">
                         <label htmlFor="cep">CEP</label>
                         <InputMask
                             className="form-control" id="cep" name="cep" value={data.cep}
@@ -458,7 +464,7 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                         />
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md-2">
                         <label htmlFor="estado">Estado</label>
                         <select id="estado" className="form-control" name='estado'  onChange={valueInput} >
                             <option selected>Escolher...</option>
@@ -470,33 +476,37 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                         </select>
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="cidade">Cidade</label>
                         <input type="text" className="form-control" name="cidade" id="cidade" placeholder='Cidade' value={data.cidade}   onChange={valueInput} />
                     </div>
-                    
+                </div>
 
-                    <div className="form-group">
+                <div className="form-row">
+
+                    <div className="form-group col-md">
                         <label htmlFor="endereco">Logradouro</label>
                         <input type="text" className="form-control" name="logradouro" id="endereco" value={data.logradouro} onChange={valueInput}  />
                     </div>
                     
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="bairro">Bairro</label>
                         <input type="text" className="form-control" id="bairro" name="bairro" value={data.bairro} onChange={valueInput} />
                     </div>
 
-                    <div className="form-group">
+                </div>
+
+                <div className="form-row">
+                    <div className="form-group col-md">
                         <label htmlFor="complemento">Complemento</label>
                         <input type="text" className="form-control" id="complemento" name='complemento' value={data.complemento} onChange={valueInput}  />
                     </div>
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="pontoReferencia">Ponto Referencia</label>
                         <input type="text" className="form-control" id="pontoReferencia" name="pontoReferencia" value={data.pontoReferencia} onChange={valueInput} />
                     </div>
-
                 </div>
 
                 <p className='form-session-title'>Movimento Social/Sindical/Entidade</p>
@@ -505,7 +515,7 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                 <div className="form-row">
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md-3">
                         <label htmlFor="entidadeTipo">Tipo</label>
                        
                         <select id="entidadeTipo" className="form-control" name="entidadeTipo" value={data.entidadeTipo} onChange={valueInput}>
@@ -518,7 +528,7 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                         </select>
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="entidadeNome">Nome</label>
                            
                         <Autosuggest
@@ -548,17 +558,16 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                         />   
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md-2">
                         <label htmlFor="entidadeSigla">Sigla</label>
                         <input type="text" className="form-control" id="entidadeSigla" name="entidadeSigla"  value={data.entidadeSigla} onChange={valueInput} />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="entidadeCargo">Cargo</label>
-                        <input type="text" className="form-control" id="entidadeCargo" name="entidadeCargo" value={data.entidadeCargo} onChange={valueInput} />
-                    </div>
+                </div>
 
-                    <div className="form-group">
+                <div className="form-row">
+
+                    <div className="form-group col-md-3">
                         <p>Liderança ?</p>
                         <div className="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="entidadeLideranca" id="lideranca1" value="s" checked={data.entidadeLideranca == "s"} onChange={valueInput} />
@@ -571,13 +580,18 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                         </div>
                    </div>
 
+                    <div className="form-group col-md">
+                        <label htmlFor="entidadeCargo">Cargo</label>
+                        <input type="text" className="form-control" id="entidadeCargo" name="entidadeCargo" value={data.entidadeCargo} onChange={valueInput} />
+                    </div>
+
                 </div>
 
                 <p className='form-session-title'>Partido Político</p>
                 <hr className='linha-destaque'/>
                 <div className="form-row">
                     
-                <div className="form-group">
+                <div className="form-group col-md">
                     <label htmlFor="partido">Agremiação partidária</label>
                     <select id="partido" className="form-control" name="partidoId" onChange={valueInput}>
                         <option >Escolher...</option>
@@ -589,12 +603,7 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                     </select>
                 </div>
 
-                    <div className="form-group">
-                        <label htmlFor="partidoCargo">Cargo</label>
-                        <input type="text" className="form-control" id="partidoCargo" name="partidoCargo" value={data.partidoCargo} onChange={valueInput} />
-                    </div>
-
-                    <div className="form-group">
+                    <div className="form-group col-md-3">
                         <p>Liderança ?</p>
                         <div className="form-check form-check-inline">
                             <input className="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca1" value="s" checked={data.partidoLideranca == "s"} onChange={valueInput} />
@@ -606,6 +615,11 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
                             <label className="form-check-label" htmlFor="partidoLideranca2">Não</label>
                         </div>
                    </div>
+
+                    <div className="form-group col-md-5">
+                        <label htmlFor="partidoCargo">Cargo</label>
+                        <input type="text" className="form-control" id="partidoCargo" name="partidoCargo" value={data.partidoCargo} onChange={valueInput} />
+                    </div>
 
                 </div>
 

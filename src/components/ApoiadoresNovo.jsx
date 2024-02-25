@@ -337,20 +337,22 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
                 <p className='form-session-title'>Informações Pessoais</p>
                 <hr className='linha-destaque'/>
-                <div className="form-row">
-                    
+                
 
-                    <div className="form-group col-md-8">
+                <div className="form-row">
+                    <div className="form-group col-md">
                         <label htmlFor="nome">Nome*</label>
                         <input type="nome" required className="form-control" id="nome" name='nome' value={nome|| ''} onChange={(e) => setNome(e.target.value)} />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="nascimento">Data de Nascimento *</label>
+                    <div className="form-group col-md-4">
+                        <label htmlFor="nascimento">Data de Nascimento*</label>
                         <input type="date" required className="form-control" id="nascimento" value={nascimento|| ''} onChange={(e) => setNascimento(e.target.value)}  />
                     </div>  
+                </div>
 
-                    <div className="form-group">
+                <div className="form-row">
+                    <div className="form-group col-md-4">
                         <label htmlFor="telefone">Telefone*</label>
                         <span> <input type="checkbox" id='whatsapp' name='whatsapp' /> <FaWhatsapp /> </span>
                         <InputMask required
@@ -362,13 +364,19 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                     
                     </div>
 
-                    <div className="form-group col-md-5">
+                    <div className="form-group col-md">
                         <label htmlFor="email">E-mail</label>
                         <input type="email" className="form-control" id="email" value={email|| ''} onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
 
-                    <div className="form-group">
+                </div>
+
+                
+
+                <div className="form-row">
+
+                    <div className="form-group col-md-5">
                         <label htmlFor="inputEstado">Profissão</label>
                         
                         <Select
@@ -387,9 +395,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                         />
                     </div>
 
-                
-
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="classificacao">Classificação*</label>
                         <select id="classificacao" className="form-control" required onChange={(e) => setClassificacao(e.target.value)}>
                             <option selected  value="" disabled>Escolher...</option>
@@ -402,7 +408,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                     </div>
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="situacao">Situação*</label>
                         <select id="situacao" required className="form-control" onChange={(e) => setSituacao(e.target.value)} >
                             <option selected value="" disabled>Escolher...</option>
@@ -413,19 +419,14 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                             }
                         </select>
                     </div>
-
-                </div>
-
-
-                <div className="form-row">
-
                 </div>
 
                 <p className='form-session-title'>Endereço</p>
                 <hr className='linha-destaque'/>
-                <div className="form-row">
 
-                    <div className="form-group col-md-2">
+
+                <div className="form-row">
+                    <div className="form-group col-md-4">
                         <label htmlFor="cep">CEP</label>
                         <InputMask
                             className="form-control" id="cep" name="cep" 
@@ -436,7 +437,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                         />
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md-2">
                         <label htmlFor="estado">Estado</label>
                         <select id="estado" className="form-control" name='estado' onChange={(e) => setEstado(e.target.value)} >
                             <option selected>Escolher...</option>
@@ -448,35 +449,37 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                         </select>
                     </div>
 
-                    <div className="form-group col-md-5">
+                    <div className="form-group col-md">
                         <label htmlFor="cidade">Cidade</label>
                         <input type="text" className="form-control" id="cidade"  value={cidade} onChange={(e) => setCidade(e.target.value)}  />
                     </div>
-                    
-                    
+                </div>
+                
+                <div className="form-row"> 
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="endereco">Logradouro</label>
                         <input type="text" className="form-control" id="endereco" value={logradouro} onChange={(e) => setLogradouro(e.target.value)}  />
                     </div>
                     
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="bairro">Bairro</label>
                         <input type="text" className="form-control" id="bairro" value={bairro} onChange={(e) => setBairro(e.target.value)}  />
                     </div>
 
+                </div>
 
-                    <div className="form-group">
+                <div className="form-row">
+                    <div className="form-group col-md">
                         <label htmlFor="complemento">Complemento</label>
                         <input type="text" className="form-control" id="complmento" value={complemento} onChange={(e) => setComplemento(e.target.value)}  />
                     </div>
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="complemento">Ponto Referencia</label>
                         <input type="text" className="form-control" id="pontoReferencia" value={pontoReferencia} onChange={(e) => setPontoReferencia(e.target.value)}  />
                     </div>
-
                 </div>
 
                 <p className='form-session-title'>Movimento Social/Sindical/Entidade</p>
@@ -484,11 +487,10 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
                 <div className="form-row">
 
-
-                    <div className="form-group">
+                    <div className="form-group col-md-3">
                         <label htmlFor="entidadeTipo">Tipo</label>
-                        <select id="entidadeTipo" className="form-control"  value={entidadeTipo|| ''} onChange={(e) => setEntidadeTipo(e.target.value)}>
-                            <option selected >Escolher...</option>
+                        <select id="entidadeTipo" className="form-control"  value={entidadeTipo || ''} onChange={(e) => setEntidadeTipo(e.target.value)}>
+                            <option selected value={0} >Escolher...</option>
                            {
                                 tiposEntidade.map((tipos) => (
                                     <option key={tipos.IdTipo} value={tipos.Tipo}>{tipos.Tipo}</option>
@@ -497,9 +499,9 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                         </select>
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="entidadeNome">Nome</label>
-                        <input type="text" className="form-control" id="entidadeNome"  value={inputValue}  onChange={handleInputChange} />
+                        <input type="text" className="form-control" id="entidadeNome" disabled={entidadeTipo == 0}  value={inputValue}  onChange={handleInputChange} />
                         {suggestions.length > 0 && (
                             <ul>
                             {suggestions.map((suggestion, index) => (
@@ -511,37 +513,40 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                         )}
                         </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md-2">
                         <label htmlFor="entidadeSigla">Sigla</label>
-                        <input type="text" className="form-control" id="entidadeSigla"  value={entidadeSigla|| ''} onChange={(e) => setEntidadeSigla(e.target.value)} />
+                        <input type="text" className="form-control" id="entidadeSigla" disabled={entidadeTipo == 0}  value={entidadeSigla|| ''} onChange={(e) => setEntidadeSigla(e.target.value)} />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="entidadeCargo">Cargo</label>
-                        <input type="text" className="form-control" id="entidadeCargo" value={entidadeCargo|| ''} onChange={(e) => setEntidadeCargo(e.target.value)} />
-                    </div>
+                </div>
 
-                    <div className="form-group">
+                <div className="form-row">
+                   
+                    <div className="form-group col-md-3">
                         <p>Liderança ?</p>
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="lideranca" id="lideranca1" value="s" onChange={(e) => setEntidadeLideranca(e.target.value)}  />
+                            <input className="form-check-input" type="radio" name="lideranca" disabled={entidadeTipo == 0} id="lideranca1" value="s" onChange={(e) => setEntidadeLideranca(e.target.value)}  />
                             <label className="form-check-label" for="lideranca1">Sim</label>
                         </div>
                         
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="lideranca" id="lideranca2" value="n"  onChange={(e) => setEntidadeLideranca(e.target.value)} />
+                            <input className="form-check-input" type="radio" name="lideranca" id="lideranca2" disabled={entidadeTipo == 0} value="n" onChange={(e) => setEntidadeLideranca(e.target.value)} />
                             <label className="form-check-label" for="lideranca2">Não</label>
                         </div>
                    </div>
 
+                   <div className="form-group col-md">
+                        <label htmlFor="entidadeCargo">Cargo</label>
+                        <input type="text" className="form-control" id="entidadeCargo" value={entidadeCargo|| ''} disabled={entidadeLideranca!='s'} onChange={(e) => setEntidadeCargo(e.target.value)} />
+                    </div>
                 </div>
 
                 <p className='form-session-title'>Partido Político</p>
                 <hr className='linha-destaque'/>
                 <div className="form-row">
                     
-                <div className="form-group">
-                    <label htmlFor="partidoId">Agremiação partidária</label>
+                <div className="form-group col-md">
+                    <label htmlFor="partidoId">Partido</label>
                     <select id="partidoId" className="form-control" name='partidoId' value={partidoId || ''}  onChange={(e) => setPartidoId(e.target.value)}>
                         <option selected >Escolher...</option>
                         {partidos.map((partidoItem) => (
@@ -552,15 +557,10 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                     </select>
                 </div>
 
-                    <div className="form-group">
-                        <label htmlFor="partidoCargo">Cargo</label>
-                        <input type="text" className="form-control" id="partidoCargo" value={partidoCargo|| ''} onChange={(e) => setPartidoCargo(e.target.value)} />
-                    </div>
-
-                    <div className="form-group">
+                    <div className="form-group col-md-3">
                         <p>Liderança ?</p>
                         <div className="form-check form-check-inline">
-                            <input className="form-check-input" type="radio" name="partidoLideranca" id="partidoLideranca1" value="s" onChange={(e) => setPartidoLideranca(e.target.value)} />
+                            <input className="form-check-input"  type="radio" name="partidoLideranca" id="partidoLideranca1" value="s" onChange={(e) => setPartidoLideranca(e.target.value)} />
                             <label className="form-check-label" for="partidoLideranca1">Sim</label>
                         </div>
                         
@@ -569,6 +569,12 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                             <label className="form-check-label" for="partidoLideranca2">Não</label>
                         </div>
                    </div>
+
+                    <div className="form-group col-md-5">
+                        <label htmlFor="partidoCargo">Cargo</label>
+                        <input type="text" className="form-control" id="partidoCargo" disabled={partidoLideranca!='s'} value={partidoCargo|| ''} onChange={(e) => setPartidoCargo(e.target.value)} />
+                    </div>
+
 
                 </div>
 

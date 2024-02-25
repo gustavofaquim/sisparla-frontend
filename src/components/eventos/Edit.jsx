@@ -112,6 +112,7 @@ const Edit = ({ closeAndRefresh, IdEventoAtt, modalOpen }) =>{
             const response = await userFetch.delete(`/evento/${IdEventoAtt}`);
 
             if(response.status === 200){
+                closeAndRefresh();
                 navigate('/eventos');
             }
         } catch (error) {

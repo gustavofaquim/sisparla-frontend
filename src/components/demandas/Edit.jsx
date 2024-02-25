@@ -184,8 +184,11 @@ const DemandasEdit = ({closeAndRefresh, IdDemandaAtt, modalOpen }) => {
             
             const response = await userFetch.delete(`demandas/${IdDemandaAtt}`);
             if(response.status === 200){
-                navigate('/demandas');
+                
                 toast.success('Demanda removida com sucesso');
+               
+                closeAndRefresh();
+                navigate('/demandas');
             }
            
 
