@@ -251,17 +251,19 @@ const ApoiadoresEdit = ({ openModal, updateApoiadorFicha }) => {
             let cpfSemMascara = null;
 
             if(data.cpf){
-                cpfSemMascara = RemoveMascara(cpf);
+                cpfSemMascara = RemoveMascara(data.cpf);
             }
 
             if(data.cep){
-                cepSemMascara = RemoveMascara(cep);
+                
+                cepSemMascara = RemoveMascara(data.cep);
             }
 
             const profissao = selectedProfissao?.value || null;
 
             const dataToSend = { ...data, numeroTelefone: telefoneSemMascara, numeroAntigo: numeroAntigoSemMascara, cpf: cpfSemMascara, cep:  cepSemMascara, profissao };
 
+           
             const response = await userFetch.put(`/apoiadores/${id}`, dataToSend);
 
             if(response.status == 200){

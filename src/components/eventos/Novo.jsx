@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
 
-const Novo = ({ openModal, updateListaEventos }) => {
+const Novo = ({ closeAndRefresh }) => {
 
     const navigate = useNavigate();
 
@@ -24,8 +24,7 @@ const Novo = ({ openModal, updateListaEventos }) => {
            if(response.status == '200'){
                 toast.success('Evento cadastrado com sucesso');
 
-                updateListaEventos();
-                openModal();
+                closeAndRefresh();
                 navigate('/eventos');
             }
 

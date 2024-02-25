@@ -11,7 +11,7 @@ const ModalButton = ({ isLink, onClick, children }) => {
   }
 
   return (
-    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modal-pag" onClick={onClick}>
+    <button type="button" className="btn btn-primary btn-add" data-toggle="modal" data-target="#modal-pag" onClick={onClick}>
       {children}
     </button>
   );

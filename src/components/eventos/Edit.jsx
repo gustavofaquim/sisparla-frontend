@@ -20,7 +20,7 @@ const relacoes = [
 ];
 
 
-const Edit = ({ openModal, updateListaEventos, IdEventoAtt, modalOpen }) =>{
+const Edit = ({ closeAndRefresh, IdEventoAtt, modalOpen }) =>{
 
     const params = useParams();
     const id = params.id;
@@ -95,8 +95,7 @@ const Edit = ({ openModal, updateListaEventos, IdEventoAtt, modalOpen }) =>{
         if(response.status === 200){
             toast.success('Evento atualizado com sucesso');
             
-            updateListaEventos();
-            openModal();
+            closeAndRefresh();
             
             navigate('/eventos');
         }

@@ -13,6 +13,8 @@ import ApoiadoresNovo from "./ApoiadoresNovo.jsx";
 import Pagination from './Pagination';
 import InsereMascara from './InsereMascara.jsx';
 
+import { Modal, closeAndRefresh } from "../components/modal/Modal.jsx";   
+import ModalButton from "../components/modal/ModalButton.jsx";
 
 import "../styles/components/apoiadores-list.sass";
 import "../styles/components/tabela.sass";
@@ -98,7 +100,6 @@ const ApoiadoresList = () => {
           }
         });
     };
-      
 
 
     const getApoiadores = async() => {
@@ -161,32 +162,15 @@ const ApoiadoresList = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentApoiadores = apoiadores.slice(indexOfFirstItem, indexOfLastItem);
 
+
     const [modalOpen, setModalOpen] = useState(false);
+    const [IdDemandaAtt, setIdDemandaAtt] = useState(null);
 
-    
-    const openModal = () => {
-        setModalOpen(true);
 
-        $('#modalCadastroApoiador').modal('hide');
+    const handleCloseAndRefresh = async () => {
+        await closeAndRefresh(setModalOpen, setApoiadores, getApoiadores); // Certifique-se de passar a função getEventos conforme necessário
     };
-
-    const closeAndRefresh =  async () => {
-        setModalOpen(false);
-        
-        try {
-            // Chamar a função de obtenção dos dados atualizados
-            const novosDados = await getApoiadores(); 
-    
-            if (novosDados) {
-                // Atualizar o estado com os novos dados do apoiador
-                setApoiadores(novosDados);
-            }
-        } catch (error) {
-            console.error('Erro ao obter os dados atualizados do apoiador:', error);
-            // Lógica de tratamento de erro, se necessário
-        }
-
-    };
+      
 
 
     return(
@@ -258,9 +242,10 @@ const ApoiadoresList = () => {
             </div>
 
              
-            <div className='btn-add'>
-                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modalCadastroApoiador">Novo Apoiador</button>
-            </div>
+            {/* Botão de Adição */}
+            <ModalButton onClick={() => { setModalOpen(true); setIdDemandaAtt(null); }}>
+                <IoAddSharp /> Nova Demanda
+            </ModalButton>
 
             { /*
             <div className='btn-infos'>
@@ -331,24 +316,11 @@ const ApoiadoresList = () => {
             <Pagination totalItems={apoiadores} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 
 
-            
-            <div className="modal fade" id="modalCadastroApoiador" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                    <div className="modal-header">
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <ApoiadoresNovo  openModal={openModal} updateListaApoiadores={closeAndRefresh}/>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
+            {/* Modal */}
+            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                <ApoiadoresNovo closeAndRefresh={handleCloseAndRefresh} />
+            </Modal>
+           
 
         </div>
     );

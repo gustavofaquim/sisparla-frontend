@@ -10,7 +10,7 @@ import DeleteClick from '../DeleteClick.jsx';
 
 import ConsultaCEP from "../ConsultaCEP.jsx";
 
-const CredirEdit = () =>{
+const CredirEdit = ({closeAndRefresh, IdUpdate, modalOpen }) =>{
 
     const params = useParams();
     const id = params?.id;
@@ -54,12 +54,12 @@ const CredirEdit = () =>{
     const getCredor = async() => {
         try {
 
-            if(id === undefined){
+            if(IdUpdate === undefined){
                 console.log('Credor não encontrada');
                 return;
             }
             
-            const response = await userFetch(`/credor/${id}`);
+            const response = await userFetch(`/credor/${IdUpdate}`);
            
             
             if(response.status == 200){
@@ -123,10 +123,13 @@ const CredirEdit = () =>{
             
             const dataToSend = {...data, cep, estado, cidade,  bairro, logradouro, complemento, pontoReferencia};
             
-            const response = await userFetch.put(`/credor/${id}`, dataToSend);
+            const response = await userFetch.put(`/credor/${IdUpdate}`, dataToSend);
 
             if(response.status === 200){
                 toast.success("Credor atualizado com sucesso");
+                
+                closeAndRefresh();
+
                 navigate('/lista-credores');
             }
 
@@ -137,17 +140,22 @@ const CredirEdit = () =>{
     }
 
     useEffect(() => {
-        getEstados();
-        getCredor();
-    }, []);
+        if (modalOpen && IdUpdate !== undefined) {
+            getEstados();
+            getCredor();
+        }
+    }, [modalOpen, IdUpdate]);
 
 
     const deleteCredor = async() => {
         try {
             
-            const response = await userFetch.delete(`/credor/${id}`)
+            const response = await userFetch.delete(`/credor/${IdUpdate}`)
             
             if(response.status === 200){
+                
+                closeAndRefresh();
+
                 navigate('/lista-credores');
             }
         } catch (error) {
@@ -161,7 +169,7 @@ const CredirEdit = () =>{
     return(
         <div className="pag-cadastro">
 
-            <h1 className='title-page'>Novo Credor</h1>
+            <h1 className='title-page'>Atualização de Credor</h1>
             <h2 className='subtitle-page'></h2> 
 
             <div className='form-cadastro'>
@@ -170,9 +178,18 @@ const CredirEdit = () =>{
 
                 <div className="form-row">
 
-                    <div className="form-group col-md-7">
+                    <div className="form-group col-md">
                         <label htmlFor="nome">Nome*</label>
                         <input type="text" required className="form-control" id="nome" name='Nome' value={data.Nome} onChange={valueInput} />
+                    </div>
+
+                </div>
+
+                <div className="form-row">
+
+                    <div className="form-group col-md-4">
+                        <label htmlFor="telefone">Telefone*</label>
+                        <input type="text" required className="form-control" id="telefone" name='Telefone' value={data.Telefone} onChange={valueInput} />
                     </div>
 
                 </div>
@@ -181,12 +198,12 @@ const CredirEdit = () =>{
                 <p className='form-session-title'>Endereço</p>
                 <div className="form-row">
 
-                    <div className="form-group col-md-2">
+                    <div className="form-group col-md-4">
                         <label htmlFor="cep">CEP</label>
                         <input type="text" className="form-control" id="cep" name="cep" value={cep}  onChange={handleInputChangeCPF}  onBlur={handleConsultaCEP}  />
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md-2">
                         <label htmlFor="estado">Estado</label>
                         <select id="estado" className="form-control" name='estado' onChange={(e) => setEstado(e.target.value)}>
                             <option selected={estado === null}>Escolher...</option>
@@ -198,44 +215,41 @@ const CredirEdit = () =>{
                         </select>
                     </div>
 
-                    <div className="form-group col-md-5">
+                    <div className="form-group col-md">
                         <label htmlFor="cidade">Cidade</label>
                         <input type="text" className="form-control" id="cidade" name="cidade"  value={cidade}   onChange={(e) => setCidade(e.target.value)}  />
                     </div>
                     
-                    
-                    <div className="form-group">
+                </div>
+
+                <div className="form-row">
+                    <div className="form-group col-md">
                         <label htmlFor="endereco">Lagradouro</label>
                         <input type="text" className="form-control" id="endereco" name="endereco"  value={logradouro} onChange={(e) => setLogradouro(e.target.value)} />
                     </div>
                     
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="bairro">Bairro</label>
                         <input type="text" className="form-control" id="bairro" name='bairro' value={bairro}  onChange={(e) => setBairro(e.target.value)}  />
                     </div>
 
+                </div>
 
-                    <div className="form-group">
+                <div className="form-row">
+                    <div className="form-group col-md">
                         <label htmlFor="complemento">Complemento</label>
                         <input type="text" className="form-control" id="complemento" name='complemento' value={complemento}  onChange={(e) => setComplemento(e.target.value)}  />
                     </div>
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="complemento">Ponto Referencia</label>
                         <input type="text" className="form-control" id="ponto" name="ponto" value={pontoReferencia} onChange={(e) => setPontoReferencia(e.target.value)}  />
                     </div>
 
                 </div>
 
-                <div className="form-row">
-
-                    <div className="form-group col-md-7">
-                        <label htmlFor="telefone">Telefone*</label>
-                        <input type="text" required className="form-control" id="telefone" name='Telefone' value={data.Telefone} onChange={valueInput} />
-                    </div>
-
-                </div>
+               
 
               
                 <div className="form-row">

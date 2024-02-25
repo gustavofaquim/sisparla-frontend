@@ -15,7 +15,7 @@ import { FaWhatsapp } from "react-icons/fa6";
 import ConsultaCEP from "./ConsultaCEP.jsx";
 import RemoveMascara from "./RemoveMascara.jsx";
 
-const ApoiadoresNovo = ({ openModal, updateListaApoiadores }) => {
+const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
 
     const navigate = useNavigate();
@@ -221,22 +221,15 @@ const ApoiadoresNovo = ({ openModal, updateListaApoiadores }) => {
                 
                 toast.success('Apoiador cadastrado com sucesso');
             
-                updateListaApoiadores();
+                closeAndRefresh();
                     
-                // Fechar o modal
-                openModal();
-
-                setNome, setApelido, setProfissao, setCpf, setReligiao, setNascimento, setClassificacao, setEmail, setTelefone, setSituacao, 
-                setCep, setCidade, setEstado, setLogradouro, setComplemento, setBairro, setPontoReferencia,  
-                setEntidadeNome,  setEntidadeTipo, setEntidadeSigla, setEntidadeCargo, setEntidadeLideranca,
-                setPartidoId, setPartidoCargo, setPartidoLideranca,
-                setInformacoesAdicionais = "";
-                
+                navigate('/apoiadores');
+        
             }
 
             setLoading(false);
            
-            navigate('/apoiadores');
+            
 
         } catch (error) {
             console.log(`Erro ao cadastrar o apoiador: ${error}`);

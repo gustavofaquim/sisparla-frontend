@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
-const Nova = () => {
+const Nova = ({closeAndRefresh}) => {
 
     const params = useParams();
     const id = params?.id;
@@ -133,12 +133,13 @@ const Nova = () => {
             
             const dataToSend = { ...data, Credor: selectedOption.value, dataDespesa: dataAtual };
             
-            console.log(dataToSend)
-            
             const response = await userFetch.post("/despesa", dataToSend);
             
             if(response.status == '200'){
                 toast.success("Despesa criada com sucesso");
+
+                closeAndRefresh();
+
                 navigate('/despesas');
             }
             
@@ -171,7 +172,7 @@ const Nova = () => {
                 
                 <div className="form-row">
 
-                    <div className="form-group col-md-7">
+                    <div className="form-group col-md">
                         <label htmlFor="descricao">Descrição*</label>
                         <input type="descricao" required className="form-control" id="descricao" name='descricao' onChange={valueInput} />
                     </div>
@@ -179,22 +180,15 @@ const Nova = () => {
                 </div>
 
                 <div className="form-row">
-                    <label htmlFor="detalhamento">Detalhamento</label>
-                    <textarea name="detalhamento" id="detalhamento" onChange={valueInput}></textarea>
-                </div>
-
-                <div className="form-row">
-                   
-                    <div className="form-group">
-                        <label htmlFor="valor">Valor*</label>
-                        
-                        <input type="number" name="valor" className="form-control" id="valor" onChange={valueInput} />
+                    <div className="form-group col-md">
+                        <label htmlFor="detalhamento">Detalhamento</label>
+                        <textarea name="detalhamento" id="detalhamento" onChange={valueInput}></textarea>
                     </div>
                 </div>
 
                 <div className="form-row">
-                    
-                    <div className="form-group  col-md-5">
+                   
+                    <div className="form-group  col-md-8">
                         <label htmlFor="valor">Credor*</label>
                         <Select
                             value={selectedOption}
@@ -211,12 +205,19 @@ const Nova = () => {
                             
                         />
                     </div>
-
+                    
+                    
+                    <div className="form-group col-md-4">
+                        <label htmlFor="valor">Valor*</label>
+                        
+                        <input type="number" name="valor" className="form-control" id="valor" onChange={valueInput} />
+                    </div>
                 </div>
+
 
                 <div className="form-row">
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         
                         <label htmlFor="categoria">Origem*</label>
                         <select id="origem" required className="form-control" name="idOrigem" onChange={valueInput}>
@@ -230,7 +231,7 @@ const Nova = () => {
 
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         
                         <label htmlFor="categoria">Tipos*</label>
                         <select id="tipo" required className="form-control" name="idTipo" onChange={valueInput}>
@@ -244,7 +245,7 @@ const Nova = () => {
 
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md-3">
                         <label htmlFor="data">Data</label>
                         <input type="date" required id='dataDespesa' className="form-control" name='dataDespesa' onChange={handleDateChange} value={dataAtual} />
                     </div>

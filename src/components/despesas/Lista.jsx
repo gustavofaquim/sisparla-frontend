@@ -6,9 +6,16 @@ import { toast } from 'react-toastify';
 import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
 import { IoAddSharp } from "react-icons/io5";
 
+
+import ModalButton from '../modal/ModalButton.jsx';
+import { Modal, closeAndRefresh } from "../modal/Modal.jsx"; 
+import NovaDespesa from "./Nova.jsx";
+import EditDespesa from "./Edit.jsx";
+
 import Pagination from '../Pagination';
 
 import "../../styles/components/listagem.sass";
+import DespesasEdit from './Edit.jsx';
 
 const DespesasList = () => {
     
@@ -60,6 +67,13 @@ const DespesasList = () => {
         getDespesas();
     },[]);
 
+    const [modalOpen, setModalOpen] = useState(false);
+    const [IdUpdate, setIdUpdate] = useState(null);
+
+    const handleCloseAndRefresh = async () => {
+        await closeAndRefresh(setModalOpen, setData, getDespesas); // Certifique-se de passar a função getEventos conforme necessário
+    };
+
     return(
         <div className='listagem-demandas'>
 
@@ -72,7 +86,7 @@ const DespesasList = () => {
                 <div className="card-header" id="headingOne">
                 <h5 className="mb-0">
                     <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        🔎 Filtrar Informações
+                        Filtrar Informações
                     </button>
                 </h5>
                 </div>
@@ -96,9 +110,10 @@ const DespesasList = () => {
 
 
         
-        <div className='btn-add'> 
-            <Link to={"/nova-despesa"}><button ><IoAddSharp /> Nova Despesa</button></Link>
-        </div>
+            {/* Botão de Adição */}
+            <ModalButton onClick={() => { setModalOpen(true); setIdUpdate(null); }}>
+                <IoAddSharp /> Nova Despesa
+            </ModalButton>
        
 
         {currentDespesa.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
@@ -117,7 +132,7 @@ const DespesasList = () => {
                     {currentDespesa.map((despesa) => (
                         
                         <tr key={despesa.IdDespesa}>
-                            <td> <Link to={`/despesas/${despesa.IdDespesa}`}> {despesa.Descricao} </Link> </td>
+                            <td> <ModalButton key={despesa.IdDespesa} isLink onClick={() => { setModalOpen(true); setIdUpdate(despesa.IdDespesa); }}> {despesa.Descricao} </ModalButton> </td>
                             <td>{despesa?.CredorDespesa?.Nome} </td>
                             <td> R$ {despesa?.Valor} </td>
                         </tr>
@@ -126,8 +141,22 @@ const DespesasList = () => {
             </tbody>
         </table>
         )}
+
         <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 
+                        
+        {/* Modal */}
+        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+            {IdUpdate === null ? (
+            <NovaDespesa closeAndRefresh={handleCloseAndRefresh} />
+            ) : (
+            <DespesasEdit
+                closeAndRefresh={handleCloseAndRefresh}
+                IdUpdate={IdUpdate}
+                modalOpen={modalOpen}  
+                />
+            )}
+        </Modal>
     </div>
 
     );

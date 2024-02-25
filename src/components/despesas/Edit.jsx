@@ -12,7 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 
 
-const DespesasEdit = () => {
+const DespesasEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
 
     const params = useParams();
     const id = params.id;
@@ -43,15 +43,13 @@ const DespesasEdit = () => {
        
         try {
             
-            if(id === undefined){
+            if(IdUpdate === undefined){
                 console.log('Despesa não encontrada');
                 return;
             }
             
-
-            const response =  await userFetch.get(`/despesas/${id}`)
-            console.log(response.data);
-
+            const response =  await userFetch.get(`/despesas/${IdUpdate}`)
+           
             setData(response.data)
 
             setSelectedOption({
@@ -130,10 +128,13 @@ const DespesasEdit = () => {
         try {
             
             const dataToSend = { ...data, Credor: selectedOption.value, dataDespesa: dataAtual };
-            const respose = await userFetch.put(`despesa/${id}`, dataToSend)
+            const respose = await userFetch.put(`despesa/${IdUpdate}`, dataToSend)
 
             if(respose.status === 200){
                 toast.success('Despesa atualizada com sucesso');
+
+                closeAndRefresh();
+
                 navigate('/despesas');
 
             }
@@ -148,10 +149,12 @@ const DespesasEdit = () => {
     },[inputValue]);
 
     useEffect(() => {
-        getOrigem();
-        getTipo();
-        getDespesa();
-    },[]);
+        if (modalOpen && IdUpdate !== undefined) {
+            getOrigem();
+            getTipo();
+            getDespesa();
+        }
+    },[modalOpen, IdUpdate]);
 
 
     const handleChange = (selectedOption) => {
@@ -164,10 +167,10 @@ const DespesasEdit = () => {
 
         try {
             
-            const response = await userFetch.delete(`/despesa/${id}`)
-            
+            const response = await userFetch.delete(`/despesa/${IdUpdate}`)
             
             if(response.status === 200){
+                closeAndRefresh();
                 navigate('/despesas');
             }
         } catch (error) {
@@ -192,7 +195,7 @@ const DespesasEdit = () => {
                     
                     <div className="form-row">
 
-                        <div className="form-group col-md-7">
+                        <div className="form-group col-md">
                             <label htmlFor="descricao">Descricao</label>
                             <input type="text" required className="form-control" id="descricao" name='Descricao'  value={data.Descricao} onChange={valueInput} />
                         </div>
@@ -201,7 +204,7 @@ const DespesasEdit = () => {
 
                     <div className="form-row">
 
-                        <div className="form-group col-md-7">
+                        <div className="form-group col-md">
                             <label htmlFor="detalhamento">Detalhamento</label>
                             <textarea className="form-control" name='Detalhamento' value={data.Detalhamento} onChange={valueInput} id="detalhamento"></textarea>
                         </div>
@@ -210,16 +213,8 @@ const DespesasEdit = () => {
 
 
                     <div className="form-row">
-                    
-                        <div className="form-group">
-                            <label htmlFor="valor">Valor*</label>
-                            <input type="number" name="Valor" className="form-control" id="valor" value={data.Valor} onChange={valueInput} />
-                        </div>
-                    </div>
-
-                    <div className="form-row">
                         
-                        <div className="form-group  col-md-5">
+                        <div className="form-group  col-md-8">
                             <label htmlFor="valor">Credor*</label>
                             <Select
                                 value={selectedOption}
@@ -237,13 +232,18 @@ const DespesasEdit = () => {
                             />
                         </div>
 
+                        <div className="form-group col-md-4">
+                            <label htmlFor="valor">Valor*</label>
+                            <input type="number" name="Valor" className="form-control" id="valor" value={data.Valor} onChange={valueInput} />
+                        </div>
+
                     </div> 
 
                 
 
                     <div className="form-row">
 
-                        <div className="form-group">
+                        <div className="form-group col-md">
                             
                             <label htmlFor="categoria">Origem*</label>
                             <select id="origem" required className="form-control" name="Origem" onChange={valueInput}>
@@ -257,7 +257,7 @@ const DespesasEdit = () => {
 
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group col-md">
                             
                             <label htmlFor="categoria">Tipos*</label>
                             <select id="tipo" required className="form-control" name="Tipo" onChange={valueInput}>
@@ -271,12 +271,12 @@ const DespesasEdit = () => {
 
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group col-md-3">
                             <label htmlFor="data">Data</label>
                             <input type="date" required id='dataDespesa' className="form-control" name='Data' onChange={valueInput} value={data.Data} />
                         </div>
 
-                        </div>
+                    </div>
                     
 
                     

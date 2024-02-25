@@ -9,6 +9,8 @@ import { IoAddSharp } from "react-icons/io5";
 import Pagination from '../Pagination';
 import EventoEdit from "./Edit.jsx";
 import EventoNovo from "./Novo.jsx";
+import { Modal, closeAndRefresh } from "../modal/Modal.jsx"; 
+import ModalButton from '../modal/ModalButton.jsx';
 
 import "../../styles/components/listagem.sass";
 import "../../styles/components/tabela.sass";
@@ -87,36 +89,12 @@ const Lista = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [IdEventoAtt, setIdEventoAtt] = useState(null);
 
-    const openModal = () => {
-        setModalOpen(true);
 
-        $('#modalCadastraEvento').modal('hide');
+    const handleCloseAndRefresh = async () => {
+        await closeAndRefresh(setModalOpen, setData, getEventos); // Certifique-se de passar a função getEventos conforme necessário
     };
+      
 
-    const openAtualizacaoModal = (eventoId) => {
-        setModalOpen(true);
-        setIdEventoAtt(eventoId);
-        
-        
-        $('#modalAtualizaEvento').modal('hide');
-    };
-
-    const closeAndRefresh =  async () => {
-        setModalOpen(false);
-        
-        try {
-            // Chamar a função de obtenção dos dados atualizados
-            const novosDados = await getEventos(); 
-    
-            if (novosDados) {
-                // Atualizar o estado com os novos dados do apoiador
-                setData(novosDados);
-            }
-        } catch (error) {
-            console.error('Erro ao obter os dados atualizados da eventos:', error);
-            // Lógica de tratamento de erro, se necessário
-        }
-    };
 
 
     return(
@@ -156,9 +134,10 @@ const Lista = () => {
             
             
 
-            <div className='btn-add'>
-                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modalCadastraEvento"><IoAddSharp /> Novo Evento</button>
-            </div>
+           {/* Botão de Adição */}
+           <ModalButton onClick={() => { setModalOpen(true); setIdEventoAtt(null); }}>
+                <IoAddSharp /> Nova Demanda
+            </ModalButton>
 
 
             {data.length === 0 ? <p className='aviso-sem-dados'>Sem eventos para exibir.</p> : (
@@ -175,7 +154,7 @@ const Lista = () => {
                 <tbody>
                     {data.map((evento) => (
                         <tr key={evento.IdEvento}>
-                            <td> <Link data-toggle="modal" data-target="#modalAtualizaEvento" onClick={() => openAtualizacaoModal(evento.IdEvento)} >{evento.Nome}</Link></td>
+                            <td><ModalButton key={evento.IdEvento} isLink onClick={() => { setModalOpen(true); setIdEventoAtt(evento.IdEvento); }}> {evento.Nome}</ModalButton></td>
                             <td className='ocultar-0'>{evento?.Responsavel}</td>
                             <td>{formataDataEHora(evento?.DataHorario)}</td>
                             <td className='ocultar-1'>{evento?.Relacao}</td>
@@ -188,41 +167,18 @@ const Lista = () => {
 
             <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 
-            <div className="modal fade" id="modalCadastraEvento" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                    <div className="modal-header">
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <EventoNovo openModal={openModal} updateListaEventos={closeAndRefresh} />
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="modal fade" id="modalAtualizaEvento" tabindex="-1" role="dialog" aria-labelledby="TituloModalLongoExemplo" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                    <div className="modal-header">
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div className="modal-body">
-                        <EventoEdit  openModal={openAtualizacaoModal} updateListaEventos={closeAndRefresh} IdEventoAtt={IdEventoAtt} modalOpen={modalOpen}/>
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    </div>
-                    </div>
-                </div>
-            </div>
+           {/* Modal */}
+           <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                {IdEventoAtt === null ? (
+                <EventoNovo closeAndRefresh={handleCloseAndRefresh} />
+                ) : (
+                <EventoEdit
+                    closeAndRefresh={handleCloseAndRefresh}
+                    IdEventoAtt={IdEventoAtt}
+                    modalOpen={modalOpen}  
+                  />
+                )}
+            </Modal>
 
         </div>
     )

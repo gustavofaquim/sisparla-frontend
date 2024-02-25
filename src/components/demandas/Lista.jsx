@@ -23,8 +23,6 @@ import DeleteClick from '../DeleteClick.jsx';
 
 const DemandasList = () => {
 
-
-
     const [termoBusca, setTermoBusca] = useState('');
     const [data, setData] = useState([]);
     const [situacoes, setSituacoes] = useState([]); 
@@ -42,8 +40,6 @@ const DemandasList = () => {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentDemanda = data.slice(indexOfFirstItem, indexOfLastItem);
 
-
-    
 
     useEffect(() => {
         getDemandas();
@@ -108,7 +104,6 @@ const DemandasList = () => {
         return apoiador ? apoiador.Nome : 'Apoiador Desconhecido';
     };
       
-
 
     const situacaoDemanda = async() => {
 

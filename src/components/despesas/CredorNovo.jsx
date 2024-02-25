@@ -9,7 +9,7 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 import ConsultaCEP from "../ConsultaCEP.jsx";
 import RemoveMascara from "../RemoveMascara.jsx";
 
-const CredorNovo = () =>{
+const CredorNovo = ({closeAndRefresh}) =>{
 
     const navigate = useNavigate();
 
@@ -91,6 +91,9 @@ const CredorNovo = () =>{
 
             if(response.status === 200){
                 toast.success("Demanda criada com sucesso");
+
+                closeAndRefresh();
+                
                 navigate('/lista-credores');
             }
 
@@ -119,9 +122,23 @@ const CredorNovo = () =>{
 
                 <div className="form-row">
 
-                    <div className="form-group col-md-7">
+                    <div className="form-group col-md">
                         <label htmlFor="nome">Nome*</label>
                         <input type="text" required className="form-control" id="nome" name='nome' onChange={valueInput} />
+                    </div>
+
+                </div>
+
+                <div className="form-row">
+
+                    <div className="form-group col-md-4">
+                        <label htmlFor="telefone">Telefone*</label>
+                        <InputMask required
+                            id="telefone" name='telefone' onChange={valueInput}
+                            mask="(99) 99999-9999"
+                            maskChar="_"
+                            className="form-control"  
+                        />   
                     </div>
 
                 </div>
@@ -130,7 +147,7 @@ const CredorNovo = () =>{
                 <p className='form-session-title'>Endereço</p>
                 <div className="form-row">
 
-                    <div className="form-group col-md-2">
+                    <div className="form-group col-md-4">
                         <label htmlFor="cep">CEP</label>
                         <InputMask
                             className="form-control" id="cep" name="cep" 
@@ -142,7 +159,7 @@ const CredorNovo = () =>{
                         
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group col-md-2">
                         <label htmlFor="estado">Estado</label>
                         <select id="estado" className="form-control" name='estado' onChange={(e) => setEstado(e.target.value)}>
                             <option selected={estado === null}>Escolher...</option>
@@ -154,52 +171,39 @@ const CredorNovo = () =>{
                         </select>
                     </div>
 
-                    <div className="form-group col-md-5">
+                    <div className="form-group col-md">
                         <label htmlFor="cidade">Cidade</label>
                         <input type="text" className="form-control" id="cidade" name="cidade"  value={cidade}   onChange={(e) => setCidade(e.target.value)}  />
                     </div>
                     
-                    
-                    <div className="form-group">
+                </div>
+
+                <div className="form-row">
+                    <div className="form-group col-md">
                         <label htmlFor="endereco">Lagradouro</label>
                         <input type="text" className="form-control" id="endereco" name="endereco"  value={logradouro} onChange={(e) => setLogradouro(e.target.value)} />
                     </div>
-                    
-                    <div className="form-group">
+                        
+                    <div className="form-group col-md">
                         <label htmlFor="bairro">Bairro</label>
                         <input type="text" className="form-control" id="bairro" name='bairro' value={bairro}  onChange={(e) => setBairro(e.target.value)}  />
                     </div>
+                </div>
 
-
-                    <div className="form-group">
+                <div className="form-row">
+                    <div className="form-group col-md">
                         <label htmlFor="complemento">Complemento</label>
                         <input type="text" className="form-control" id="complemento" name='complemento' value={complemento}  onChange={(e) => setComplemento(e.target.value)}  />
                     </div>
 
 
-                    <div className="form-group">
+                    <div className="form-group col-md">
                         <label htmlFor="complemento">Ponto Referencia</label>
                         <input type="text" className="form-control" id="ponto" name="ponto"  onChange={(e) => setPontoReferencia(e.target.value)}  />
                     </div>
-
                 </div>
 
-                <div className="form-row">
-
-                    <div className="form-group col-md-7">
-                        <label htmlFor="telefone">Telefone*</label>
-                        <InputMask required
-                            id="telefone" name='telefone' onChange={valueInput}
-                            mask="(99) 99999-9999"
-                            maskChar="_"
-                            className="form-control"  
-                        />
-                        
-                    </div>
-
-                </div>
-
-              
+                   
                 <div className="form-row">
 
                     <div className="form-group">
@@ -233,7 +237,7 @@ const CredorNovo = () =>{
 
 
                 <div>
-                    <button type="submit" className="btn btn-cadastrar" >Cadastrar Credor</button>
+                    <button type="submit" className="btn btn-cadastrar" >Salvar</button>
                 </div>
 
 

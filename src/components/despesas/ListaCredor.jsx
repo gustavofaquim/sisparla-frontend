@@ -7,6 +7,10 @@ import InsereMascara from '../InsereMascara.jsx';
 
 import { IoAddSharp } from "react-icons/io5";
 
+import ModalButton from '../modal/ModalButton.jsx';
+import { Modal, closeAndRefresh } from "../modal/Modal.jsx";   
+import NovoCredor from "./CredorNovo.jsx";
+import EditCredor from "./EditCredor.jsx";
 import Pagination from '../Pagination';
 
 import "../../styles/components/listagem.sass";
@@ -51,7 +55,7 @@ const ListaCredor = () => {
         if (termoBusca.length >= 3) {
             getCredores();
 
-        } else if(termoBusca === '') {
+        } else if(termoBusca === ''){
             getCredores();
         }
     }, [termoBusca]);
@@ -59,6 +63,15 @@ const ListaCredor = () => {
     useEffect(() => {
         getCredores();
     },[]);
+
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [IdUpdate, setIdUpdate] = useState(null);
+
+
+    const handleCloseAndRefresh = async () => {
+        await closeAndRefresh(setModalOpen, setData, getCredores); // Certifique-se de passar a função getEventos conforme necessário
+    };
 
     return(
 
@@ -72,7 +85,7 @@ const ListaCredor = () => {
                     <div className="card-header" id="headingOne">
                     <h5 className="mb-0">
                         <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            🔎 Filtrar Informações
+                            Filtrar Informações
                         </button>
                     </h5>
                     </div>
@@ -95,9 +108,10 @@ const ListaCredor = () => {
             </div>
 
            
-            <div  className='btn-add'>
-                <Link to={"/novo-credor"}> <button><IoAddSharp /> Novo Credor</button></Link>
-            </div>
+            {/* Botão de Adição */}
+            <ModalButton onClick={() => { setModalOpen(true); setIdUpdate(null); }}>
+                <IoAddSharp /> Novo Credor
+            </ModalButton>
 
             {currentCredor.length === 0 ? <p className='aviso-sem-dados'>Sem despesas para exibir.</p> : (
             <table>
@@ -114,8 +128,8 @@ const ListaCredor = () => {
                     {currentCredor.map((credor) => (
                             
                         <tr key={credor.IdCredor}>
-                            <td> <Link to={`/credor/${credor.IdCredor}`}>{credor.Nome}</Link></td>
-                            <td> <InsereMascara tipo='telefone' valor={credor.Telefone}></InsereMascara> </td>
+                            <td><ModalButton key={credor.IdCredor} isLink onClick={() => { setModalOpen(true); setIdUpdate(credor.IdCredor); }}>{credor.Nome}</ModalButton></td>
+                            <td><InsereMascara tipo='telefone' valor={credor.Telefone}></InsereMascara> </td>
                             <td>{credor.Tipo} </td>
                             <td> <InsereMascara tipo={credor.Tipo === 'Pessoa Física' ? 'cpf' : 'cnpj'} valor={credor.Documento}></InsereMascara> </td>
                         </tr>
@@ -128,6 +142,20 @@ const ListaCredor = () => {
 
             <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 
+            {/* Modal */}
+            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                {IdUpdate === null ? (
+                <NovoCredor closeAndRefresh={handleCloseAndRefresh} />
+                ) : (
+                <EditCredor
+                    closeAndRefresh={handleCloseAndRefresh}
+                    IdUpdate={IdUpdate}
+                    modalOpen={modalOpen}  
+                  />
+                )}
+            </Modal>
+        
+        
         </div>
     )
 }
