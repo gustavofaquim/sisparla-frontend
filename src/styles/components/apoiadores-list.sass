@@ -80,6 +80,18 @@
         color: variables.$cor-incompleto
         border: 1px solid variables.$cor-incompleto
 
+    .pendente
+        @include mixins.status
+        background: transparent
+        color: variables.$cor-pendente
+        border: 1px solid variables.$cor-pendente
+
+    .inativo
+        @include mixins.status
+        background: transparent
+        color: variables.$cor-inativo
+        border: 1px solid variables.$cor-inativo
+
     .icon-whatsapp
         color: variables.$whatsapp
         margin-right: 5px

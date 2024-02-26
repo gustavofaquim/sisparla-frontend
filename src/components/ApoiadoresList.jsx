@@ -56,20 +56,6 @@ const ApoiadoresList = () => {
         navigate('/nova-mensagem', { state: { apoiadoresSelecionados: linhasSelecionadas } });
     }
 
-    const getProfissoes = async() => {
-
-        try {
-            const response = await userFetch.get("/profissoes");
-
-            const data = response.data;
-            
-            setProfissoes(data);
-           
-            
-        } catch (error) {
-            console.log(`Erro ao recuperar a profissão: ${error}`);
-        }
-    }
 
     const getPartidos = async() => {
         try {
@@ -84,12 +70,14 @@ const ApoiadoresList = () => {
         }
     }
 
-    const getCidades = async() => {
+    const getFiltros = async() => {
         try {
             
-            const response = await userFetch.get('/cidades-apoiadores/');
+            const response = await userFetch.get('/filtros/');
             const data = response.data;
-            setCidades(data);
+            setCidades(data.cidades);
+            setProfissoes(data.profissoes)
+
          
         } catch (error) {
             console.log(`Erro ao recuperar a lista de cidades: ${error}`);
@@ -126,6 +114,7 @@ const ApoiadoresList = () => {
                 },
             });
             const data = response.data;
+           
             setApoiadores(data);
             
            
@@ -138,9 +127,8 @@ const ApoiadoresList = () => {
 
     useEffect(() => {
         getApoiadores();
-        getProfissoes();
         //getPartidos();
-        getCidades();
+        getFiltros();
     }, []);
 
 
@@ -331,7 +319,7 @@ const ApoiadoresList = () => {
                                 <td className='ocultar-0 ocultar-1' >{apoiador?.Email}</td> 
                                 <td className='ocultar-0 ocultar-2'>{apoiador?.EnderecoApoiador?.CidadeEndereco?.Nome}</td> 
                                 <td className='ocultar-0 ocultar-1'>{apoiador?.ProfissaoApoiador?.Nome}</td> 
-                                <td className=''><span className={apoiador?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{apoiador.SituacaoCadastroApoiador.Descricao}</span></td>
+                                <td className=''><span className={apoiador?.SituacaoCadastroApoiador?.Descricao?.toLowerCase()}>{apoiador?.SituacaoCadastroApoiador?.Descricao}</span></td>
                             </tr>
                         
                         ))
