@@ -18,8 +18,10 @@ import { Modal, closeAndRefresh } from "../components/modal/Modal.jsx";
 import ModalButton from "../components/modal/ModalButton.jsx";
 
 import "../styles/components/apoiadores-list.sass";
+import "../styles/components/filtro.sass";
 import "../styles/components/tabela.sass";
 import "../styles/components/modal.sass"
+
 
 
 const ApoiadoresList = () => {
@@ -194,7 +196,6 @@ const ApoiadoresList = () => {
                     <div className="card-body">
                        
 
-
                     <div className='seletor-filtros'>
                
                         <div className='filtro'>
@@ -242,7 +243,7 @@ const ApoiadoresList = () => {
 
                             <div className='filtro'>
                                 <p>Digite um termo para buscar</p>
-                                <input type="text" id='busca' placeholder="Pesquise por nome, e-mail, telefone, cidade ou qualquer outro dado disponível." value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                                <input type="text" id='busca' placeholder="" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
                             
                             </div>
 

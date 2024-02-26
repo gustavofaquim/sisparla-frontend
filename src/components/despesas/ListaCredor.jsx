@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import InsereMascara from '../InsereMascara.jsx';
 
 import { IoAddSharp } from "react-icons/io5";
+import { IoFilter } from "react-icons/io5";
 
 import ModalButton from '../modal/ModalButton.jsx';
 import { Modal, closeAndRefresh } from "../modal/Modal.jsx";   
@@ -14,6 +15,7 @@ import EditCredor from "./EditCredor.jsx";
 import Pagination from '../Pagination';
 
 import "../../styles/components/listagem.sass";
+import "../../styles/components/filtro.sass";
 
 const ListaCredor = () => {
 
@@ -85,21 +87,23 @@ const ListaCredor = () => {
                     <div className="card-header" id="headingOne">
                     <h5 className="mb-0">
                         <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Filtrar Informações
+                            <IoFilter /> Filtrar Informações
                         </button>
                     </h5>
                     </div>
 
                     <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <div className="card-body">
+
+                    <div className='seletor-filtros'>
+                        <div className='filtro'>
+                            <p>Digite um termo para buscar</p>
+                            <input type="text" id='busca' placeholder="" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
                         
-                    <div className="filtro-busca">
-                        <div>
-                            <label htmlFor="busca">Digite um termo para buscar</label>
-                            <input type="text" id='busca' placeholder="Pesquise pelo nome, telefone ou documento" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
                         </div>
                     </div>
-
+                        
+                   
                     </div>
 
                     

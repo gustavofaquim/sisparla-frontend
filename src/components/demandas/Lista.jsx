@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { FaChevronDown, FaTrashCan } from "react-icons/fa6";
 
 import { IoAddSharp } from "react-icons/io5";
+import { IoFilter } from "react-icons/io5";
 
 import Pagination from '../Pagination';
 import DemandaNova from "../demandas/Nova.jsx";
@@ -15,6 +16,7 @@ import ModalButton from '../modal/ModalButton.jsx';
 import { Modal, closeAndRefresh } from "../modal/Modal.jsx";   
 
 import "../../styles/components/listagem.sass";
+import "../../styles/components/filtro.sass";
 import "../../styles/components/tabela.sass";
 import "../../styles/components/modal.sass";
 
@@ -183,20 +185,22 @@ const DemandasList = () => {
                     <div className="card-header" id="headingOne">
                     <h5 className="mb-0">
                         <button className="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Filtrar Informações
+                        <IoFilter /> Filtrar Informações
                         </button>
                     </h5>
                     </div>
 
                     <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                     <div className="card-body">
-                       
-                    <div className="filtro-busca">
-                        <div>
-                            <label htmlFor="busca">Digite um termo para buscar</label>
-                            <input type="text" id='busca' placeholder="Pesquise por nome, e-mail, telefone, cidade ou qualquer outro dado disponível." value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>
+                    
+                    <div className='seletor-filtros'>
+                        <div className='filtro'>
+                            <p>Digite um termo para buscar</p>
+                            <input type="text" id='busca' placeholder="" value={termoBusca} onChange={(e) => setTermoBusca(e.target.value)}/>  
                         </div>
                     </div>
+                    
+
 
                     </div>
 
