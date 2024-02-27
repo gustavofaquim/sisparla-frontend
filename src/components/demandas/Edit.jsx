@@ -12,6 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../../styles/components/paginas-cadastros-gerais.sass";
 
 import DeleteClick from '../DeleteClick.jsx';
+import BtnAddEdit from '../btn/BtnAddEdit.jsx';
 
 
 const DemandasEdit = ({closeAndRefresh, IdDemandaAtt, modalOpen }) => {
@@ -37,6 +38,7 @@ const DemandasEdit = ({closeAndRefresh, IdDemandaAtt, modalOpen }) => {
     const [valor, setValor] = useState("");
 
     const [data, setData] = useState([]); 
+    const [loading, setLoading] = useState(false);
     
 
     const getCategorias = async() => {
@@ -156,6 +158,8 @@ const DemandasEdit = ({closeAndRefresh, IdDemandaAtt, modalOpen }) => {
 
     const editDemanda = async(e) => {
         e.preventDefault();
+
+        setLoading(true);
        
         try {
             
@@ -168,6 +172,8 @@ const DemandasEdit = ({closeAndRefresh, IdDemandaAtt, modalOpen }) => {
 
                 toast.success('Demanda atualizada com sucesso');
                 closeAndRefresh();
+
+                setLoading(false);
                
                 navigate('/demandas');
             }
@@ -339,10 +345,7 @@ const DemandasEdit = ({closeAndRefresh, IdDemandaAtt, modalOpen }) => {
 
                             
 
-                <div className='div-buttons'>
-                    <button type="submit" className="btn btn-cadastrar">Salvar</button>
-                    <button onClick={(e) => DeleteClick(e,deletaDemanda)} className="btn btn-excluir">Excluir </button>
-                </div>
+                <BtnAddEdit isEdit={true} loading={loading} />
                 
 
 

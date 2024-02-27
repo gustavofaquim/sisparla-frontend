@@ -12,6 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../../styles/components/paginas-cadastros-gerais.sass";
 
 import DeleteClick from '../DeleteClick.jsx';
+import BtnAddEdit from '../btn/BtnAddEdit.jsx';
 
 const relacoes = [
     {"descricao": "Participante"},
@@ -29,8 +30,9 @@ const Edit = ({ closeAndRefresh, IdEventoAtt, modalOpen }) =>{
     const [data, setData] = useState([]); 
     const [dataDoBanco, setDataDoBanco] = useState(""); // Inicialize com uma string vazia
 
-   
+    const [loading, setLoading] = useState(false);
 
+   
     const getEvento = async() => {
         try {
             
@@ -88,6 +90,7 @@ const Edit = ({ closeAndRefresh, IdEventoAtt, modalOpen }) =>{
 
     const editEvento = async(e) => {
         e.preventDefault();
+        setLoading(true);
        
        try {
         const response = await userFetch.put(`/eventos/${IdEventoAtt}`, data);
@@ -96,6 +99,7 @@ const Edit = ({ closeAndRefresh, IdEventoAtt, modalOpen }) =>{
             toast.success('Evento atualizado com sucesso');
             
             closeAndRefresh();
+            setLoading(false);
             
             navigate('/eventos');
         }
@@ -188,10 +192,7 @@ const Edit = ({ closeAndRefresh, IdEventoAtt, modalOpen }) =>{
 
                     </div>
                     
-                    <div className='div-buttons'>
-                        <button type="submit" className="btn btn-cadastrar" >Salvar</button>
-                        <button onClick={(e) => DeleteClick(e,deleteEvento)} className="btn btn-excluir">Excluir</button>
-                    </div>
+                   <BtnAddEdit isEdit={true} loading={loading} />
 
                 </form>
             </div>

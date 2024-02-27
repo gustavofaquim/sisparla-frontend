@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 
 import DeleteClick from '../DeleteClick.jsx';
+import BtnAddEdit from '../btn/BtnAddEdit.jsx';
 
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -24,6 +25,7 @@ const DespesasEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
 
     const [data, setData] = useState([]); 
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
+    const [loading, setLoading] = useState(false);
 
     const [inputValue, setInputValue] = useState('');
     const [selectedOption, setSelectedOption] = useState(null);
@@ -124,6 +126,7 @@ const DespesasEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
 
     const upateDespesa = async(e) => {
         e.preventDefault();
+        setLoading(true);
 
         try {
             
@@ -134,11 +137,13 @@ const DespesasEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
                 toast.success('Despesa atualizada com sucesso');
 
                 closeAndRefresh();
+                setLoading(false);
 
                 navigate('/despesas');
 
             }
         } catch (error) {
+            setLoading(false);
             console.log(`Erro ao atualizar : ` + error);
         }
     }
@@ -281,10 +286,7 @@ const DespesasEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
 
                     
 
-                    <div className='div-buttons'>
-                        <button type="submit" className="btn btn-cadastrar">Salvar</button>
-                        <button onClick={(e) => DeleteClick(e,deleteDespesa)}  className="btn btn-excluir">Excluir</button>
-                    </div>
+                   <BtnAddEdit isEdit={true} loading={loading} />
                     
                 </form>
 

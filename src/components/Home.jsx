@@ -9,55 +9,50 @@ import {
     FaChartBar
   } from 'react-icons/fa';
 
+import ModalButton from '../components/modal/ModalButton.jsx';
+import { Modal, closeAndRefresh } from "../components/modal/Modal.jsx";   
+import DemandaEdit from "../components/demandas/Edit.jsx";
 
 import "../styles/components/dashboard.sass";
 
 const Home = () => {
 
 
-    const [demandaSituacao, setDemandaSituacao] = useState([]);
-    const [demandasCategoria, setDemandaCategoria] = useState([]);
+    
     const [quantidadeDemandas, setQuantidadeDemandas] = useState([]);
-    const [ApoiadoresClassificacao, setApoiadoresClassificacao] = useState([]);
-    const [ApoiadoresSituacao, setApoiadoresSituacao] = useState([]);
+  
     const [quantidadeApoiadores, setQuantidadeApoiadores] = useState([]);
     const [aniversariantes, setAniversariantes] = useState([]);
 
     const [minhasDemandas, setMinhasDemandas] = useState([]);
     const [eventosDia, setEventosDia] = useState([]);
 
+    const [IdDemandaAtt, setIdDemandaAtt] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
-    const getDemandas = async() => {
+
+    const getCountDemandas = async() => {
 
         try {
-            const response = await userFetch.get("/view-demandas")
-            
-            setDemandaSituacao(response.data[0].DemandasSituacao);
-            setDemandaCategoria(response.data[1].DemandasCateogira)
-            setQuantidadeDemandas(response.data?.length)
-            
-            const q1 = response.data[0].DemandasSituacao?.length
-            const q2 = response.data[1].DemandasCateogira?.length
+            const response = await userFetch.get("/count-demandas");
+            setQuantidadeDemandas(response.data);
             
         } catch (error) {
             console.log(`Não foi possível obter os dados: ${error}`)
         }
     }
 
-    const getApoiadores = async() => {
+    const getCountApoiadores = async() => {
         try {
-            const response = await userFetch.get("/view-apoiadores");
-            setApoiadoresClassificacao(response.data[0].ApoiadoresClassificacao);
-            setApoiadoresSituacao(response.data[1].ApoiadoresSituacao);
-
-            const q1 = response.data[0].ApoiadoresClassificacao.length
-            const q2 = response.data[1].ApoiadoresSituacao.length
-            setQuantidadeApoiadores(q1 + q2);
             
+            const response = await userFetch.get("/count-apoiadores");
+            setQuantidadeApoiadores(response.data);
+
         } catch (error) {
-            console.log(`Não foi possível obter os dados: ${error}`)
+            console.log('Não foi possível exibir a quantidade de apoiadores')
         }
     }
+
 
 
     const getAniversariantesDoDia = async() => {
@@ -131,12 +126,16 @@ const Home = () => {
     
 
     useEffect(() => {
-        getDemandas();
-        getApoiadores();
+        getCountDemandas();
+        getCountApoiadores();
         getEventosDia();
-        getMinhasDemandas();
         getAniversariantesDoDia();
     }, []);
+
+    
+    const handleCloseAndRefresh = async () => {
+        await closeAndRefresh(setModalOpen, setData, getDemandas); // Certifique-se de passar a função getEventos conforme necessário
+    };
 
 
     return(
@@ -230,7 +229,7 @@ const Home = () => {
 
 
                 </div>
-
+                
                 <div className='minhas-demandas'>
                     <p className='titulo'>Minhas Demandas Abertas</p>
                     {minhasDemandas.length === 0 ? (
@@ -249,7 +248,7 @@ const Home = () => {
                             <tbody>
                             { minhasDemandas.map((demanda) => (
                                     <tr key={demanda.IdDemanda}>
-                                        <td> <Link to={`/demandas/${demanda.IdDemanda}`}>{demanda.Assunto}</Link></td>
+                                        <td><ModalButton key={demanda.IdDemanda} isLink onClick={() => { setModalOpen(true); setIdDemandaAtt(demanda.IdDemanda); }}>{demanda.Assunto}</ModalButton></td>
                                         <td>{demanda?.DemandaCategoria?.Descricao}</td>
                                         <td>{formataDataEHora(demanda?.Data)}</td>
                                     </tr>
@@ -270,6 +269,18 @@ const Home = () => {
 
 
             </div>
+
+            
+            {/* Modal */}
+            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                
+                <DemandaEdit
+                    closeAndRefresh={handleCloseAndRefresh}
+                    IdDemandaAtt={IdDemandaAtt}
+                    modalOpen={modalOpen}  
+                  />
+                
+            </Modal>
 
             
         </div>

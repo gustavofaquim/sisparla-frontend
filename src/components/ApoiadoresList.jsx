@@ -283,6 +283,7 @@ const ApoiadoresList = () => {
                 <Link to={`/novo-apoiador`}><FaCirclePlus /> Adicionar Novo Apoiador</Link>
             </div> */ }
 
+            {currentApoiadores.length === 0 ? <p className='aviso-sem-dados'>Sem apoiador para exibir.</p> : (
             <table>
                 <thead>
                     <tr>
@@ -297,9 +298,8 @@ const ApoiadoresList = () => {
                 </thead>
 
                 <tbody>
-            
-                    {currentApoiadores.length === 0 ? <p>Carregando...</p> : (
-                        currentApoiadores.map((apoiador) => (
+             
+                        {currentApoiadores.map((apoiador) => (
                             <tr key={apoiador.IdApoiador}>
                                 { /* <td>
                                 <input
@@ -323,10 +323,11 @@ const ApoiadoresList = () => {
                                 <td className=''><span className={apoiador?.SituacaoCadastroApoiador?.Descricao?.toLowerCase()}>{apoiador?.SituacaoCadastroApoiador?.Descricao}</span></td>
                             </tr>
                         
-                        ))
-                    )}
+                        ))}
                 </tbody>
             </table>
+            )}
+             
 
             <Pagination totalItems={apoiadores} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 

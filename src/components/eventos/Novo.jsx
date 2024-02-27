@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 
 import { useNavigate } from "react-router-dom";
 
+import BtnAddEdit from '../btn/BtnAddEdit.jsx';
+
 
 const Novo = ({ closeAndRefresh }) => {
 
@@ -13,9 +15,11 @@ const Novo = ({ closeAndRefresh }) => {
     const [data, setData] = useState([]);
 
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
+    const [loading, setLoading] = useState(false);
 
     const createEvento = async(e) => {
         e.preventDefault();
+        setLoading(true);
 
         try {
             
@@ -25,6 +29,7 @@ const Novo = ({ closeAndRefresh }) => {
                 toast.success('Evento cadastrado com sucesso');
 
                 closeAndRefresh();
+                setLoading(false);
                 navigate('/eventos');
             }
 
@@ -99,9 +104,7 @@ const Novo = ({ closeAndRefresh }) => {
 
                     </div>
 
-                    <div>
-                        <button type="submit" className="btn btn-cadastrar">Salvar</button>
-                    </div>
+                    <BtnAddEdit isEdit={false} loading={loading} />
 
                 </form>
             </div>

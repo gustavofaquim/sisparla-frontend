@@ -7,6 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
+import BtnAddEdit from "../btn/BtnAddEdit.jsx";
+
 const Nova = ({closeAndRefresh}) => {
 
     const params = useParams();
@@ -26,6 +28,8 @@ const Nova = ({closeAndRefresh}) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [options, setOptions] = useState([]);
     const [dataAtual, setDataAtual] = useState(getFormattedDate());
+
+    const [loading, setLoading] = useState(false);
 
 
     function getFormattedDate() {
@@ -128,6 +132,7 @@ const Nova = ({closeAndRefresh}) => {
 
     const createDespesa = async(e) => {
         e.preventDefault();
+        setLoading(true);
 
         try {
             
@@ -139,12 +144,14 @@ const Nova = ({closeAndRefresh}) => {
                 toast.success("Despesa criada com sucesso");
 
                 closeAndRefresh();
+                setLoading(false);
 
                 navigate('/despesas');
             }
             
 
         } catch (error) {
+            setLoading(false);
             toast.error("Houve um erro ao criar a despesa");
             console.log('Erro ao cadastrar a despesa:' + error);
         }
@@ -253,11 +260,8 @@ const Nova = ({closeAndRefresh}) => {
                 </div>
 
     
-                <div>
-                    <button type="submit" className="btn btn-cadastrar">Salvar</button>
-                </div>
-                
-
+               <BtnAddEdit loading={loading} />
+        
                 </form>
 
              </div>

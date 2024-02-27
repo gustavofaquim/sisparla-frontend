@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
+import BtnAddEdit from '../btn/BtnAddEdit.jsx';
+
 
 import "../../styles/components/paginas-cadastros-gerais.sass";
 
@@ -25,6 +27,8 @@ const Nova = ({ closeAndRefresh }) => {
     const [suggestions, setSuggestions] = useState([]);
     
     const [data, setData] = useState([]);
+
+    const [loading, setLoading] = useState(false);
 
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
 
@@ -92,6 +96,8 @@ const Nova = ({ closeAndRefresh }) => {
     const createDemanda = async(e) => {
         e.preventDefault();
 
+        setLoading(true);
+
         try {
             
             const dataToSend = { ...data, idApoiador: selectedApoiadorId };
@@ -101,8 +107,9 @@ const Nova = ({ closeAndRefresh }) => {
             if(response.status === 200){
                 toast.success("Demanda criada com sucesso");
 
-
                 closeAndRefresh();
+
+                setLoading(false)
 
                 navigate('/demandas');
             }
@@ -267,10 +274,7 @@ const Nova = ({ closeAndRefresh }) => {
                 
                 </div>
 
-                <div>
-                    <button type="submit" class="btn btn-primary btn-cadastrar">Salvar</button>
-                </div>
-                
+                <BtnAddEdit loading={loading} />       
 
                 </form>
 

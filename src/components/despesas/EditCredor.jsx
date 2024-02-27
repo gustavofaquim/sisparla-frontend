@@ -9,6 +9,7 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 import DeleteClick from '../DeleteClick.jsx';
 
 import ConsultaCEP from "../ConsultaCEP.jsx";
+import BtnAddEdit from '../btn/BtnAddEdit.jsx';
 
 const CredirEdit = ({closeAndRefresh, IdUpdate, modalOpen }) =>{
 
@@ -35,6 +36,8 @@ const CredirEdit = ({closeAndRefresh, IdUpdate, modalOpen }) =>{
     const [bairro, setBairro] = useState(null);
     const [complemento, setComplemento] = useState(null);
     const [pontoReferencia, setPontoReferencia] = useState(null);
+
+    const [loading, setLoading] = useState(false);
     
 
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
@@ -118,6 +121,7 @@ const CredirEdit = ({closeAndRefresh, IdUpdate, modalOpen }) =>{
 
     const updateCredor = async(e) => {
         e.preventDefault();
+        setLoading(true);
 
         try {
             
@@ -129,11 +133,13 @@ const CredirEdit = ({closeAndRefresh, IdUpdate, modalOpen }) =>{
                 toast.success("Credor atualizado com sucesso");
                 
                 closeAndRefresh();
+                setLoading(false);
 
                 navigate('/lista-credores');
             }
 
         }catch (error) {
+            setLoading(false);
             console.log('Erro ao cadastrar o credor' + error);
         }
 
@@ -276,11 +282,7 @@ const CredirEdit = ({closeAndRefresh, IdUpdate, modalOpen }) =>{
                 </div>
 
 
-                <div className='div-buttons'>
-                    <button type="submit" className="btn btn-cadastrar" >Salvar</button>
-                    <button onClick={(e) => DeleteClick(e,deleteCredor)} className="btn btn-excluir">Excluir</button>
-                </div>
-                    
+                <BtnAddEdit isEdit={true} loading={loading} />
 
 
                 </form>

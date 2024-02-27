@@ -8,6 +8,7 @@ import { FaRegFloppyDisk } from "react-icons/fa6";
 
 import ConsultaCEP from "../ConsultaCEP.jsx";
 import RemoveMascara from "../RemoveMascara.jsx";
+import BtnAddEdit from "../btn/BtnAddEdit.jsx";
 
 const CredorNovo = ({closeAndRefresh}) =>{
 
@@ -29,6 +30,8 @@ const CredorNovo = ({closeAndRefresh}) =>{
     const [bairro, setBairro] = useState(null);
     const [complemento, setComplemento] = useState(null);
     const [pontoReferencia, setPontoReferencia] = useState(null);
+
+    const [loading, setLoading] = useState(false);
     
 
     const valueInput = (e) => setData({...data, [e.target.name] : e.target.value});
@@ -77,6 +80,7 @@ const CredorNovo = ({closeAndRefresh}) =>{
 
     const createCredor = async(e) => {
         e.preventDefault();
+        setLoading(true);
 
         try {
             
@@ -93,11 +97,13 @@ const CredorNovo = ({closeAndRefresh}) =>{
                 toast.success("Demanda criada com sucesso");
 
                 closeAndRefresh();
+                setLoading(false);
                 
                 navigate('/lista-credores');
             }
 
         } catch (error) {
+            setLoading(false);
             console.log('Erro ao cadastrar o credor' + error);
         }
 
@@ -236,9 +242,7 @@ const CredorNovo = ({closeAndRefresh}) =>{
                 </div>
 
 
-                <div>
-                    <button type="submit" className="btn btn-cadastrar" >Salvar</button>
-                </div>
+                <BtnAddEdit loading={loading} />
 
 
                 </form>

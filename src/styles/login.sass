@@ -24,10 +24,40 @@
         max-width: 350px
         text-align: left
 
+        .inputSenha
+            display: inline-flex
+            width: 100%
+            margin-top: 30px
+            align-items: center
+            font-size: 14pt
+            border: 1px solid #ced4da
+
+            input
+                border: 0px solid
+                
+                &:focus
+                    border: 0px solid
+                    box-shadow: none
+
+            svg
+                margin-right: 10px
+                color: #7e8083
+
+
+        .inputSenhaNClicado
+            border-color: none
+            box-shadow: none
+            outline: none
+                    
+        .inputSenhaClicado
+            border-color: #80bdff
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 7px 5px -1px, variables.$cor-destaque 0px 1px 3px -1px
+            outline: none
+
+
         input
             border-radius: 0
             padding: 1.5rem
-            margin-top: 30px
             font-size: 14pt
 
             &:focus

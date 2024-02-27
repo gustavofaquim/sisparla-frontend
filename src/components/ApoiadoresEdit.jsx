@@ -21,6 +21,7 @@ import { FaWhatsapp } from "react-icons/fa6";
 
 import ConsultaCEP from "./ConsultaCEP.jsx";
 import RemoveMascara from "./RemoveMascara.jsx";
+import BtnAddEdit from './btn/BtnAddEdit.jsx';
 
 
 const ApoiadoresEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
@@ -632,11 +633,8 @@ const ApoiadoresEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
                     </div> 
                 </div>
 
-                <div className='div-buttons'>
-                    <button type="submit" className={loading ? 'btn btn-cadastrar button-loading' : 'btn btn-cadastrar'} disabled={loading}>{loading ? 'Salvando Aguarde...' : 'Salvar'}</button>
-                    <button onClick={(e) => DeleteClick(e, deleteApoiador)}  className="btn btn-excluir">Excluir</button>
-                </div>
-                
+               
+                <BtnAddEdit isEdit={true} loading={loading} />
 
                 </form>
             </div>
