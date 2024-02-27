@@ -6,8 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FaRegFloppyDisk } from "react-icons/fa6";
 
 
-import DeleteClick from '../DeleteClick.jsx';
-
 import ConsultaCEP from "../ConsultaCEP.jsx";
 import BtnAddEdit from '../btn/BtnAddEdit.jsx';
 
@@ -282,7 +280,7 @@ const CredirEdit = ({closeAndRefresh, IdUpdate, modalOpen }) =>{
                 </div>
 
 
-                <BtnAddEdit isEdit={true} loading={loading} />
+                <BtnAddEdit isEdit={true} loading={loading} funcaoDelete={deleteCredor} />
 
 
                 </form>

@@ -11,7 +11,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import "../../styles/components/paginas-cadastros-gerais.sass";
 
-import DeleteClick from '../DeleteClick.jsx';
 import BtnAddEdit from '../btn/BtnAddEdit.jsx';
 
 const relacoes = [
@@ -192,7 +191,7 @@ const Edit = ({ closeAndRefresh, IdEventoAtt, modalOpen }) =>{
 
                     </div>
                     
-                   <BtnAddEdit isEdit={true} loading={loading} />
+                    <BtnAddEdit isEdit={true} loading={loading} funcaoDelete={deleteEvento} />
 
                 </form>
             </div>

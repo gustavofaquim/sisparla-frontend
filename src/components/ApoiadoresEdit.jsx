@@ -15,8 +15,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import "../styles/components/apoiador-novo.sass"
 
 
-import DeleteClick from '../components/DeleteClick.jsx';
-
 import { FaWhatsapp } from "react-icons/fa6";
 
 import ConsultaCEP from "./ConsultaCEP.jsx";
@@ -287,7 +285,7 @@ const ApoiadoresEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
             
             const response = await userFetch.delete(`/apoiador/${id}`);
             
-            if(response.status === 200){
+            if(response.status == '200'){
 
                 closeAndRefresh();
                 
@@ -634,7 +632,13 @@ const ApoiadoresEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
                 </div>
 
                
-                <BtnAddEdit isEdit={true} loading={loading} />
+                <BtnAddEdit isEdit={true} loading={loading} funcaoDelete={deleteApoiador} />
+
+                {/* <div className='div-buttons'>
+                    <button type="submit" className={loading ? 'btn btn-cadastrar button-loading' : 'btn btn-cadastrar'} disabled={loading}>{loading ? 'Salvando Aguarde...' : 'Salvar'}</button>
+                    <button onClick={(e) => DeleteClick(e, deleteApoiador)}  className="btn btn-excluir">Excluir</button>
+                    </div> 
+                */}
 
                 </form>
             </div>

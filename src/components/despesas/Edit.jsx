@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 
-import DeleteClick from '../DeleteClick.jsx';
 import BtnAddEdit from '../btn/BtnAddEdit.jsx';
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -286,7 +285,7 @@ const DespesasEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
 
                     
 
-                   <BtnAddEdit isEdit={true} loading={loading} />
+                   <BtnAddEdit isEdit={true} loading={loading} funcaoDelete={deleteDespesa} />
                     
                 </form>
 
