@@ -333,7 +333,7 @@ const ApoiadoresList = () => {
 
 
             {/* Modal */}
-            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+            <Modal isOpen={modalOpen} onClose={handleCloseAndRefresh}>
                 <ApoiadoresNovo closeAndRefresh={handleCloseAndRefresh} />
             </Modal>
            

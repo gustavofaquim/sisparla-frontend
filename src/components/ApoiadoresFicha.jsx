@@ -179,7 +179,7 @@ const ApoiadoresFicha = () => {
 
 
             {/* Modal */}
-            <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+            <Modal isOpen={modalOpen} onClose={handleCloseAndRefresh}>
                 <ApoiadoresEdit
                     closeAndRefresh={handleCloseAndRefresh}
                     IdUpdate={id}

@@ -4,8 +4,6 @@ const closeAndRefresh = async (setModalOpen, setData, getDataFunction) => {
     
     setModalOpen(true);
 
-  
-
     try {
       
       $('#modal-pag').modal('hide');

@@ -171,7 +171,7 @@ const Lista = () => {
             <Pagination totalItems={data} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} />
 
            {/* Modal */}
-           <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+           <Modal isOpen={modalOpen} onClose={handleCloseAndRefresh}>
                 {IdEventoAtt === null ? (
                 <EventoNovo closeAndRefresh={handleCloseAndRefresh} />
                 ) : (
