@@ -12,8 +12,6 @@
         margin: 10px
         margin-bottom: 30px
 
-
-    
     .dados-corpo,
     .dados-endereco,
     .dados-entidade,
@@ -22,9 +20,9 @@
         flex: 1
         min-width: 40vh
         margin: 10px
-        border: 0.5px solid variables.$cor-destaque
-        padding: 10px
-        border-radius: 3px
+        background-color: #d8d7d73b
+        padding: 15px
+        border-radius: 5px
 
         a
             text-decoration: none
@@ -38,6 +36,7 @@
     .session-title
         font-size: 1.1rem
         font-weight: bold
+        text-align: justify
         text-transform: uppercase
         color: variables.$cor-destaque
 
@@ -61,8 +60,18 @@
 
         &:hover
             background-color: variables.$cor-editar-hover
+        
+        svg
+            margin-right: 5px
 
     .btn-excluir
         @include mixins.btn-excluir
         margin-left: 20px
+
+        svg
+            margin-right: 5px
+
+.leaflet-container
+    border: 1px solid red
+    width: 600px
         

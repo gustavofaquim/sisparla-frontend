@@ -3,15 +3,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import userFetch from "../axios/config.js";
 import { Link } from "react-router-dom";
 
-
+import { FaTrash  } from "react-icons/fa";
+import { FaPencil } from "react-icons/fa6";
 import ModalButton from '../components/modal/ModalButton.jsx';
+
+import Map from "./map/Map.jsx";
+
 import { Modal, closeAndRefresh } from "../components/modal/Modal.jsx"; 
 
 import DeleteClick from '../components/DeleteClick.jsx';
 import ApoiadoresEdit from "../components/ApoiadoresEdit.jsx";
 
+import convertCoordenadas from "./map/convertCoordenadas.jsx";
+
 import "../styles/components/apoiador-ficha.sass";
 import "../styles/components/modal.sass"
+
+import { FaAddressCard, FaRegComments, FaMedal } from "react-icons/fa";
+import { FaUser } from "react-icons/fa6";
 
 
 const ApoiadoresFicha = () => {
@@ -23,7 +32,9 @@ const ApoiadoresFicha = () => {
 
 
     const [data, setData] = useState({});
-    
+    const [address, setAddress] = useState();
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
 
     const getApoiador = async() => {
         
@@ -35,7 +46,12 @@ const ApoiadoresFicha = () => {
 
         await userFetch.get(`/apoiadores/${id}`)
             .then((response) => {
-                setData(response.data); 
+                setData(response.data);
+               
+                if(data.logradouro){
+                    setAddress(data.logradouro + ',' + data.bairro + ',' +  data.cidade + ',' + data.cep + ',BR' ); 
+                    handleConvertCoordenadas();
+                }
             })
             .catch((error) => {
 
@@ -45,6 +61,21 @@ const ApoiadoresFicha = () => {
                     console.log("Api não respondeu");
                 }
             });
+    }
+
+    const handleConvertCoordenadas = async() => {
+        try {
+            
+            const resultadoConversao = await convertCoordenadas(address);
+            console.log(resultadoConversao);
+            setLatitude(resultadoConversao.latitude);
+            setLongitude(resultadoConversao.logitude);
+            
+            console.log('Latitude: ' + latitude)
+
+        } catch (error) {
+            console.log('Não foi possível converter o endereço');
+        }
     }
 
 
@@ -109,18 +140,18 @@ const ApoiadoresFicha = () => {
 
 
             <div className="dados-corpo">
-                <p className='session-title'>Informações Pessoais</p>
+                <p className='session-title'><FaUser /> Informações Pessoais</p>
                 <hr className='linha-destaque'/>
                 <span>Data de Nascimento: {dataNascimento || 'Não informado'} </span>
                 <span>E-mail: {data.email || 'Não informado'}</span>
                 <span>Profissão: {data.profissao || 'Não informado'}</span>
             </div>
 
-           
-            {data.cidade &&
-                
+            
+            {data.cidade &&            
+                 
                 <div className="dados-endereco">
-                    <p className='session-title'>Endereço</p>
+                    <p className='session-title'><FaAddressCard /> Endereço</p>
                     <hr className='linha-destaque'/>
                     <span>{data.logradouro} {data.bairro}  {data.complemento}</span>
                     <span>Ponto de Referencia: {data.pontoReferencia}</span>
@@ -133,10 +164,10 @@ const ApoiadoresFicha = () => {
             {data.entidadeNome &&
                 
                 <div className="dados-entidade">
-                    <p className='session-title'>Movimento Social/Sindical/Entidade</p>
+                    <p className='session-title'><FaRegComments />Movimento Social/Sindical/Entidade</p>
                     <hr className='linha-destaque'/>
                     <span>{data.entidadeNome}</span>
-                    <span> Liderança: {data.entidadeLideranca}</span>
+                    <span>Lidderança:{data.entidadeLideranca == 's' ? 'Sim' : 'Não' }</span>
                     <span>Cargo: {data.entidadeCargo}</span>
                 </div>
                 
@@ -145,10 +176,10 @@ const ApoiadoresFicha = () => {
             {data.partidoId &&
                 
                 <div className="dados-partido">
-                    <p className='session-title'>Informações Pardidárias</p>
+                    <p className='session-title'><FaMedal /> Informações Pardidárias</p>
                     <hr className='linha-destaque'/>
                     <span>Partido: {data.partidoNome}</span>
-                    <span>Liderança: {data.partidoLideranca || Não}</span>
+                    <span>Liderança: {data.partidoLideranca == 's' ? 'Sim' : 'Não' }</span>
                     <span>Cargo: {data.partidoCargo}</span>
                 </div>
                 
@@ -165,14 +196,17 @@ const ApoiadoresFicha = () => {
                     ))}
                 </div>
             }
+            
+            <Map latitude={latitude} longitude={longitude}></Map>    
+            
 
             <div className="div-btn">
                 
                 {/* Botão de Adição */}
                 <ModalButton key={id} isBtnEdit onClick={() => { setModalOpen(true); setIdUpdate(id);}}>
-                    Editar Dados
+                    <FaPencil /> Editar Dados
                 </ModalButton>
-                <Link to={``}><button onClick={ (e) => DeleteClick(e, deleteApoiador) } className="btn btn-excluir">Excluir Apoiador</button></Link>
+                <Link to={``}><button onClick={ (e) => DeleteClick(e, deleteApoiador) } className="btn btn-excluir"><FaTrash /> Excluir Apoiador</button></Link>
                   {/* <Link to={``}><button className="btn btn-add-evento" >Adicionar em Evento</button></Link>
                 <Link to={``}><button className="btn btn-add-demanda" >Nova Demanda</button></Link>*/}
             </div>
