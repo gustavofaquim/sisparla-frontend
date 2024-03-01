@@ -202,7 +202,7 @@ const Home = () => {
                 
              </div>  
 
-            <div className='cards-listas'>
+            {/*<div className='cards-listas'>
                 <div className='eventos'>
                     <p className='titulo'>Eventos do dia</p>
                     {eventosDia.length === 0 ? (
@@ -261,7 +261,7 @@ const Home = () => {
                     
 
                 </div>
-            </div>
+            </div> */}
             
 
 

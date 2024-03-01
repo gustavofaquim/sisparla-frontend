@@ -69,7 +69,7 @@ const Sidebars = () => {
                     <MenuItem component={<Link to="/lista-contatos" />} onClick={() => handleMenuItemClick('mensagens')}>Lista de Contatos</MenuItem>
                 </SubMenu>
                 
-                <MenuItem icon={<FaArrowLeft />} onClick={logoutAndRedirect} >Sair</MenuItem>
+                {/* <MenuItem icon={<FaArrowLeft />} onClick={logoutAndRedirect} >Sair</MenuItem> */}
 
                 
             </Menu>

@@ -76,6 +76,23 @@ const DespesasList = () => {
         await closeAndRefresh(setModalOpen, setData, getDespesas); // Certifique-se de passar a função getEventos conforme necessário
     };
 
+
+    function formataDataEHora(dataString) {
+        const data = new Date(dataString);
+    
+        // Verificando se a conversão foi bem-sucedida
+        if (isNaN(data.getTime())) {
+            return '-----';
+        }
+    
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        const ano = data.getFullYear();
+
+    
+        return `${dia}/${mes}/${ano}`;
+    }
+
     return(
         <div className='listagem-demandas'>
 
@@ -123,6 +140,7 @@ const DespesasList = () => {
                     <th>Descrição</th>
                     <th>Credor</th>
                     <th>Valor</th>
+                    <th>Data</th>
                    
                 </tr>
             </thead>
@@ -135,6 +153,7 @@ const DespesasList = () => {
                             <td> <ModalButton key={despesa.IdDespesa} isLink onClick={() => { setModalOpen(true); setIdUpdate(despesa.IdDespesa); }}> {despesa.Descricao} </ModalButton> </td>
                             <td>{despesa?.CredorDespesa?.Nome} </td>
                             <td> R$ {despesa?.Valor} </td>
+                            <td>{formataDataEHora(despesa?.Data)} </td>
                         </tr>
                     
                     ))}       
