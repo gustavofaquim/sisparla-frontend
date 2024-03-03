@@ -50,6 +50,7 @@ const ApoiadoresFicha = () => {
                
                 if(data.logradouro){
                     setAddress(data.logradouro + ',' + data.bairro + ',' +  data.cidade + ',' + data.cep + ',BR' ); 
+                    console.log(address)
                     handleConvertCoordenadas();
                 }
             })
