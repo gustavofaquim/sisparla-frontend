@@ -65,6 +65,29 @@ const Aniversariantes = (props) => {
         return `${dia}/${mes}/${ano}`;
     }
 
+    const [idade, setIdade] = useState(null);
+    
+
+    function calcularIdade(dataNascimento){
+        const dataNascimentoArray = dataNascimento.split('-');
+        const anoNascimento = parseInt(dataNascimentoArray[0]);
+        const mesNascimento = parseInt(dataNascimentoArray[1]);
+        const diaNascimento = parseInt(dataNascimentoArray[2]);
+    
+        const dataAtual = new Date();
+        const anoAtual = dataAtual.getFullYear();
+        const mesAtual = dataAtual.getMonth() + 1;
+        const diaAtual = dataAtual.getDate();
+    
+        let idadeCalculada = anoAtual - anoNascimento;
+    
+        if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
+          idadeCalculada--;
+        }
+    
+        return idadeCalculada;
+    };
+
 
 
     return(
@@ -115,10 +138,10 @@ const Aniversariantes = (props) => {
                     <tr>
                         <th>Nome</th>
                         <th>Nascimento</th>
+                        <th>Idade</th>
                         <th className='ocultar-0'>Telefone</th>
                         <th className='ocultar-0 ocultar-1'>E-mail</th>
                         <th className='ocultar-0 ocultar-2'>Cidade</th>
-                        <th>Status</th>
                     </tr>
                 </thead>
 
@@ -127,13 +150,14 @@ const Aniversariantes = (props) => {
                         <tr key={aniversariante.IdApoiador}>
                             <td> <Link to={`/apoiador/${aniversariante.IdApoiador}`}>{aniversariante.Nome}</Link></td>
                             <td>{formataData(aniversariante?.DataNascimento)}</td>
+                            <td>{calcularIdade(aniversariante?.DataNascimento)}</td>
                             <td> <Link to={`https://api.whatsapp.com/send?phone=55${aniversariante.TelefoneApoiador.Numero}`} target="_blank">
                                 <FaWhatsapp className='icon-whatsapp'/>
                             </Link> 
                             <InsereMascara className='ocultar-0' tipo='telefone' valor={aniversariante?.TelefoneApoiador?.Numero} ></InsereMascara></td>
                             <td className='ocultar-0 ocultar-1'>{aniversariante?.Email}</td> 
                             <td className='ocultar-0 ocultar-2'>{aniversariante?.EnderecoApoiador?.CidadeApoiador?.Nome}</td> 
-                            <td><span className={aniversariante?.SituacaoCadastroApoiador?.Descricao.toLowerCase()}>{aniversariante.SituacaoCadastroApoiador.Descricao}</span></td>
+                            
                         </tr>
                     
                     ))}
