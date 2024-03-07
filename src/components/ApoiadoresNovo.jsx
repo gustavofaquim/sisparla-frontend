@@ -185,6 +185,39 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
         }
     };
 
+
+    const limparCampos = () => {
+        setNome('');
+        setApelido('');
+        setCpf('');
+        setReligiao('');
+        setNascimento('');
+        setEmail('');
+        setTelefone();
+        setEstado(null);
+        setCep(null);
+        setCidade('');
+        setEstado('');
+        setUF(null);
+        setComplemento('');
+        setLogradouro('');
+        setClassificacao(null);
+        setSituacao(null);
+        setBairro('');
+        setPontoReferencia('');
+        setEntidadeNome('');
+        setInputValue('');
+        setEntidadeTipo('');
+        setEntidadeSigla('');
+        setEntidadeCargo('');
+        setEntidadeLideranca('');
+        setPartidoId('');
+        setPartidoCargo('');
+        setPartidoLideranca('');
+        setInformacoesAdicionais('');
+        
+    };
+
     const createApoiador = async(e) => {
         e.preventDefault();
 
@@ -220,6 +253,10 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
             if(response.status == 200){
                 
                 toast.success('Apoiador cadastrado com sucesso');
+                e.target.reset();
+                limparCampos();
+
+
             
                 closeAndRefresh();
                     

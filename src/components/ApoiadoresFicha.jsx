@@ -7,7 +7,6 @@ import { FaTrash  } from "react-icons/fa";
 import { FaPencil } from "react-icons/fa6";
 import ModalButton from '../components/modal/ModalButton.jsx';
 
-import Map from "./map/Map.jsx";
 
 import { Modal, closeAndRefresh } from "../components/modal/Modal.jsx"; 
 
@@ -48,11 +47,11 @@ const ApoiadoresFicha = () => {
             .then((response) => {
                 setData(response.data);
                
-                if(data.logradouro){
+                /*if(data.logradouro){
                     setAddress(data.logradouro + ',' + data.bairro + ',' +  data.cidade + ',' + data.cep + ',BR' ); 
                     console.log(address)
                     handleConvertCoordenadas();
-                }
+                }*/
             })
             .catch((error) => {
 
@@ -68,11 +67,9 @@ const ApoiadoresFicha = () => {
         try {
             
             const resultadoConversao = await convertCoordenadas(address);
-            console.log(resultadoConversao);
+            
             setLatitude(resultadoConversao.latitude);
             setLongitude(resultadoConversao.logitude);
-            
-            console.log('Latitude: ' + latitude)
 
         } catch (error) {
             console.log('Não foi possível converter o endereço');
@@ -198,7 +195,7 @@ const ApoiadoresFicha = () => {
                 </div>
             }
             
-            <Map latitude={latitude} longitude={longitude}></Map>    
+            {/* <Map latitude={latitude} longitude={longitude}></Map> */}
             
 
             <div className="div-btn">
