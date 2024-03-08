@@ -255,6 +255,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                 toast.success('Apoiador cadastrado com sucesso');
                 e.target.reset();
                 limparCampos();
+                reset();
 
 
             
