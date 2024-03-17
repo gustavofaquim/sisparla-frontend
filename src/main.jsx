@@ -29,6 +29,7 @@ import Login from './login';
 import Aniversariantes from './components/Aniversariantes';
 import NovaMensagem from './components/mensagens/NovaMensagem';
 import ListaContatos from './components/mensagens/ListaContatos';
+import Grupo from './components/grupos/Lista.jsx';
 import userFetch from './axios/config';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -122,6 +123,7 @@ const Root = () => {
             <Route path="credor/:id" element={<PrivateRoute element={<CredorEdit />} />} />
             <Route path="nova-mensagem" element={<PrivateRoute element={<NovaMensagem />} />} /> 
             <Route path="lista-contatos" element={<PrivateRoute element={<ListaContatos />} />} />
+            <Route path="grupos" element={<PrivateRoute element={<Grupo />} />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />
           </Route>
         </Routes>
