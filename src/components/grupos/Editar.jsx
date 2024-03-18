@@ -7,9 +7,11 @@ import Select from 'react-select';
 
 import BtnAddEdit from "../btn/BtnAddEdit.jsx";
 
-const GrupoNovo = ({closeAndRefresh}) => {
+const GrupoEditar = ({closeAndRefresh, IdUpdate, modalOpen }) => {
 
     const navigate = useNavigate();
+    const params = useParams();
+    const id = params.id;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -46,14 +48,43 @@ const GrupoNovo = ({closeAndRefresh}) => {
             }
 
         } catch (error) {
-            console.log('Erro ao obter a lista de usuários. ' + error)
+            console.log('Erro ao obter a lista de usuários: ' + error)
         }
     }
 
     
+    const getGrupo = async() => {
+        try {
+
+            if(!IdUpdate){
+                console.log('Grupo não encontrada');
+                return;
+            }
+
+            const response = await userFetch.get(`/grupo/${IdUpdate}`);
+
+            setData(response.data);
+
+            setSelected({
+                label: response.data?.ResponsavelGrupo.Nome,
+                value: response.data?.ResponsavelGrupo.IdGrupo
+            })
+            
+            
+        } catch (error) {
+            console.log('Erro ao obter as informações de grupo: ' + error)
+        }
+    }
+    
     useEffect(() => {
         getUsuario();
-    }, []);
+    }, [inputValue]);
+
+    useEffect(() => {
+        if (modalOpen && IdUpdate !== undefined) {
+            getGrupo();
+        }
+    },[modalOpen, IdUpdate]);
 
 
     const handleChange = (selected) => {
@@ -61,10 +92,9 @@ const GrupoNovo = ({closeAndRefresh}) => {
     };
 
 
-
     const formRef = useRef();
 
-    const createGrupo = async(e) => {
+    const updateGrupo = async(e) => {
         e.preventDefault();
         setLoading(true);
 
@@ -92,18 +122,34 @@ const GrupoNovo = ({closeAndRefresh}) => {
         }
     }
 
+    const deleteGrupo = async(e) => {
+        e.preventDefault();
+
+        try {
+            const response = await userFetch.delete(`/delete/${IdUpdate}`);
+            
+            if(response.status === 200){
+                closeAndRefresh();
+                navigate('/despesas');
+            }
+            
+        } catch (error) {
+            console.log(`Erro: ` + error);
+        }
+    }
+
     return(
         <div className="pag-cadastro">
-            <h1 className='title-page'>Novo Grupo</h1>
+            <h1 className='title-page'>Editar Grupo</h1>
             
             <div className='form-cadastro'>
             
-            <form ref={formRef}  onSubmit={createGrupo}>
+            <form ref={formRef}  onSubmit={updateGrupo}>
                 <div className="form-row">
 
                     <div className="form-group col-md">
                         <label htmlFor="nome">Nome*</label>
-                        <input type="text" required className="form-control" id="nome" name='nome' onChange={valueInput} />
+                        <input type="text" required className="form-control" id="nome" name='nome' onChange={valueInput} value={data.Nome} />
                     </div>
 
                 </div>
@@ -139,4 +185,4 @@ const GrupoNovo = ({closeAndRefresh}) => {
     );
 }
 
-export default GrupoNovo;
+export default GrupoEditar;

@@ -14,6 +14,7 @@ import Pagination from '../Pagination';
 import "../../styles/components/listagem.sass";
 import "../../styles/components/tabela.sass";
 import "../../styles/components/modal.sass";
+import GrupoEditar from './Editar.jsx';
 
 
 
@@ -25,7 +26,7 @@ const Grupolist = () => {
     const [IdUpdate, setIdUpdate] = useState(null);
 
     const handleCloseAndRefresh = async () => {
-        await closeAndRefresh(setModalOpen, setData, getDespesas); // Certifique-se de passar a função getEventos conforme necessário
+        await closeAndRefresh(setModalOpen, setData, getGrupos); // Certifique-se de passar a função getEventos conforme necessário
     };
    
 
@@ -65,6 +66,7 @@ const Grupolist = () => {
                     <thead>
                         <tr>
                             <th>Nome</th>
+                            <th>Responsável</th>
                            
                         </tr>
                     </thead>
@@ -75,6 +77,7 @@ const Grupolist = () => {
                                 
                                 <tr key={grupo.IdGrupo}>
                                     <td> <ModalButton key={grupo.IdGrupo} isLink onClick={() => { setModalOpen(true); setIdUpdate(grupo.IdGrupo); }}> {grupo.Nome} </ModalButton> </td>
+                                    <td>{grupo?.ResponsavelGrupo?.Nome}</td>
                                 </tr>
                             
                             ))}       
@@ -84,8 +87,15 @@ const Grupolist = () => {
 
             {/* Modal */}
             <Modal isOpen={modalOpen} onClose={handleCloseAndRefresh}>
-                
-                <GrupoNovo closeAndRefresh={handleCloseAndRefresh} />
+                {IdUpdate === null ? (
+                    <GrupoNovo closeAndRefresh={handleCloseAndRefresh} />
+                ): (
+                    <GrupoEditar 
+                        closeAndRefresh={handleCloseAndRefresh}
+                        IdUpdate={IdUpdate}
+                        modalOpen={modalOpen} 
+                    />
+                )}
                 
             </Modal>             
 

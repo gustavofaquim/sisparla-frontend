@@ -87,7 +87,7 @@ const DespesasEdit = ({closeAndRefresh, IdUpdate, modalOpen }) => {
         } catch (error) {
             console.log('Erro ao listar os tipos');
             toast.error("Houve um erro listar os tipos");
-        }3000
+        }
     }
 
 
