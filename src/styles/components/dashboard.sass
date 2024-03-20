@@ -4,6 +4,7 @@
 .interface-dashboard
     @include mixins.paginas
     font-family: variables.$font-poppins
+    max-width: 100%
 
     .area-cards
         display: inline-flex
@@ -30,14 +31,16 @@
             color: black
 
     .resumos
-        display: inline-flex
+        display: flex
         width: 100%
         margin-top: 3em
-        padding: 20px
+        padding: 1px
+        flex-wrap: wrap
 
         .cards
-            width: 40%
+            width: 20rem
             margin: auto
+            margin-top: 1rem
 
         .card
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px

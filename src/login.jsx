@@ -54,8 +54,8 @@ const Login = ({ onLogin }) => {
 
     return(
         <div className="login">
-            <h3>SisParla</h3>
-            <h5>Sistema de Apoio à Atividade Parlamentar</h5>
+            <img className="logo-login" src='../public/logo.png' alt="logo" />
+            
             <p>Faça login para acessar o sistema</p>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">

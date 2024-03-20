@@ -66,8 +66,8 @@ const GrupoEditar = ({closeAndRefresh, IdUpdate, modalOpen }) => {
             setData(response.data);
 
             setSelected({
-                label: response.data?.ResponsavelGrupo.Nome,
-                value: response.data?.ResponsavelGrupo.IdGrupo
+                label: response.data?.ResponsavelGrupo?.Nome,
+                value: response.data?.ResponsavelGrupo?.IdGrupo
             })
             
             
@@ -102,10 +102,10 @@ const GrupoEditar = ({closeAndRefresh, IdUpdate, modalOpen }) => {
             
             const dataToSend = { ...data, responsavel: selected?.value};
 
-            const response = await userFetch.post("/grupo", dataToSend);
+            const response = await userFetch.put(`/grupo/${IdUpdate}`, dataToSend);
 
             if(response.status === 200){
-                toast.success("Grupo criado com sucesso");
+                toast.success("Grupo atualizado com sucesso");
 
                 closeAndRefresh();
                 setLoading(false);
@@ -118,25 +118,27 @@ const GrupoEditar = ({closeAndRefresh, IdUpdate, modalOpen }) => {
 
         } catch (error) {
             setLoading(false);
-            console.log('Erro ao cadastrar o grupo' + error);
+            console.log('Erro ao atualizar o grupo' + error);
         }
     }
 
     const deleteGrupo = async(e) => {
         e.preventDefault();
-
+    
         try {
-            const response = await userFetch.delete(`/delete/${IdUpdate}`);
+            const response = await userFetch.delete(`/grupo/${IdUpdate}`);
             
             if(response.status === 200){
                 closeAndRefresh();
-                navigate('/despesas');
+                navigate('/grupos');
             }
-            
+    
         } catch (error) {
             console.log(`Erro: ` + error);
+            toast.error('Erro ao excluir grupo, existe registro de apoiador associado a ele.');
         }
     }
+    
 
     return(
         <div className="pag-cadastro">
@@ -175,9 +177,7 @@ const GrupoEditar = ({closeAndRefresh, IdUpdate, modalOpen }) => {
                 </div>
 
 
-                  
-
-                <BtnAddEdit loading={loading} />
+                <BtnAddEdit isEdit={true} loading={loading} funcaoDelete={deleteGrupo} />
             </form>
 
             </div>

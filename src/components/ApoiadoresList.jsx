@@ -24,6 +24,7 @@ import "../styles/components/modal.sass"
 
 
 
+
 const ApoiadoresList = () => {
 
     const navigate = useNavigate();
@@ -173,8 +174,8 @@ const ApoiadoresList = () => {
     const handleCloseAndRefresh = async () => {
         await closeAndRefresh(setModalOpen, setApoiadores, getApoiadores); // Certifique-se de passar a função getEventos conforme necessário
     };
-      
 
+    
 
     return(
         <div className="listagem-apoiadores">

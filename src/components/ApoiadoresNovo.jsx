@@ -35,6 +35,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
     const [telefone, setTelefone] = useState();
     const [situacoes, setSituacoes] = useState([]);
     const [situacao, setSituacao] = useState();
+
     
     const [cep, setCep] = useState();
     const [cidade, setCidade] = useState();
@@ -69,12 +70,43 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
 
 
-    const [inputValueProfissao, setInputValueProfissao] = useState('');
-    const [selectedProfissao, setSelectedProfissao] = useState(null);
+    const [inputValueProfissao, setInputValueProfissao] = useState();
+    const [selectedProfissao, setSelectedProfissao] = useState();
     const [optionsProfissao, setOptionsProfissao] = useState([]);
 
 
     const [responseMessage, setResponseMessage] = useState();
+
+
+    const [inputValueGrupos, setInputValueGrupos] = useState('');
+    const [selectedGrupos, setSelectedGrupos] = useState(null);
+    const [optionsGrupo, setOptionsGrupo] = useState([]);
+
+
+    const getGrupos = async(inputValueGrupos) => {
+        try {
+            
+            if(inputValueGrupos?.length > 2){
+                const response = await userFetch.get("/grupos", {
+                    params: {
+                        inputValueGrupos
+                    },
+                });
+
+                const data = response.data;
+
+                const formattedGrupo = data.map(option => ({
+                    value: option.IdGrupo, 
+                    label: option.Nome, 
+                }));
+              
+                setOptionsGrupo(formattedGrupo);
+            };
+
+        } catch (error) {
+            console.log(`Erro ao recuperar os grupos: ${error}`);
+        }
+    }
 
 
     const getProfissoes = async(inputValueProfissao) => {
@@ -111,6 +143,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
         try {
             
             const response = await userFetch.get("/classificacoes");
+
             const data = response.data;
             setClassificacoes(data);
 
@@ -160,7 +193,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
             const data = response.data;            
             setPartidos(data);
 
-        } catch (error) {
+        }catch (error) {
             console.log(`Erro ao recuperar a lista de partidos: ${error}`);
         }
     }
@@ -193,16 +226,16 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
         setReligiao('');
         setNascimento('');
         setEmail('');
-        setTelefone();
-        setEstado(null);
-        setCep(null);
+        setTelefone('');
+        setEstado('');
+        setCep('');
         setCidade('');
         setEstado('');
-        setUF(null);
+        setUF('');
         setComplemento('');
         setLogradouro('');
-        setClassificacao(null);
-        setSituacao(null);
+        setClassificacao('');
+        setSituacao('');
         setBairro('');
         setPontoReferencia('');
         setEntidadeNome('');
@@ -215,7 +248,12 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
         setPartidoCargo('');
         setPartidoLideranca('');
         setInformacoesAdicionais('');
-        
+        setSelectedEntidade(null); // Limpar a entidade selecionada
+        setSelectedGrupos(null); // Limpar o grupo selecionado
+        setSelectedProfissao(null); // Limpar a profissão selecionada
+        setOptionsProfissao([]); // Limpar as opções de profissões
+        setOptionsGrupo([]); // Limpar as opções de grupos
+        setResponseMessage(null); // Limpar a mensagem de resposta, se houver
     };
 
     const createApoiador = async(e) => {
@@ -238,13 +276,14 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
             }
 
             const profissao = selectedProfissao?.value || null;
+            const grupo = selectedGrupos?.value || null;
             
 
             const post = {
                 nome, apelido, profissao, cpfSemMascara, religiao, nascimento, classificacao, email, telefoneSemMascara, situacao, 
                 cepSemMascara, cidade, estado, logradouro, complemento, bairro, pontoReferencia,  
                 entidadeNome: entidadeNome || inputValue, entidadeTipo, entidadeSigla, entidadeCargo, entidadeLideranca,
-                partidoId, partidoCargo, partidoLideranca,
+                partidoId, partidoCargo, partidoLideranca, grupo,
                 informacoesAdicionais 
             };
           
@@ -253,12 +292,11 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
             if(response.status == 200){
                 
                 toast.success('Apoiador cadastrado com sucesso');
-                e.target.reset();
-                limparCampos();
-                reset();
-
-
-            
+                limparCampos(); // resolver essa questão
+                
+               
+               //window.location.reload();
+                    
                 closeAndRefresh();
                     
                 navigate('/apoiadores');
@@ -284,6 +322,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
         getEstados();
         getPartidos();
         getEntidades();
+        getGrupos();
     }, []);
 
     useEffect(() => {
@@ -362,6 +401,10 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
     const handleChangeProfissao = (selectedProfissao) => {
         setSelectedProfissao(selectedProfissao);
     };
+
+    const handleChangeGrupo = (selectedGrupos) => {
+        setSelectedGrupos(selectedGrupos);
+    };
     
     
     return(
@@ -439,7 +482,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                             <option selected  value="" disabled>Escolher...</option>
                             {
                                 classificacoes.map((classificacao) => (
-                                    <option  key={classificacao.IdClassificacao} value={classificacao.Descricao}>{classificacao.Descricao}</option>
+                                    <option  key={classificacao.IdClassificacao} >{classificacao.Descricao}</option>
                                 ))
                             }
                         </select>
@@ -452,7 +495,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                             <option selected value="" disabled>Escolher...</option>
                             {
                                 situacoes.map((situacao) => (
-                                    <option key={situacao.IdSituacao} value={situacao.Descricao}>{situacao.Descricao}</option>
+                                    <option key={situacao.IdSituacao} >{situacao.Descricao}</option>
                                 ))
                             }
                         </select>
@@ -616,14 +659,37 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
                 </div>
 
+                
                 <p className='form-session-title'>Anotações Internas</p>
                 <hr className='linha-destaque'/>
+                <div className='form-row'>
+                    <div className="form-group col-md">
+                        <label htmlFor="inputEstado">Grupo</label>
+                        
+                        <Select
+                            value={selectedGrupos}
+                            onInputChange={(value) => {
+                                setInputValueGrupos(value);
+                                getGrupos(value);
+                            }}
+                            onChange={handleChangeGrupo}
+                            options={optionsGrupo}
+                            isSearchable={true}
+                            placeholder="Selecione uma opção..."
+                            className="custom-pessoa"
+                            noOptionsMessage={() => "Nenhuma opção encontrada"}
+                            
+                        />
+                    </div>
+                </div>
+
                 <div className="form-row">
                     <div className="form-group group-infoAdicional">
                         <label for="infoAdicional"></label>
                         <textarea className="form-control" id="infoAdicional" name='infoAdicional'  value={informacoesAdicionais || ''} onChange={(e) => setInformacoesAdicionais(e.target.value)}></textarea>
                     </div> 
                 </div>
+
 
                 <div>
                     <button type="submit"  className={loading ? 'btn-cadastrar button-loading' : 'btn-cadastrar'} disabled={loading}>{loading ? 'Salvando Aguarde...' : 'Salvar'}</button>

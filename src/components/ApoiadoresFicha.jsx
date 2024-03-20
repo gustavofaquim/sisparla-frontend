@@ -143,6 +143,7 @@ const ApoiadoresFicha = () => {
                 <span>Data de Nascimento: {dataNascimento || 'Não informado'} </span>
                 <span>E-mail: {data.email || 'Não informado'}</span>
                 <span>Profissão: {data.profissao || 'Não informado'}</span>
+                <span>Grupo: {data.grupoNome || 'Não informado'}</span>
             </div>
 
             
