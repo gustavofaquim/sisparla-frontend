@@ -76,12 +76,16 @@
 
     
 .seletor-filtros
-        display: inline-flex
+        display: flex
         width: 100%
+        flex-wrap: wrap
 
         .filtro
             text-align: left
             margin-right: 1em
+
+            &:nth-child(3)
+                margin-top: 20px
             
             p
                 margin: 0
