@@ -295,7 +295,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                 limparCampos(); // resolver essa questão
                 
                
-               //window.location.reload();
+               window.location.reload();
                     
                 closeAndRefresh();
                     
