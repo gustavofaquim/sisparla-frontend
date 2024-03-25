@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const userFetch = axios.create({
-   baseURL: "https://api.adrianaaccrosi.sisparla.com.br/api/", 
-   //baseURL: "http://localhost:3000/api/", 
+   //baseURL: "https://api.adrianaaccrosi.sisparla.com.br/api/", 
+   baseURL: "http://localhost:3000/api/", 
    headers: {
     "Content-Type": "application/json"
    }
