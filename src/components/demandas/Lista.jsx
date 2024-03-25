@@ -225,9 +225,9 @@ const DemandasList = () => {
                         <th>Assunto</th>
                         <th>Situacao</th>
                         <th className='ocultar-1'>Categoria</th>
-                        <th>Apoiador</th>
-                        <th className='ocultar-0'>Data de Abertura</th>
-                        <th className='ocultar-1'>Ações</th>
+                        <th className='ocultar-3'>Apoiador</th>
+                        <th className='ocultar-0 ocultar-3'>Data de Abertura</th>
+                        <th className=''>Ações</th>
                     </tr>
                 </thead>
 
@@ -239,8 +239,8 @@ const DemandasList = () => {
                                 <td><ModalButton key={demanda.IdDemanda} isLink onClick={() => { setModalOpen(true); setIdDemandaAtt(demanda.IdDemanda); }}>{demanda.Assunto}</ModalButton></td>
                                 <td>{demanda?.DemandaSituaco?.Descricao}</td>
                                 <td className='ocultar-1'>{demanda?.DemandaCategoria?.Descricao}</td>
-                                {apoiadoresData.length > 0 && <td>{getApoiadorName(demanda?.Apoiador)}</td>}
-                                <td className='ocultar-0'>{formataData(demanda?.Data)}</td>
+                                {apoiadoresData.length > 0 && <td className='ocultar-3'>{getApoiadorName(demanda?.Apoiador)}</td>}
+                                <td className='ocultar-0  ocultar-3'>{formataData(demanda?.Data)}</td>
                                 <td>
 
                                     <a className="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
