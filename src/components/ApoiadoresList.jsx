@@ -290,11 +290,11 @@ const ApoiadoresList = () => {
                     <tr>
                     { /* <th>#</th>*/ }
                         <th>Nome</th>
-                        <th className='ocultar-0'>Telefone</th>
+                        <th className='ocultar-0 ocultar-4'>Telefone</th>
                         <th className='ocultar-0 ocultar-1'>E-mail</th>
                         <th className='ocultar-0 ocultar-2'>Cidade</th>
                         <th className='ocultar-0 ocultar-1'>Profissão</th>
-                        <th>Status</th>
+                        <th className='ocultar-3'>Status</th>
                     </tr>
                 </thead>
 
@@ -310,7 +310,7 @@ const ApoiadoresList = () => {
                                     /> 
                                 </td>*/ }
                                 <td> <Link to={`/apoiador/${apoiador.IdApoiador}`}>{apoiador.Nome}</Link></td>
-                                <td>
+                                <td className='ocultar-0 ocultar-4'>
                                     <Link to={`https://api.whatsapp.com/send?phone=55${apoiador.TelefoneApoiador.Numero}`} target="_blank">
                                         <FaWhatsapp className='icon-whatsapp'/>
                                     </Link> 
@@ -321,7 +321,7 @@ const ApoiadoresList = () => {
                                 <td className='ocultar-0 ocultar-1' >{apoiador?.Email}</td> 
                                 <td className='ocultar-0 ocultar-2'>{apoiador?.EnderecoApoiador?.CidadeEndereco?.Nome}</td> 
                                 <td className='ocultar-0 ocultar-1'>{apoiador?.ProfissaoApoiador?.Nome}</td> 
-                                <td className=''><span className={apoiador?.SituacaoCadastroApoiador?.Descricao?.toLowerCase()}>{apoiador?.SituacaoCadastroApoiador?.Descricao}</span></td>
+                                <td className='ocultar-3'><span className={apoiador?.SituacaoCadastroApoiador?.Descricao?.toLowerCase()}>{apoiador?.SituacaoCadastroApoiador?.Descricao}</span></td>
                             </tr>
                         
                         ))}
