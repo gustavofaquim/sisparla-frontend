@@ -61,7 +61,7 @@ const Sidebars = () => {
                 <MenuItem component={<Link to="/eventos " />} icon={<FaCalendarAlt/>} active={activeMenuItem === 'eventos'} onClick={() => handleMenuItemClick('eventos')}> Eventos</MenuItem>
 
                 <SubMenu icon={<FaDollarSign/>} label="Despesas" active={activeMenuItem === 'despesas'} >
-                    <MenuItem component={<Link to="/despesas" />} onClick={() => handleMenuItemClick('despesas')}>Depesas</MenuItem>
+                    <MenuItem component={<Link to="/despesas" />} onClick={() => handleMenuItemClick('despesas')}>Despesas</MenuItem>
                     <MenuItem component={<Link to="/lista-credores" />} onClick={() => handleMenuItemClick('despesas')}>Credores</MenuItem>
                 </SubMenu> 
 

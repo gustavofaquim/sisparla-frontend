@@ -35,7 +35,6 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
     const [telefone, setTelefone] = useState();
     const [situacoes, setSituacoes] = useState([]);
     const [situacao, setSituacao] = useState();
-
     
     const [cep, setCep] = useState();
     const [cidade, setCidade] = useState();
@@ -229,8 +228,8 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
         setTelefone('');
         setEstado('');
         setCep('');
-        setCidade('');
-        setEstado('');
+        setCidade();
+        setEstado();
         setUF('');
         setComplemento('');
         setLogradouro('');
@@ -254,6 +253,10 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
         setOptionsProfissao([]); // Limpar as opções de profissões
         setOptionsGrupo([]); // Limpar as opções de grupos
         setResponseMessage(null); // Limpar a mensagem de resposta, se houver
+        setInputValueProfissao('');
+        setInputValueGrupos('');
+        setSelectedGrupos('');
+
     };
 
     const createApoiador = async(e) => {
@@ -292,10 +295,11 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
             if(response.status == 200){
                 
                 toast.success('Apoiador cadastrado com sucesso');
+                
                 limparCampos(); // resolver essa questão
                 
                
-               window.location.reload();
+               //window.location.reload();
                     
                 closeAndRefresh();
                     
@@ -423,12 +427,12 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                 <div className="form-row">
                     <div className="form-group col-md">
                         <label htmlFor="nome">Nome*</label>
-                        <input type="nome" required className="form-control" id="nome" name='nome' value={nome|| ''} onChange={(e) => setNome(e.target.value)} />
+                        <input type="nome" required className="form-control" id="nome" name='nome' value={nome || ''} onChange={(e) => setNome(e.target.value)} />
                     </div>
 
                     <div className="form-group col-md-4">
                         <label htmlFor="nascimento">Data de Nascimento*</label>
-                        <input type="date" required className="form-control" id="nascimento" value={nascimento|| ''} onChange={(e) => setNascimento(e.target.value)}  />
+                        <input type="date" required className="form-control" id="nascimento" value={nascimento || ''} onChange={(e) => setNascimento(e.target.value)}  />
                     </div>  
                 </div>
 
@@ -437,7 +441,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                         <label htmlFor="telefone">Telefone*</label>
                         <span> <input type="checkbox" id='whatsapp' name='whatsapp' /> <FaWhatsapp /> </span>
                         <InputMask required
-                            id="telefone" name='telefone' onChange={(e) => setTelefone(e.target.value)}
+                            id="telefone" name='telefone' value={telefone || ''} onChange={(e) => setTelefone(e.target.value)}
                             mask="(99) 99999-9999"
                             maskChar="_"
                             className="form-control"  
@@ -447,7 +451,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
                     <div className="form-group col-md">
                         <label htmlFor="email">E-mail</label>
-                        <input type="email" className="form-control" id="email" value={email|| ''} onChange={(e) => setEmail(e.target.value)} />
+                        <input type="email" className="form-control" id="email" value={email || ''}  onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
 
@@ -478,7 +482,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
                     <div className="form-group col-md">
                         <label htmlFor="classificacao">Classificação*</label>
-                        <select id="classificacao" className="form-control" required onChange={(e) => setClassificacao(e.target.value)}>
+                        <select id="classificacao" className="form-control" value={classificacao || ''} required onChange={(e) => setClassificacao(e.target.value)}>
                             <option selected  value="" disabled>Escolher...</option>
                             {
                                 classificacoes.map((classificacao) => (
@@ -491,15 +495,20 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
                     <div className="form-group col-md">
                         <label htmlFor="situacao">Situação*</label>
-                        <select id="situacao" required className="form-control" onChange={(e) => setSituacao(e.target.value)} >
-                            <option selected value="" disabled>Escolher...</option>
+                        <select id="situacao" name='situacao' required className="form-control" value={situacao || ''}  onChange={(e) => setSituacao(e.target.value)} >
+                            <option disabled selected value="">Escolher...</option>
                             {
                                 situacoes.map((situacao) => (
-                                    <option key={situacao.IdSituacao} >{situacao.Descricao}</option>
+                                    <option key={situacao.IdSituacao} value={situacao.IdSituacao}>{situacao.Descricao}</option>
                                 ))
                             }
                         </select>
+
+
+                      
                     </div>
+
+
                 </div>
 
                 <p className='form-session-title'>Endereço</p>
@@ -510,7 +519,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
                     <div className="form-group col-md-4">
                         <label htmlFor="cep">CEP</label>
                         <InputMask
-                            className="form-control" id="cep" name="cep" 
+                            className="form-control" id="cep" name="cep"  value={cep || ''}
                             mask="99999-999"
                             maskChar="_"
                             onChange={handleInputChangeCEP}  
@@ -520,7 +529,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
                     <div className="form-group col-md-2">
                         <label htmlFor="estado">Estado</label>
-                        <select id="estado" className="form-control" name='estado' onChange={(e) => setEstado(e.target.value)} >
+                        <select id="estado" className="form-control" name='estado' value={estado || null} onChange={(e) => setEstado(e.target.value)} >
                             <option selected>Escolher...</option>
                             {
                                 estados.map((estado) => (
@@ -532,7 +541,7 @@ const ApoiadoresNovo = ({ closeAndRefresh }) => {
 
                     <div className="form-group col-md">
                         <label htmlFor="cidade">Cidade</label>
-                        <input type="text" className="form-control" id="cidade"  value={cidade} onChange={(e) => setCidade(e.target.value)}  />
+                        <input type="text" className="form-control" id="cidade"   value={cidade || null} onChange={(e) => setCidade(e.target.value)}  />
                     </div>
                 </div>
                 
