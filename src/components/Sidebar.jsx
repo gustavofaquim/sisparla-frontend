@@ -44,7 +44,7 @@ const Sidebars = () => {
   return (
     <div className='sidebar-menu'>
         <Sidebar width='250px'>
-          <img className='logo-menu' src="../../public/logo.png" alt="logo" />
+          <img className='logo-menu' src="/logo.png" alt="logo" />
             <hr />
             <p className='title-menu'>Menu</p>
             <Menu >
@@ -61,7 +61,7 @@ const Sidebars = () => {
                 <MenuItem component={<Link to="/eventos " />} icon={<FaCalendarAlt/>} active={activeMenuItem === 'eventos'} onClick={() => handleMenuItemClick('eventos')}> Eventos</MenuItem>
 
                 <SubMenu icon={<FaDollarSign/>} label="Despesas" active={activeMenuItem === 'despesas'} >
-                    <MenuItem component={<Link to="/despesas" />} onClick={() => handleMenuItemClick('despesas')}>Depesas</MenuItem>
+                    <MenuItem component={<Link to="/despesas" />} onClick={() => handleMenuItemClick('despesas')}>Despesas</MenuItem>
                     <MenuItem component={<Link to="/lista-credores" />} onClick={() => handleMenuItemClick('despesas')}>Credores</MenuItem>
                 </SubMenu> 
 

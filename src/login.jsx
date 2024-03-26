@@ -54,7 +54,7 @@ const Login = ({ onLogin }) => {
 
     return(
         <div className="login">
-            <img className="logo-login" src='../public/logo.png' alt="logo" />
+            <img className="logo-login" src='/logo.png' alt="logo" />
             
             <p>Faça login para acessar o sistema</p>
             <form onSubmit={handleSubmit}>
