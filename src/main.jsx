@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { AuthProvider } from "./AuthProvider";
 import { AutoLogout } from './AutoLogout'; //Encerra a sessão por inativiade
 
+//import PrivateRoute from './PrivateRoute';
+
+
 import './styles/main.sass';
 
 import App from './App';
@@ -37,9 +40,9 @@ import { ToastContainer, toast } from 'react-toastify';
 const Root = () => {
   
   const [isAuthenticated, setAuthenticated] = React.useState(false);
+  const [permissions, setPermissions] = useState();
+  
  
-
-
   useEffect(() => {
     const checkAuthentication = async () => {
       const storedToken = sessionStorage.getItem('token');
@@ -47,8 +50,8 @@ const Root = () => {
       if (storedToken) {
         // Adicione lógica para verificar a validade do token se necessário
         setAuthenticated(true);
-        
       }
+      
     };
 
     checkAuthentication();
@@ -79,20 +82,30 @@ const Root = () => {
     }
   };
 
-   {/*const handleLogout = () => {
-    sessionStorage.removeItem('token');
-    console.log('Saiu do sistema')
-    setAuthenticated(false);
-  };*/}
 
-  const PrivateRoute = ({ element }) => {
+  const PrivateRoute = ({ element, requiredPermissions }) => {
+
     const storedToken = sessionStorage.getItem('token');
     const isAuthenticated = !!storedToken;
 
-    if (!isAuthenticated) {
-      console.log('Redirecionando para /login');
+    const user = JSON.parse(sessionStorage.getItem('usuario'));
+
+    if(!user.regra){
       return <Navigate to="/login" />;
     }
+    
+    if (!isAuthenticated) {
+      return <Navigate to="/login" />;
+    }
+
+    //console.log('Página: ' + requiredPermissions);
+    //console.log('Aluno:' + user.regra)
+
+    if((requiredPermissions) && !(user.regra == requiredPermissions)){
+        return <Navigate to="/sem-permissao" />;
+    }
+
+    
 
     return element;
   };
@@ -104,7 +117,7 @@ const Root = () => {
         <Routes>
             {/* <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>  */}
             <Route path="/" element={<App isAuthenticated={isAuthenticated}  />}>
-            <Route path="/" element={<PrivateRoute element={<Home />} />} />
+            <Route path="/" element={<PrivateRoute element={<Home />} requiredPermissions={'1'} />} />
             <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} />} />
             <Route path="aniversariantes" element={<PrivateRoute element={<Aniversariantes />} />} />
             <Route path="novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} />} />
@@ -116,14 +129,16 @@ const Root = () => {
             <Route path="novo-evento" element={<PrivateRoute element={<NovoEvento />} />} />
             <Route path="eventos" element={<PrivateRoute element={<ListaEvento />} />} />
             <Route path="eventos/:id" element={<PrivateRoute element={<EditEvento />} />} />
-            <Route path="despesas" element={<PrivateRoute element={<ListaDespesa />} />} />
-            <Route path="despesas/:id" element={<PrivateRoute element={<EditDespesa />} />} />
-            <Route path="nova-despesa" element={<PrivateRoute element={<NovaDespesa />} />} />
-            <Route path="lista-credores" element={<PrivateRoute element={<ListaCredor />} />} />
-            <Route path="novo-credor" element={<PrivateRoute element={<NovoCredor />} />} />
-            <Route path="credor/:id" element={<PrivateRoute element={<CredorEdit />} />} />
-            <Route path="nova-mensagem" element={<PrivateRoute element={<NovaMensagem />} />} /> 
-            <Route path="lista-contatos" element={<PrivateRoute element={<ListaContatos />} />} />
+                      
+           <Route path="despesas"  element={<PrivateRoute element={<ListaDespesa />}  requiredPermissions={'2'} />} /> 
+            
+            <Route path="despesas/:id" element={<PrivateRoute element={<EditDespesa />} requiredPermissions={'2'} />} />
+            <Route path="nova-despesa" element={<PrivateRoute element={<NovaDespesa />} requiredPermissions={'2'} />} />
+            <Route path="lista-credores" element={<PrivateRoute element={<ListaCredor />} requiredPermissions={'2'} />} />
+            <Route path="novo-credor" element={<PrivateRoute element={<NovoCredor />} requiredPermissions={'2'} />} />
+            <Route path="credor/:id" element={<PrivateRoute element={<CredorEdit />} requiredPermissions={'2'} />} />
+            <Route path="nova-mensagem" element={<PrivateRoute element={<NovaMensagem />} requiredPermissions={'1'} />} /> 
+            <Route path="lista-contatos" element={<PrivateRoute element={<ListaContatos />} requiredPermissions={'1'} />} />
             <Route path="grupos" element={<PrivateRoute element={<Grupo />} />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />
             <Route path="*" element={<Error404 />} />
