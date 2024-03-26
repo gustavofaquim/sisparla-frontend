@@ -1,5 +1,6 @@
 /node_modules/
 .env
 dist/
+axios/
 
 public/favicon.ico
