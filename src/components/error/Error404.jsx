@@ -7,8 +7,8 @@ const Error404 = () => {
 
     <div className='pag-error'>
 
-        <h1>Erro 404</h1>
-        <h2>Página Não Encontrada</h2>
+        <h2>Erro 404</h2>
+        <h3>Página Não Encontrada</h3>
 
     </div>
     

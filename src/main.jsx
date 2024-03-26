@@ -34,6 +34,7 @@ import NovaMensagem from './components/mensagens/NovaMensagem';
 import ListaContatos from './components/mensagens/ListaContatos';
 import Grupo from './components/grupos/Lista.jsx';
 import Error404 from './components/error/Error404.jsx';
+import SemPermissao from "./components/error/SemPermissao.jsx";
 import userFetch from './axios/config';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -128,10 +129,8 @@ const Root = () => {
             <Route path="demandas/:id" element={<PrivateRoute element={<DemandasEdit />} />} />
             <Route path="novo-evento" element={<PrivateRoute element={<NovoEvento />} />} />
             <Route path="eventos" element={<PrivateRoute element={<ListaEvento />} />} />
-            <Route path="eventos/:id" element={<PrivateRoute element={<EditEvento />} />} />
-                      
-           <Route path="despesas"  element={<PrivateRoute element={<ListaDespesa />}  requiredPermissions={'2'} />} /> 
-            
+            <Route path="eventos/:id" element={<PrivateRoute element={<EditEvento />} />} />          
+            <Route path="despesas"  element={<PrivateRoute element={<ListaDespesa />}  requiredPermissions={'2'} />} /> 
             <Route path="despesas/:id" element={<PrivateRoute element={<EditDespesa />} requiredPermissions={'2'} />} />
             <Route path="nova-despesa" element={<PrivateRoute element={<NovaDespesa />} requiredPermissions={'2'} />} />
             <Route path="lista-credores" element={<PrivateRoute element={<ListaCredor />} requiredPermissions={'2'} />} />
@@ -141,6 +140,7 @@ const Root = () => {
             <Route path="lista-contatos" element={<PrivateRoute element={<ListaContatos />} requiredPermissions={'1'} />} />
             <Route path="grupos" element={<PrivateRoute element={<Grupo />} />} />
             <Route path="login" element={<Login onLogin={handleLogin} />} />
+            <Route path="sem-permissao" element={<SemPermissao />} />
             <Route path="*" element={<Error404 />} />
           </Route>
         </Routes>
