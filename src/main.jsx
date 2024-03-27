@@ -73,7 +73,7 @@ const Root = () => {
         setAuthenticated(true);
 
         const decodedUser = jwtDecode(token);
-        sessionStorage.setItem('usuario', JSON.stringify({usuario: decodedUser.usuario, regra: decodedUser.regra}));
+        sessionStorage.setItem('usuario', JSON.stringify({usuario: decodedUser.usuario, nome:decodedUser.nome, regra: decodedUser.regra}));
         
         return true;
         

@@ -9,9 +9,12 @@ import { FaRegCircleUser } from "react-icons/fa6";
 
 const UserFront = () =>{
 
-    const { user } = useAuth();
+   // const { user } = useAuth();
+    const user = JSON.parse(sessionStorage.getItem('usuario'));
     const { handleLogout } = useAuth();
 
+   
+   
     const logoutAndRedirect = () => {
         handleLogout();
         

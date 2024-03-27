@@ -27,7 +27,7 @@ const Login = ({ onLogin }) => {
         if (loginStatus) {
             // Login bem-sucedido, fazer algo
             navigate('/');
-            window.location.reload(); 
+            //window.location.reload(); 
         } else {
             // Login falhou, fazer algo
             toast.error('Erro ao fazer login. Verifique suas credenciais.');
