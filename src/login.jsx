@@ -12,8 +12,6 @@ import { FaEyeSlash, FaEye  } from "react-icons/fa";
 import "./styles/login.sass";
 
 
-
-
 const Login = ({ onLogin }) => {
     
     const [data, setData] = useState({});
@@ -27,10 +25,9 @@ const Login = ({ onLogin }) => {
         const loginStatus = await onLogin(data);
 
         if (loginStatus) {
-            console.log(loginStatus)
             // Login bem-sucedido, fazer algo
             navigate('/');
-            window.location.reload(); 
+            //window.location.reload(); 
         } else {
             // Login falhou, fazer algo
             toast.error('Erro ao fazer login. Verifique suas credenciais.');

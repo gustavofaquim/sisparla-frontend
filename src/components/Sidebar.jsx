@@ -39,8 +39,7 @@ const Sidebars = () => {
     
   };
 
-  
-  
+
   return (
     <div className='sidebar-menu'>
         <Sidebar width='250px'>

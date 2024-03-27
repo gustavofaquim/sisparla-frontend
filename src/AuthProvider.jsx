@@ -9,7 +9,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   
   const [user, setUser] = useState(null);
-  
+
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -18,6 +18,8 @@ const AuthProvider = ({ children }) => {
       try {
         const decodedUser = jwtDecode(token);
         setUser(decodedUser);
+        
+
       } catch (error) {
         console.error('Erro ao decodificar o token: ', error);
         // Adote o comportamento adequado em caso de erro na decodificação
@@ -34,6 +36,7 @@ const AuthProvider = ({ children }) => {
       if(response.status == 200){
         console.log('Até mais ver...')
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('usuario');
         setUser(null);
         window.location.reload();
       }
