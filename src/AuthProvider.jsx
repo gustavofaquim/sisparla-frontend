@@ -19,7 +19,6 @@ const AuthProvider = ({ children }) => {
         const decodedUser = jwtDecode(token);
         setUser(decodedUser);
         
-        sessionStorage.setItem('usuario', JSON.stringify({usuario: decodedUser.usuario, regra: decodedUser.regra}));
 
       } catch (error) {
         console.error('Erro ao decodificar o token: ', error);

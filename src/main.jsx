@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode';
 
 import { AuthProvider } from "./AuthProvider";
 import { AutoLogout } from './AutoLogout'; //Encerra a sessão por inativiade
@@ -63,12 +64,16 @@ const Root = () => {
    
     try {
       const response = await userFetch.post(`/logar`, data);
-
+      
       if (response.status === 200) {
+       
         const { token } = response.data;
-        
+
         sessionStorage.setItem('token', token);
         setAuthenticated(true);
+
+        const decodedUser = jwtDecode(token);
+        sessionStorage.setItem('usuario', JSON.stringify({usuario: decodedUser.usuario, regra: decodedUser.regra}));
         
         return true;
         
@@ -90,8 +95,11 @@ const Root = () => {
     const isAuthenticated = !!storedToken;
 
     const user = JSON.parse(sessionStorage.getItem('usuario'));
-
-    if(!user.regra){
+    
+    console.log('=======================================')
+    console.log(user);
+    
+    if(user && !(user.regra)){
       return <Navigate to="/login" />;
     }
     
