@@ -119,7 +119,7 @@ const Root = () => {
         <Routes>
             {/* <Route path="/" element={<App isAuthenticated={isAuthenticated} onLogout={handleLogout} />}>  */}
             <Route path="/" element={<App isAuthenticated={isAuthenticated}  />}>
-            <Route path="/" element={<PrivateRoute element={<Home />} requiredPermissions={'1'} />} />
+            <Route path="/" element={<PrivateRoute element={<Home />} requiredPermissions={'2'} />} />
             <Route path="apoiadores" element={<PrivateRoute element={<ApoiadoresList />} requiredPermissions={'2'} />} />
             <Route path="aniversariantes" element={<PrivateRoute element={<Aniversariantes />} requiredPermissions={'2'} />} />
             <Route path="novo-apoiador" element={<PrivateRoute element={<ApoiadoresNovo />} requiredPermissions={'2'} />} />
