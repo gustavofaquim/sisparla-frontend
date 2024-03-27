@@ -95,7 +95,6 @@ const Root = () => {
     const isAuthenticated = !!storedToken;
 
     const user = JSON.parse(sessionStorage.getItem('usuario'));
-
     
     if(user && !(user.regra)){
       return <Navigate to="/login" />;
@@ -105,15 +104,11 @@ const Root = () => {
       return <Navigate to="/login" />;
     }
 
-    //console.log('Página: ' + requiredPermissions);
-    //console.log('Aluno:' + user.regra)
-
     if((requiredPermissions) && !(user.regra <= requiredPermissions)){
         return <Navigate to="/sem-permissao" />;
     }
 
-    
-
+  
     return element;
   };
 

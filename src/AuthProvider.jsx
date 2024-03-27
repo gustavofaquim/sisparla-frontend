@@ -36,6 +36,7 @@ const AuthProvider = ({ children }) => {
       if(response.status == 200){
         console.log('Até mais ver...')
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('usuario');
         setUser(null);
         window.location.reload();
       }
